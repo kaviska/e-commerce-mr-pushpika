@@ -33,32 +33,52 @@ function renderBrands(brands) {
     // Clear existing content
     container.innerHTML = '';
 
-    // Render limited number of brands or all? 
-    // Screenshot shows 5 brands + "All brands". Let's show first 5.
-    const brandsToShow = brands.slice(0, 5);
+    // Show more brands for better coverage
+    const brandsToShow = brands.slice(0, 12);
 
     brandsToShow.forEach(brand => {
         const col = document.createElement('div');
         col.className = 'col';
 
-        // Using a text-based modern look as requested since no logos are available.
-        // Centered text, bold, nice padding.
+        // Modern card design with hover effects and brand logo placeholder
         col.innerHTML = `
-            <a class="btn btn-outline-secondary w-100 rounded-4 p-3 d-flex align-items-center justify-content-center" href="#" style="min-height: 80px;">
-                <span class="fs-lg fw-bold text-body-emphasis mb-0">${brand.name}</span>
-            </a>
+            <div class="brand-card position-relative">
+                <a class="d-block text-decoration-none" href="shop-catalog-electronics.php?brand=${brand.slug || brand.id}">
+                    <div class="bg-body-tertiary rounded-3 p-4 text-center transition-all hover-lift" style="min-height: 100px;">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            ${brand.logo ? 
+                                `<img src="${window.SERVER_URL.replace('/api', '')}/${brand.logo}" 
+                                     alt="${brand.name}" 
+                                     class="img-fluid" 
+                                     style="max-height: 60px; max-width: 100%; object-fit: contain;"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                 <span class="fw-semibold text-body-emphasis d-none" style="font-size: 0.95rem;">${brand.name}</span>` 
+                                : 
+                                `<span class="fw-semibold text-body-emphasis" style="font-size: 0.95rem;">${brand.name}</span>`
+                            }
+                        </div>
+                    </div>
+                </a>
+            </div>
         `;
         container.appendChild(col);
     });
-
-    // Add "All brands" button
-    const allBrandsCol = document.createElement('div');
-    allBrandsCol.className = 'col';
-    allBrandsCol.innerHTML = `
-        <a class="btn btn-outline-secondary w-100 h-100 rounded-4 p-3 d-flex align-items-center justify-content-center" href="shop-categories-electronics.html">
-            <span class="me-2">All brands</span>
-            <i class="ci-plus-circle fs-base"></i>
-        </a>
-    `;
-    container.appendChild(allBrandsCol);
 }
+
+// Add custom CSS for hover effects
+const style = document.createElement('style');
+style.textContent = `
+    .brand-card .hover-lift {
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+    .brand-card:hover .hover-lift {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-color: var(--bs-primary);
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+`;
+document.head.appendChild(style);
