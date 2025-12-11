@@ -1,0 +1,443 @@
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadFilters();
+    loadProducts();
+
+    // Event Listeners for static filters
+    const stockFilter = document.getElementById('filter-in-stock');
+    if (stockFilter) {
+        stockFilter.addEventListener('change', () => loadProducts());
+    }
+
+    // Price inputs
+    const priceMin = document.querySelector('[data-range-slider-min]');
+    const priceMax = document.querySelector('[data-range-slider-max]');
+
+    // Debounce price update
+    let priceTimeout;
+    const handlePriceChange = () => {
+        clearTimeout(priceTimeout);
+        priceTimeout = setTimeout(() => loadProducts(), 800);
+    };
+
+    if (priceMin) priceMin.addEventListener('change', handlePriceChange);
+    if (priceMax) priceMax.addEventListener('change', handlePriceChange);
+
+    // If there is a JS library updating these inputs, usually it triggers a change or input event.
+    // If it's noUiSlider, we might need to listen to its events, but assuming it updates inputs:
+
+    // Clear All Filters
+    const clearAllBtn = document.getElementById('clear-all-filters');
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', () => {
+            // Uncheck all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+
+            // Reset price inputs if using noUiSlider or similar, might need more specific reset logic
+            // For now, let's just reset the inputs if they exist
+            if (priceMin) priceMin.value = priceMin.getAttribute('min') || 0;
+            if (priceMax) priceMax.value = priceMax.getAttribute('max') || 100000;
+
+            // Trigger change event if needed for sliders to update UI? 
+            // Often custom sliders need their own API call to reset. 
+            // Assuming standard flow for now or that inputs drive the logic.
+
+            loadProducts();
+        });
+    }
+});
+
+async function loadFilters() {
+    try {
+        // Fetch Categories
+        const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true`);
+        const catData = await catRes.json();
+        renderCategories(catData.data || []);
+
+        // Fetch Brands
+        const brandRes = await fetch(`${window.SERVER_URL}/brands`);
+        const brandData = await brandRes.json();
+        renderBrands(brandData.data || []);
+
+    } catch (e) {
+        console.error('Error loading filters:', e);
+    }
+}
+
+function renderCategories(categories) {
+    const container = document.getElementById('filter-categories');
+    if (!container) return;
+
+    let html = '';
+    categories.forEach(cat => {
+        // Assuming API returns id, name, products_count (or product_count)
+        const count = cat.products_count !== undefined ? cat.products_count : (cat.product_count || 0);
+
+        // Using checkbox style but finding a way to make it look like the nav links if desired,
+        // or just simple checkboxes as per typical filter logic.
+        // User requested: "categories categories?category_with_product_count=true"
+        // Let's use a nice checkbox list similar to Brands for consistency and multi-select capability.
+        // But original design was nav links. Let's try to preserve nav link look but make it effectively a filter.
+        // Actually, checkboxes are safer for "with paramter ... category_ids[]=3".
+
+        html += `
+        <li class="nav d-block pt-2 mt-1">
+            <div class="form-check d-flex align-items-center justify-content-between w-100">
+                <input class="form-check-input filter-category-input" type="checkbox" id="cat-${cat.id}" value="${cat.id}">
+                <label class="form-check-label d-flex align-items-center justify-content-between w-100 ps-2 cursor-pointer" for="cat-${cat.id}">
+                    <span class="animate-target text-truncate me-3">${cat.name}</span>
+                    <span class="text-body-secondary fs-xs ms-auto">${count}</span>
+                </label>
+            </div>
+        </li>
+        `;
+    });
+
+    container.innerHTML = html;
+
+    // Add listeners
+    container.querySelectorAll('.filter-category-input').forEach(input => {
+        input.addEventListener('change', () => loadProducts());
+    });
+}
+
+function renderBrands(brands) {
+    const container = document.getElementById('filter-brands');
+    if (!container) return;
+
+    let html = '';
+    brands.forEach(brand => {
+        // Assuming brand object has id, name. Count might not be there based on API description/brands.js
+        // If count is not available, we omit it.
+
+        html += `
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input filter-brand-input" id="brand-${brand.id}" value="${brand.id}">
+                <label for="brand-${brand.id}" class="form-check-label text-body-emphasis">${brand.name}</label>
+            </div>
+            <!-- <span class="text-body-secondary fs-xs">Count?</span> -->
+        </div>
+        `;
+    });
+
+    container.innerHTML = html;
+
+    // Add listeners
+    container.querySelectorAll('.filter-brand-input').forEach(input => {
+        input.addEventListener('change', () => loadProducts());
+    });
+}
+
+async function loadProducts() {
+    const grid = document.getElementById('product-grid');
+    if (!grid) return;
+
+    // Collect Filters
+    const params = new URLSearchParams();
+    params.append('with', 'all');
+    params.append('limit', '100000');
+
+    // Categories
+    document.querySelectorAll('.filter-category-input:checked').forEach(input => {
+        params.append('category_ids[]', input.value);
+    });
+
+    // Brands
+    document.querySelectorAll('.filter-brand-input:checked').forEach(input => {
+        params.append('brand_ids[]', input.value);
+    });
+
+    // In Stock
+    const stockInput = document.getElementById('filter-in-stock');
+    if (stockInput && stockInput.checked) {
+        params.append('in_stock', '1');
+    }
+
+    // Price
+    const priceMin = document.querySelector('[data-range-slider-min]');
+    const priceMax = document.querySelector('[data-range-slider-max]');
+    if (priceMin && priceMin.value) params.append('web_price_min', priceMin.value);
+    if (priceMax && priceMax.value) params.append('web_price_max', priceMax.value);
+
+
+    // Show loading
+    grid.style.opacity = '0.5';
+
+    try {
+        const url = `${window.SERVER_URL}/products?${params.toString()}`;
+        // console.log('Fetching:', url); // Debug
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const result = await response.json();
+        const products = result.data || result;
+
+        if (Array.isArray(products)) {
+            renderProducts(products, grid);
+
+            // Update counts and selected filters UI
+            const countEl = document.getElementById('product-count');
+            if (countEl) countEl.textContent = products.length;
+
+            updateSelectedFilters();
+        } else {
+            console.error('Products data is not an array:', products);
+            grid.innerHTML = '<div class="col-12 text-center">No products found.</div>';
+        }
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        grid.innerHTML = '<div class="col-12 text-center text-danger">Failed to load products.</div>';
+    } finally {
+        grid.style.opacity = '1';
+    }
+}
+
+function renderProducts(products, container) {
+    container.innerHTML = ''; // Clear container
+
+    if (products.length === 0) {
+        container.innerHTML = '<div class="col-12 text-center py-5"><h3>No products found matching your criteria.</h3></div>';
+        return;
+    }
+
+    products.forEach(product => {
+        // --- Price Calculation ---
+        let priceDisplay = '';
+        let minPrice = Infinity;
+        let maxPrice = -Infinity;
+        let hasStock = false;
+
+        if (product.stocks && product.stocks.length > 0) {
+            hasStock = true;
+            product.stocks.forEach(stock => {
+                const price = parseFloat(stock.web_price) || 0;
+                const discount = parseFloat(stock.web_discount) || 0;
+                const finalPrice = Math.max(0, price - discount);
+
+                if (finalPrice < minPrice) minPrice = finalPrice;
+                if (finalPrice > maxPrice) maxPrice = finalPrice;
+            });
+
+            if (minPrice === Infinity) {
+                priceDisplay = 'Price unavailable';
+            } else if (minPrice === maxPrice) {
+                priceDisplay = formatCurrency(minPrice);
+            } else {
+                priceDisplay = `${formatCurrency(minPrice)} - ${formatCurrency(maxPrice)}`;
+            }
+        } else {
+            priceDisplay = 'Out of Stock';
+        }
+
+        // --- Variation Logic (Hover Details) ---
+        let variationsHtml = '';
+        const variationsMap = new Map();
+
+        if (product.stocks) {
+            product.stocks.forEach(stock => {
+                if (stock.variation_stocks && Array.isArray(stock.variation_stocks)) {
+                    stock.variation_stocks.forEach(vs => {
+                        if (vs.variation_option && vs.variation_option.variation) {
+                            const variationName = vs.variation_option.variation.name;
+                            const optionName = vs.variation_option.name;
+
+                            if (!variationsMap.has(variationName)) {
+                                variationsMap.set(variationName, new Set());
+                            }
+                            variationsMap.get(variationName).add(optionName);
+                        }
+                    });
+                }
+            });
+        }
+
+        variationsMap.forEach((optionsSet, variationName) => {
+            const optionsList = Array.from(optionsSet).join(', ');
+            variationsHtml += `
+            <li class="d-flex align-items-center">
+                <span class="fs-xs">${variationName}:</span>
+                <span class="d-block flex-grow-1 border-bottom border-dashed px-1 mt-2 mx-2"></span>
+                <span class="text-dark-emphasis fs-xs fw-medium text-end">${optionsList}</span>
+            </li>`;
+        });
+
+        // --- Helper Data ---
+        const categoryName = product.category ? product.category.name : '';
+        const brandName = product.brand ? product.brand.name : '';
+
+        let imageUrl = product.primary_image || 'assets/img/shop/electronics/placeholder.png';
+        if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('assets')) {
+            const baseUrl = window.SERVER_URL.replace(/\/api\/?$/, '');
+            imageUrl = `${baseUrl}/${imageUrl.replace(/^\//, '')}`;
+        }
+
+        const rating = parseFloat(product.reviews_avg_rating) || 0;
+        const reviewCount = product.reviews_count || 0;
+
+        // --- HTML Construction ---
+        const cardHtml = `
+              <div class="col">
+                <div class="product-card animate-underline hover-effect-opacity bg-body rounded">
+                  <div class="position-relative">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product.php?slug=${product.slug}">
+                      <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
+                        <img src="${imageUrl}" alt="${product.name}" style="object-fit: contain;">
+                      </div>
+                    </a>
+                  </div>
+                  <div class="w-100 min-w-0 px-1 pb-2 px-sm-3 pb-sm-3">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="d-flex gap-1 fs-xs">
+                        ${renderStars(rating)}
+                      </div>
+                      <span class="text-body-tertiary fs-xs">(${reviewCount})</span>
+                    </div>
+                    <h3 class="pb-1 mb-2">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product.php?slug=${product.slug}">
+                        <span class="animate-target">${product.name}</span>
+                      </a>
+                    </h3>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="h6 lh-1 mb-0">${priceDisplay}</div>
+                      <button type="button" class="product-card-button btn btn-icon btn-secondary animate-slide-end ms-2" aria-label="Add to Cart">
+                        <i class="ci-shopping-cart fs-base animate-target"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="product-card-details position-absolute top-100 start-0 w-100 bg-body rounded-bottom shadow mt-n2 p-3 pt-1">
+                    <span class="position-absolute top-0 start-0 w-100 bg-body mt-n2 py-2"></span>
+                    <ul class="list-unstyled d-flex flex-column gap-2 m-0">
+                      ${categoryName ? `
+                      <li class="d-flex align-items-center">
+                        <span class="fs-xs">Category:</span>
+                        <span class="d-block flex-grow-1 border-bottom border-dashed px-1 mt-2 mx-2"></span>
+                        <span class="text-dark-emphasis fs-xs fw-medium text-end">${categoryName}</span>
+                      </li>` : ''}
+                      
+                      ${brandName ? `
+                      <li class="d-flex align-items-center">
+                        <span class="fs-xs">Brand:</span>
+                        <span class="d-block flex-grow-1 border-bottom border-dashed px-1 mt-2 mx-2"></span>
+                        <span class="text-dark-emphasis fs-xs fw-medium text-end">${brandName}</span>
+                      </li>` : ''}
+                      
+                      ${variationsHtml}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+        `;
+
+        container.insertAdjacentHTML('beforeend', cardHtml);
+    });
+}
+
+function formatCurrency(value) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+}
+
+function renderStars(rating) {
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+        if (rating >= i) {
+            starsHtml += '<i class="ci-star-filled text-warning"></i>';
+        } else if (rating >= i - 0.5) {
+            starsHtml += '<i class="ci-star-half text-warning"></i>';
+        } else {
+            starsHtml += '<i class="ci-star text-body-tertiary opacity-75"></i>';
+        }
+    }
+    return starsHtml;
+}
+
+function updateSelectedFilters() {
+    const container = document.getElementById('selected-filters-container');
+    const clearBtn = document.getElementById('clear-all-filters');
+    if (!container) return;
+
+    // Helper to create tag
+    const createTag = (text, onClick) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn btn-sm btn-secondary animate-slide-end ms-2 mb-2'; // Added margins
+        btn.innerHTML = `<i class="ci-close fs-sm ms-n1 me-1"></i>${text}`;
+        btn.addEventListener('click', onClick);
+        return btn;
+    };
+
+    const tags = [];
+
+    // Stock
+    const stockInput = document.getElementById('filter-in-stock');
+    if (stockInput && stockInput.checked) {
+        tags.push(createTag('In Stock', () => {
+            stockInput.checked = false;
+            loadProducts();
+        }));
+    }
+
+    // Categories
+    document.querySelectorAll('.filter-category-input:checked').forEach(input => {
+        // Find label text
+        const label = document.querySelector(`label[for="${input.id}"] span.animate-target`);
+        const text = label ? label.textContent : 'Category';
+        tags.push(createTag(text, () => {
+            input.checked = false;
+            loadProducts();
+        }));
+    });
+
+    // Brands
+    document.querySelectorAll('.filter-brand-input:checked').forEach(input => {
+        const label = document.querySelector(`label[for="${input.id}"]`);
+        const text = label ? label.textContent : 'Brand';
+        tags.push(createTag(text, () => {
+            input.checked = false;
+            loadProducts();
+        }));
+    });
+
+    // Price
+    const priceMin = document.querySelector('[data-range-slider-min]');
+    const priceMax = document.querySelector('[data-range-slider-max]');
+    if (priceMin && priceMax) {
+        if (priceMin.value && priceMax.value) {
+            // Only show if it matches a range logic or just show it if values present
+            // Let's verify values are valid numbers
+            const min = parseInt(priceMin.value) || 0;
+            const max = parseInt(priceMax.value) || 0;
+
+            // Simple heuristic: if it's not empty string
+            if (priceMin.value !== '' && priceMax.value !== '') {
+                const display = `$${min} - $${max}`;
+                tags.push(createTag(display, () => {
+                    // Reset to defaults or empty
+                    // Assuming noUiSlider might need an update, but we change inputs
+                    priceMin.value = ''; // Or default min
+                    priceMax.value = ''; // Or default max
+                    // Dispatch event if needed
+                    const event = new Event('change');
+                    priceMin.dispatchEvent(event);
+                    priceMax.dispatchEvent(event);
+                    loadProducts();
+                }));
+            }
+        }
+    }
+
+    // Render
+    container.innerHTML = '';
+    tags.forEach(tag => container.appendChild(tag));
+
+    if (clearBtn) {
+        container.appendChild(clearBtn);
+        if (tags.length > 0) {
+            clearBtn.classList.remove('d-none');
+        } else {
+            clearBtn.classList.add('d-none');
+        }
+    }
+}
