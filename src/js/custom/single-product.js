@@ -71,9 +71,26 @@ function renderProductDetails(product) {
         descEl.innerHTML = product.description || 'No description available.';
     }
 
-    // 6. Reviews
+    // 6. Update review count in header
+    updateReviewCount(product.reviews_count || 0, product.reviews_avg_rating || 0);
+
+    // 7. Reviews
     if (product.id) {
         loadReviews(product.id);
+    }
+}
+
+function updateReviewCount(count, avgRating) {
+    // Update count text
+    const countEl = document.querySelector('.text-body-tertiary.fs-xs');
+    if (countEl) {
+        countEl.textContent = `${count} ${count === 1 ? 'review' : 'reviews'}`;
+    }
+
+    // Update star rating
+    const starsContainer = document.querySelector('.d-flex.gap-1.fs-sm');
+    if (starsContainer) {
+        starsContainer.innerHTML = renderStars(avgRating);
     }
 }
 
@@ -91,14 +108,26 @@ function updatePriceDisplay() {
     const matchingStock = findMatchingStock();
 
     if (matchingStock) {
-        // Display specific price
-        const price = parseFloat(matchingStock.web_price);
-        priceEl.innerText = formatCurrency(price);
+        // Display specific price with discount
+        const webPrice = parseFloat(matchingStock.web_price) || 0;
+        const webDiscount = parseFloat(matchingStock.web_discount) || 0;
+        const finalPrice = webPrice - webDiscount;
+
+        if (webDiscount > 0) {
+            priceEl.innerHTML = `${formatCurrency(finalPrice)} <del class="text-body-tertiary fs-sm fw-normal">${formatCurrency(webPrice)}</del>`;
+        } else {
+            priceEl.innerText = formatCurrency(finalPrice);
+        }
     } else {
-        // Display Range
-        const prices = productStocks.map(s => parseFloat(s.web_price));
-        const minPrice = Math.min(...prices);
-        const maxPrice = Math.max(...prices);
+        // Display Range with discount applied
+        const finalPrices = productStocks.map(s => {
+            const webPrice = parseFloat(s.web_price) || 0;
+            const webDiscount = parseFloat(s.web_discount) || 0;
+            return webPrice - webDiscount;
+        });
+        
+        const minPrice = Math.min(...finalPrices);
+        const maxPrice = Math.max(...finalPrices);
 
         if (minPrice === maxPrice) {
             priceEl.innerText = formatCurrency(minPrice);
