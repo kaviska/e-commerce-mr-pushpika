@@ -280,7 +280,7 @@ const renderMegaMenu = (container, products) => {
                  <ul class="nav flex-column gap-2 mt-2">
                     ${col1Products.map(p => `
                         <li class="d-flex w-100 pt-1">
-                            <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="shop-product.html?slug=${p.slug}">${p.name}</a>
+                            <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="shop-product.php?slug=${p.slug}">${p.name}</a>
                         </li>
                     `).join('')}
                  </ul>
@@ -292,7 +292,7 @@ const renderMegaMenu = (container, products) => {
                  <ul class="nav flex-column gap-2 mt-2">
                     ${col2Products.map(p => `
                         <li class="d-flex w-100 pt-1">
-                            <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="shop-product.html?slug=${p.slug}">${p.name}</a>
+                            <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="shop-product.php?slug=${p.slug}">${p.name}</a>
                         </li>
                     `).join('')}
                  </ul>
@@ -344,7 +344,7 @@ const renderMegaMenu = (container, products) => {
                             ${originalPrice > 0 ? `<div class="fs-sm text-decoration-line-through text-muted mt-1">Rs. ${originalPrice}</div>` : ''}
                          </div>
 
-                         <a class="btn btn-primary rounded-pill stretched-link fw-semibold px-4 shadow-sm hover-lift" href="shop-product.html?slug=${featuredProduct.slug}">
+                         <a class="btn btn-primary rounded-pill stretched-link fw-semibold px-4 shadow-sm hover-lift" href="shop-product.php?slug=${featuredProduct.slug}">
                             Shop Now
                          </a>
                     </div>

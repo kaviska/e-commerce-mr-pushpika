@@ -83,7 +83,7 @@ const renderNewArrivals = (products) => {
                       <span class="text-body-tertiary fs-xs">${product.reviews_count || 0}</span>
                     </div>
                     <h4 class="mb-2">
-                      <a class="stretched-link d-block fs-sm fw-medium text-truncate" href="shop-product.html?slug=${product.slug}">
+                      <a class="stretched-link d-block fs-sm fw-medium text-truncate" href="shop-product.php?slug=${product.slug}">
                         <span class="animate-target">${product.name}</span>
                       </a>
                     </h4>

@@ -49,6 +49,7 @@ function renderTrendingProducts(products) {
             const stock = product.stocks[0];
             price = parseFloat(stock.web_price || 0);
             discount = parseFloat(stock.web_discount || 0);
+            // web_price is the discounted price, web_discount is the discount amount
             originalPrice = discount > 0 ? price + discount : price;
         }
 
@@ -123,7 +124,7 @@ function renderTrendingProducts(products) {
                   </ul>
                 </div>
                 <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="${productLink}">
-                  ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 mt-2 ms-2 mt-lg-3 ms-lg-3">Sale</span>` : ''}
+                  ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 mt-2 ms-2 mt-lg-3 ms-lg-3 z-3">-${Math.round((discount / originalPrice) * 100)}%</span>` : ''}
                   <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                     <img src="${imageUrl}" alt="${product.name}">
                   </div>
