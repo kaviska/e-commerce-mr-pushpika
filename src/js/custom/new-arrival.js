@@ -1,6 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
+    fetchNewArrivalBanner();
     fetchNewArrivals();
 });
+
+const fetchNewArrivalBanner = async () => {
+    try {
+        if (!window.SERVER_URL) {
+            console.error('SERVER_URL is not defined');
+            return;
+        }
+        const response = await fetch(`${window.SERVER_URL}/notices?section=new_arrival_banner`);
+        const data = await response.json();
+
+        if (data.status === 'success' && data.data && data.data.length > 0) {
+            renderNewArrivalBanner(data.data[0]);
+        }
+    } catch (error) {
+        console.error('Error fetching new arrival banner:', error);
+    }
+};
+
+const renderNewArrivalBanner = (banner) => {
+    const container = document.getElementById('new-arrival-banner-container');
+    if (!container) return;
+
+    const baseUrl = window.SERVER_URL.replace('/api', '');
+    const imageUrl = banner.image ? `${baseUrl}/${banner.image}` : 'assets/img/home/electronics/banner/laptop.png';
+    
+    container.innerHTML = `
+        <div class="d-flex flex-column align-items-center justify-content-end h-100 text-center overflow-hidden rounded-5 px-4 px-lg-3 pt-4 pb-5" style="background: #1d2c41 url(assets/img/home/electronics/banner/background.jpg) center/cover no-repeat">
+            <div class="ratio animate-up-down position-relative z-2 me-lg-4" style="max-width: 320px; margin-bottom: -19%; --cz-aspect-ratio: calc(690 / 640 * 100%)">
+                <img src="${imageUrl}" alt="${banner.title || 'Banner'}">
+            </div>
+            <h3 class="display-2 mb-2">${banner.title || ''}</h3>
+            <p class="text-body fw-medium mb-4">${banner.description || ''}</p>
+            ${banner.button_text ? `
+            <a class="btn btn-sm btn-primary" href="${banner.link || '#'}">
+                ${banner.button_text}
+                <i class="ci-arrow-up-right fs-base ms-1 me-n1"></i>
+            </a>
+            ` : ''}
+        </div>
+    `;
+};
 
 const fetchNewArrivals = async () => {
     try {

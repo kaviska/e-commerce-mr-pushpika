@@ -160,7 +160,7 @@
 
   <!-- Navigation bar (Page header) -->
   <?php
-  include('./components/header.php');
+  include('./components/HeaderForOtherPages.php');
   ?>
 
 

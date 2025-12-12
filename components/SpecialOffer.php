@@ -8,7 +8,7 @@
 
             <!-- Replace "demoDate" inside data-countdown-date attribute with the real date, ex: "10/15/2025 12:00:00" -->
             <!-- Timer set to 2 days from now -->
-            <div class="d-flex align-items-center" data-countdown-date="<?php echo date('m/d/Y H:i:s', strtotime('+2 days')); ?>">
+            <!-- <div class="d-flex align-items-center" data-countdown-date="<?php echo date('m/d/Y H:i:s', strtotime('+2 days')); ?>">
                 <div class="btn btn-primary pe-none px-2">
                     <span data-days></span>
                     <span>d</span>
@@ -23,10 +23,10 @@
                     <span data-minutes></span>
                     <span>m</span>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="nav ms-3">
-            <a class="nav-link animate-underline px-0 py-2" href="shop-catalog-electronics.html">
+            <a class="nav-link animate-underline px-0 py-2" href="shop-catalog-electronics.php">
                 <span class="animate-target text-nowrap">View all</span>
                 <i class="ci-chevron-right fs-base ms-1"></i>
             </a>

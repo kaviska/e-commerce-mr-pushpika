@@ -153,7 +153,7 @@
 
     <!-- Navigation bar (Page header) -->
     <?php
-    include('./components/header.php');
+    include('./components/HeaderForOtherPages.php');
     ?>
 
 
@@ -174,9 +174,7 @@
 
 
       <!-- Brands -->
-     <?php
-     include('./components/Brands.php');
-     ?>
+     
 
       <!-- Category cards -->
      <?php

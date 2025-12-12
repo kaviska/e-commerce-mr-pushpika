@@ -256,7 +256,7 @@
 
 
   <!-- Navigation bar (Page header) -->
-  <?php include 'components/temp-header.php'; ?>
+  <?php include 'components/HeaderForOtherPages.php'; ?>
 
 
   <!-- Page content -->

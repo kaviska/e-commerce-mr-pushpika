@@ -1,6 +1,17 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadFilters();
+// Helper function to get URL parameters
+function getURLParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Pagination variables
+let allProducts = [];
+let currentPage = 1;
+const productsPerPage = 12;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadFilters();
     loadProducts();
 
     // Event Listeners for static filters
@@ -105,15 +116,21 @@ function renderBrands(brands) {
     const container = document.getElementById('filter-brands');
     if (!container) return;
 
+    // Get brand ID from URL parameter
+    const urlBrandId = getURLParameter('brand');
+
     let html = '';
     brands.forEach(brand => {
         // Assuming brand object has id, name. Count might not be there based on API description/brands.js
         // If count is not available, we omit it.
 
+        // Check if this brand matches the URL parameter
+        const isChecked = urlBrandId && brand.id.toString() === urlBrandId ? 'checked' : '';
+
         html += `
         <div class="d-flex align-items-center justify-content-between">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input filter-brand-input" id="brand-${brand.id}" value="${brand.id}">
+                <input type="checkbox" class="form-check-input filter-brand-input" id="brand-${brand.id}" value="${brand.id}" ${isChecked}>
                 <label for="brand-${brand.id}" class="form-check-label text-body-emphasis">${brand.name}</label>
             </div>
             <!-- <span class="text-body-secondary fs-xs">Count?</span> -->
@@ -175,7 +192,12 @@ async function loadProducts() {
         const products = result.data || result;
 
         if (Array.isArray(products)) {
-            renderProducts(products, grid);
+            // Store all products for pagination
+            allProducts = products;
+            currentPage = 1;
+            
+            // Render products with pagination
+            renderProductsWithPagination();
 
             // Update counts and selected filters UI
             const countEl = document.getElementById('product-count');
@@ -439,5 +461,93 @@ function updateSelectedFilters() {
         } else {
             clearBtn.classList.add('d-none');
         }
+    }
+}
+// Pagination Functions
+function renderProductsWithPagination() {
+    const grid = document.getElementById('product-grid');
+    if (!grid) return;
+
+    // Calculate pagination
+    const totalProducts = allProducts.length;
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    
+    // Get products for current page
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    const productsToShow = allProducts.slice(startIndex, endIndex);
+    
+    // Render products
+    renderProducts(productsToShow, grid);
+    
+    // Render pagination
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    const paginationContainer = document.getElementById('pagination-container');
+    if (!paginationContainer) return;
+    
+    paginationContainer.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+    
+    // Previous button
+    const prevLi = document.createElement('li');
+    prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+    prevLi.innerHTML = `
+        <a class="page-link" href="#" aria-label="Previous">
+            <i class="ci-chevron-left"></i>
+        </a>
+    `;
+    if (currentPage > 1) {
+        prevLi.querySelector('a').addEventListener('click', (e) => {
+            e.preventDefault();
+            goToPage(currentPage - 1);
+        });
+    }
+    paginationContainer.appendChild(prevLi);
+    
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const pageLi = document.createElement('li');
+        pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        
+        if (i !== currentPage) {
+            pageLi.querySelector('a').addEventListener('click', (e) => {
+                e.preventDefault();
+                goToPage(i);
+            });
+        }
+        
+        paginationContainer.appendChild(pageLi);
+    }
+    
+    // Next button
+    const nextLi = document.createElement('li');
+    nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextLi.innerHTML = `
+        <a class="page-link" href="#" aria-label="Next">
+            <i class="ci-chevron-right"></i>
+        </a>
+    `;
+    if (currentPage < totalPages) {
+        nextLi.querySelector('a').addEventListener('click', (e) => {
+            e.preventDefault();
+            goToPage(currentPage + 1);
+        });
+    }
+    paginationContainer.appendChild(nextLi);
+}
+
+function goToPage(page) {
+    currentPage = page;
+    renderProductsWithPagination();
+    
+    // Scroll to top of product grid
+    const grid = document.getElementById('product-grid');
+    if (grid) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }

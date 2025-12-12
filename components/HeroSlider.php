@@ -1,3 +1,4 @@
+ <script defer src="src/js/custom/hero-slider.js"></script>
  <section class="container pt-4">
         <div class="row">
           <div class="col-lg-9 offset-lg-3">
@@ -21,31 +22,8 @@
                       "el": ".swiper-scrollbar"
                     }
                   }'>
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide text-center text-xl-start pt-5 py-xl-5">
-                        <p class="text-body">Feel the real quality sound</p>
-                        <h2 class="display-4 pb-2 pb-xl-4">Headphones ProMax</h2>
-                        <a class="btn btn-lg btn-primary" href="shop-catalog-electronics.php">
-                          Shop now
-                          <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
-                        </a>
-                      </div>
-                      <div class="swiper-slide text-center text-xl-start pt-5 py-xl-5">
-                        <p class="text-body">Deal of the week</p>
-                        <h2 class="display-4 pb-2 pb-xl-4">Powerful iPad Pro M2</h2>
-                        <a class="btn btn-lg btn-primary" href="shop-catalog-electronics.php">
-                          Shop now
-                          <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
-                        </a>
-                      </div>
-                      <div class="swiper-slide text-center text-xl-start pt-5 py-xl-5">
-                        <p class="text-body">Virtual reality glasses</p>
-                        <h2 class="display-4 pb-2 pb-xl-4">Experience New Reality</h2>
-                        <a class="btn btn-lg btn-primary" href="shop-catalog-electronics.html">
-                          Shop now
-                          <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
-                        </a>
-                      </div>
+                    <div class="swiper-wrapper" id="hero-text-slides">
+                      <!-- Dynamic slides will be inserted here -->
                     </div>
                   </div>
                 </div>
@@ -61,22 +39,8 @@
                       "crossFade": true
                     }
                   }'>
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide d-flex justify-content-end">
-                        <div class="ratio rtl-flip" style="max-width: 495px; --cz-aspect-ratio: calc(537 / 495 * 100%)">
-                          <img src="assets/img/home/electronics/hero-slider/01.png" alt="Image">
-                        </div>
-                      </div>
-                      <div class="swiper-slide d-flex justify-content-end">
-                        <div class="ratio rtl-flip" style="max-width: 495px; --cz-aspect-ratio: calc(537 / 495 * 100%)">
-                          <img src="assets/img/home/electronics/hero-slider/02.png" alt="Image">
-                        </div>
-                      </div>
-                      <div class="swiper-slide d-flex justify-content-end">
-                        <div class="ratio rtl-flip" style="max-width: 495px; --cz-aspect-ratio: calc(537 / 495 * 100%)">
-                          <img src="assets/img/home/electronics/hero-slider/03.png" alt="Image">
-                        </div>
-                      </div>
+                    <div class="swiper-wrapper" id="hero-image-slides">
+                      <!-- Dynamic slides will be inserted here -->
                     </div>
                   </div>
                 </div>

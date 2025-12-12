@@ -38,7 +38,7 @@ function renderTrendingProducts(products) {
         const col = document.createElement('div');
         col.className = 'col';
 
-        const productLink = `shop-product.html?slug=${product.slug}`;
+        const productLink = `shop-product.php?slug=${product.slug}`;
         const imageUrl = product.primary_image ? `${window.SERVER_URL.replace('/api', '')}/${product.primary_image}` : 'assets/img/placeholder.png';
 
         let price = 0;
