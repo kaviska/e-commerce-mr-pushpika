@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('hhs');
 });
-
+//updated
 window.SERVER_URL = 'http://127.0.0.1:8000/api';
