@@ -265,8 +265,8 @@
     <!-- Breadcrumb -->
     <nav class="container pt-3 my-3 my-md-4" aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="home-electronics.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="shop-catalog-electronics.html">Shop</a></li>
+        <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
+        <li class="breadcrumb-item"><a href="shop-catalog-electronics.php">Shop</a></li>
         <li class="breadcrumb-item active" aria-current="page">Product page</li>
       </ol>
     </nav>
@@ -699,7 +699,7 @@
         <div class="row">
           <div class="col-md-4 d-sm-flex flex-md-column align-items-center align-items-md-start pb-3 mb-sm-4">
             <h4 class="mb-sm-0 mb-md-4 me-4">
-              <a class="text-dark-emphasis text-decoration-none" href="home-electronics.html">Cartzilla</a>
+              <a class="text-dark-emphasis text-decoration-none" href="/index.php">Cartzilla</a>
             </h4>
             <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">Got questions? Contact us 24/7</p>
             <div class="dropdown" style="max-width: 250px">

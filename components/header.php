@@ -12,7 +12,7 @@
         </button>
 
         <!-- Navbar brand (Logo) -->
-        <a href="index.html" class="navbar-brand me-0">
+        <a href="index.php" class="navbar-brand me-0">
           <span class="d-none d-sm-flex flex-shrink-0 text-primary me-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36">
               <path d="M36 18.01c0 8.097-5.355 14.949-12.705 17.2a18.12 18.12 0 0 1-5.315.79C9.622 36 2.608 30.313.573 22.611.257 21.407.059 20.162 0 18.879v-1.758c.02-.395.059-.79.099-1.185.099-.908.277-1.817.514-2.686C2.687 5.628 9.682 0 18 0c5.572 0 10.551 2.528 13.871 6.517 1.502 1.797 2.648 3.91 3.359 6.201.494 1.659.771 3.436.771 5.292z" fill="currentColor" />
@@ -40,7 +40,7 @@
         </div>
 
         <!-- Sale link visible on screens > 1200px wide (xl breakpoint) -->
-        <a class="d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5" href="shop-catalog-electronics.html">
+        <a class="d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5" href="shop-catalog-electronics.php">
           <div class="btn btn-icon btn-lg fs-lg text-primary bg-body-secondary bg-opacity-75 pe-none rounded-circle">
             <i class="ci-percent animate-target"></i>
           </div>
