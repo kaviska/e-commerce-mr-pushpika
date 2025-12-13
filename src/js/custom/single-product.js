@@ -147,27 +147,33 @@ function renderGallery(product) {
 
     if (!galleryWrapper || !thumbsWrapper) return;
 
-    // Collect Images
+    // Collect Images - Primary image first
     let images = [];
     const baseUrl = window.SERVER_URL.replace('/api', '');
 
+    // Always add primary image first
     if (product.primary_image) {
         images.push(`${baseUrl}/${product.primary_image}`);
     }
 
-    // Check stocks for images
+    // Collect unique variation images from stocks
+    const variationImages = new Set();
     productStocks.forEach(stock => {
-        if (stock.image) {
-            images.push(`${baseUrl}/${stock.image}`);
+        if (stock.variation_stocks && Array.isArray(stock.variation_stocks)) {
+            stock.variation_stocks.forEach(vs => {
+                if (vs.image) {
+                    variationImages.add(`${baseUrl}/${vs.image}`);
+                }
+            });
         }
     });
 
-    // Unique images
-    images = [...new Set(images)];
+    // Add variation images to gallery
+    images.push(...Array.from(variationImages));
 
     // If no images found, use placeholder
     if (images.length === 0) {
-        images.push('assets/img/shop/electronics/01.png'); // Fallback
+        images.push('assets/img/shop/electronics/01.png');
     }
 
     // Render HTML
@@ -199,6 +205,44 @@ function renderGallery(product) {
     if (thumbSwiperEl && thumbSwiperEl.swiper) {
         thumbSwiperEl.swiper.update();
     }
+}
+
+function updateGalleryForSelectedVariation() {
+    const matchingStock = findMatchingStock();
+    
+    if (!matchingStock) return;
+
+    const baseUrl = window.SERVER_URL.replace('/api', '');
+    
+    // Get the image from matching stock's variation_stocks
+    let targetImage = null;
+    if (matchingStock.variation_stocks && matchingStock.variation_stocks.length > 0) {
+        const firstVariationStock = matchingStock.variation_stocks[0];
+        if (firstVariationStock.image) {
+            targetImage = `${baseUrl}/${firstVariationStock.image}`;
+        }
+    }
+
+    if (!targetImage) return;
+
+    // Find the slide index with this image
+    const galleryWrapper = document.getElementById('product-gallery-wrapper');
+    if (!galleryWrapper) return;
+
+    const mainSwiperEl = galleryWrapper.closest('.swiper');
+    if (!mainSwiperEl || !mainSwiperEl.swiper) return;
+
+    const slides = galleryWrapper.querySelectorAll('.swiper-slide img');
+    let targetIndex = 0;
+
+    slides.forEach((img, index) => {
+        if (img.src === targetImage || img.getAttribute('data-zoom') === targetImage) {
+            targetIndex = index;
+        }
+    });
+
+    // Slide to the matching image
+    mainSwiperEl.swiper.slideTo(targetIndex);
 }
 
 function renderOptions(product) {
@@ -265,6 +309,7 @@ function handleOptionSelect(name, value) {
 
     updatePriceDisplay();
     updateAddToCartButton();
+    updateGalleryForSelectedVariation();
 }
 
 function findMatchingStock() {

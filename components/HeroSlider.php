@@ -1,4 +1,4 @@
-N <script defer src="src/js/custom/hero-slider.js"></script>
+ <script defer src="src/js/custom/hero-slider.js"></script>
  <section class="container pt-4">
         <div class="row">
           <div class="col-lg-9 offset-lg-3">
