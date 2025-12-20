@@ -155,7 +155,7 @@
         <h4 class="offcanvas-title" id="shoppingCartLabel">Shopping cart</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <p class="fs-sm">Buy <span class="text-dark-emphasis fw-semibold">$183</span> more to get <span class="text-dark-emphasis fw-semibold">Free Shipping</span></p>
+      <p class="fs-sm">Buy <span class="text-dark-emphasis fw-semibold">LKR 183</span> more to get <span class="text-dark-emphasis fw-semibold">Free Shipping</span></p>
       <div class="progress w-100" role="progressbar" aria-label="Free shipping progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height: 4px">
         <div class="progress-bar bg-warning rounded-pill" style="width: 75%"></div>
       </div>
@@ -245,7 +245,7 @@
     <div class="offcanvas-header flex-column align-items-start">
       <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
         <span class="text-light-emphasis">Subtotal:</span>
-        <span class="h6 mb-0">$2,317.00</span>
+        <span class="h6 mb-0">LKR2,317.00</span>
       </div>
       <div class="d-flex w-100 gap-3">
         <a class="btn btn-lg btn-secondary w-100" href="checkout-v1-cart.html">View cart</a>
@@ -465,12 +465,12 @@
                 <tr>
                   <td class="py-2 ps-0">Pickup from postal offices</td>
                   <td class="py-2">Tomorrow</td>
-                  <td class="text-body-emphasis fw-semibold text-end py-2 pe-0">$25.00</td>
+                  <td class="text-body-emphasis fw-semibold text-end py-2 pe-0">LKR 25.00</td>
                 </tr>
                 <tr>
                   <td class="py-2 ps-0">Delivery by courier</td>
                   <td class="py-2">2-3 days</td>
-                  <td class="text-body-emphasis fw-semibold text-end py-2 pe-0">$35.00</td>
+                  <td class="text-body-emphasis fw-semibold text-end py-2 pe-0">LKR 35.00</td>
                 </tr>
               </tbody>
             </table>

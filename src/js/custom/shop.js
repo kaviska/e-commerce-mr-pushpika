@@ -359,7 +359,7 @@ function renderProducts(products, container) {
                   <div class="position-relative">
                     ${hasDiscount ? `<div class="position-absolute top-0 start-0 m-3 z-2">
                       <span class="badge bg-danger text-white fs-xs px-2 py-1">
-                        -${maxDiscountPercent}%
+                       %
                       </span>
                     </div>` : ''}
                     <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product.php?slug=${product.slug}">

@@ -109,7 +109,7 @@ function updatePriceDisplay() {
 }
 
 function formatCurrency(mount) {
-    return '$' + mount.toFixed(2);
+    return 'LKR ' + mount.toFixed(2);
 }
 
 function renderGallery(product) {
