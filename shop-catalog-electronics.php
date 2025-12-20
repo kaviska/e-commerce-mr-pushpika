@@ -199,7 +199,7 @@
 
 
     <!-- Subscription form + Vlog -->
-    <section class="bg-body-tertiary py-5">
+     <!-- <section class="bg-body-tertiary py-5">
       <div class="container pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5">
         <div class="row">
           <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
@@ -259,7 +259,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </main>
 
 

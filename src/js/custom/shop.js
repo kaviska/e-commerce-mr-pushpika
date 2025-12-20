@@ -194,13 +194,19 @@ async function loadProducts() {
         if (priceMax && priceMax.value) params.append('web_price_max', priceMax.value);
     }
 
+    // Check URL for discount parameter
+    const urlDiscount = getURLParameter('has_web_discount') || getURLParameter('sale');
+    console.log('URL discount parameter:', urlDiscount);
+    if (urlDiscount === '1' || urlDiscount === 'true') {
+        params.append('has_web_discount', '1');
+    }
 
     // Show loading
     grid.style.opacity = '0.5';
 
     try {
         const url = `${window.SERVER_URL}/products?${params.toString()}`;
-        // console.log('Fetching:', url); // Debug
+        console.log('Fetching:', url); // Debug
 
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -247,7 +253,11 @@ function renderProducts(products, container) {
         let priceDisplay = '';
         let minPrice = Infinity;
         let maxPrice = -Infinity;
+        let minOriginalPrice = Infinity;
+        let maxOriginalPrice = -Infinity;
         let hasStock = false;
+        let hasDiscount = false;
+        let maxDiscountPercent = 0;
 
         if (product.stocks && product.stocks.length > 0) {
             hasStock = true;
@@ -258,14 +268,40 @@ function renderProducts(products, container) {
 
                 if (finalPrice < minPrice) minPrice = finalPrice;
                 if (finalPrice > maxPrice) maxPrice = finalPrice;
+                if (price < minOriginalPrice) minOriginalPrice = price;
+                if (price > maxOriginalPrice) maxOriginalPrice = price;
+
+                if (discount > 0) {
+                    hasDiscount = true;
+                    const discountPercent = Math.round((discount / price) * 100);
+                    if (discountPercent > maxDiscountPercent) maxDiscountPercent = discountPercent;
+                }
             });
 
             if (minPrice === Infinity) {
                 priceDisplay = 'Price unavailable';
             } else if (minPrice === maxPrice) {
-                priceDisplay = formatCurrency(minPrice);
+                if (hasDiscount) {
+                    priceDisplay = `
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="h6 mb-0">${formatCurrency(minPrice)}</span>
+                            <del class="text-body-tertiary fs-sm">${formatCurrency(minOriginalPrice)}</del>
+                        </div>
+                    `;
+                } else {
+                    priceDisplay = formatCurrency(minPrice);
+                }
             } else {
-                priceDisplay = `${formatCurrency(minPrice)} - ${formatCurrency(maxPrice)}`;
+                if (hasDiscount) {
+                    priceDisplay = `
+                        <div class="d-flex flex-column">
+                            <span class="h6 mb-0">${formatCurrency(minPrice)} - ${formatCurrency(maxPrice)}</span>
+                            <del class="text-body-tertiary fs-xs">${formatCurrency(minOriginalPrice)} - ${formatCurrency(maxOriginalPrice)}</del>
+                        </div>
+                    `;
+                } else {
+                    priceDisplay = `${formatCurrency(minPrice)} - ${formatCurrency(maxPrice)}`;
+                }
             }
         } else {
             priceDisplay = 'Out of Stock';
@@ -321,6 +357,11 @@ function renderProducts(products, container) {
               <div class="col">
                 <div class="product-card animate-underline hover-effect-opacity bg-body rounded">
                   <div class="position-relative">
+                    ${hasDiscount ? `<div class="position-absolute top-0 start-0 m-3 z-2">
+                      <span class="badge bg-danger text-white fs-xs px-2 py-1">
+                        -${maxDiscountPercent}%
+                      </span>
+                    </div>` : ''}
                     <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product.php?slug=${product.slug}">
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="${imageUrl}" alt="${product.name}" style="object-fit: contain;">
@@ -340,7 +381,7 @@ function renderProducts(products, container) {
                       </a>
                     </h3>
                     <div class="d-flex align-items-center justify-content-between">
-                      <div class="h6 lh-1 mb-0">${priceDisplay}</div>
+                      <div class="${hasDiscount ? '' : 'h6 lh-1 mb-0'}">${priceDisplay}</div>
                       <button type="button" class="product-card-button btn btn-icon btn-secondary animate-slide-end ms-2" aria-label="Add to Cart">
                         <i class="ci-shopping-cart fs-base animate-target"></i>
                       </button>
@@ -375,7 +416,7 @@ function renderProducts(products, container) {
 }
 
 function formatCurrency(value) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
 }
 
 function renderStars(rating) {

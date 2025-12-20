@@ -71,26 +71,9 @@ function renderProductDetails(product) {
         descEl.innerHTML = product.description || 'No description available.';
     }
 
-    // 6. Update review count in header
-    updateReviewCount(product.reviews_count || 0, product.reviews_avg_rating || 0);
-
-    // 7. Reviews
+    // 6. Reviews
     if (product.id) {
         loadReviews(product.id);
-    }
-}
-
-function updateReviewCount(count, avgRating) {
-    // Update count text
-    const countEl = document.querySelector('.text-body-tertiary.fs-xs');
-    if (countEl) {
-        countEl.textContent = `${count} ${count === 1 ? 'review' : 'reviews'}`;
-    }
-
-    // Update star rating
-    const starsContainer = document.querySelector('.d-flex.gap-1.fs-sm');
-    if (starsContainer) {
-        starsContainer.innerHTML = renderStars(avgRating);
     }
 }
 
@@ -108,26 +91,14 @@ function updatePriceDisplay() {
     const matchingStock = findMatchingStock();
 
     if (matchingStock) {
-        // Display specific price with discount
-        const webPrice = parseFloat(matchingStock.web_price) || 0;
-        const webDiscount = parseFloat(matchingStock.web_discount) || 0;
-        const finalPrice = webPrice - webDiscount;
-
-        if (webDiscount > 0) {
-            priceEl.innerHTML = `${formatCurrency(finalPrice)} <del class="text-body-tertiary fs-sm fw-normal">${formatCurrency(webPrice)}</del>`;
-        } else {
-            priceEl.innerText = formatCurrency(finalPrice);
-        }
+        // Display specific price
+        const price = parseFloat(matchingStock.web_price);
+        priceEl.innerText = formatCurrency(price);
     } else {
-        // Display Range with discount applied
-        const finalPrices = productStocks.map(s => {
-            const webPrice = parseFloat(s.web_price) || 0;
-            const webDiscount = parseFloat(s.web_discount) || 0;
-            return webPrice - webDiscount;
-        });
-        
-        const minPrice = Math.min(...finalPrices);
-        const maxPrice = Math.max(...finalPrices);
+        // Display Range
+        const prices = productStocks.map(s => parseFloat(s.web_price));
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
 
         if (minPrice === maxPrice) {
             priceEl.innerText = formatCurrency(minPrice);
@@ -147,33 +118,27 @@ function renderGallery(product) {
 
     if (!galleryWrapper || !thumbsWrapper) return;
 
-    // Collect Images - Primary image first
+    // Collect Images
     let images = [];
     const baseUrl = window.SERVER_URL.replace('/api', '');
 
-    // Always add primary image first
     if (product.primary_image) {
         images.push(`${baseUrl}/${product.primary_image}`);
     }
 
-    // Collect unique variation images from stocks
-    const variationImages = new Set();
+    // Check stocks for images
     productStocks.forEach(stock => {
-        if (stock.variation_stocks && Array.isArray(stock.variation_stocks)) {
-            stock.variation_stocks.forEach(vs => {
-                if (vs.image) {
-                    variationImages.add(`${baseUrl}/${vs.image}`);
-                }
-            });
+        if (stock.image) {
+            images.push(`${baseUrl}/${stock.image}`);
         }
     });
 
-    // Add variation images to gallery
-    images.push(...Array.from(variationImages));
+    // Unique images
+    images = [...new Set(images)];
 
     // If no images found, use placeholder
     if (images.length === 0) {
-        images.push('assets/img/shop/electronics/01.png');
+        images.push('assets/img/shop/electronics/01.png'); // Fallback
     }
 
     // Render HTML
@@ -205,44 +170,6 @@ function renderGallery(product) {
     if (thumbSwiperEl && thumbSwiperEl.swiper) {
         thumbSwiperEl.swiper.update();
     }
-}
-
-function updateGalleryForSelectedVariation() {
-    const matchingStock = findMatchingStock();
-    
-    if (!matchingStock) return;
-
-    const baseUrl = window.SERVER_URL.replace('/api', '');
-    
-    // Get the image from matching stock's variation_stocks
-    let targetImage = null;
-    if (matchingStock.variation_stocks && matchingStock.variation_stocks.length > 0) {
-        const firstVariationStock = matchingStock.variation_stocks[0];
-        if (firstVariationStock.image) {
-            targetImage = `${baseUrl}/${firstVariationStock.image}`;
-        }
-    }
-
-    if (!targetImage) return;
-
-    // Find the slide index with this image
-    const galleryWrapper = document.getElementById('product-gallery-wrapper');
-    if (!galleryWrapper) return;
-
-    const mainSwiperEl = galleryWrapper.closest('.swiper');
-    if (!mainSwiperEl || !mainSwiperEl.swiper) return;
-
-    const slides = galleryWrapper.querySelectorAll('.swiper-slide img');
-    let targetIndex = 0;
-
-    slides.forEach((img, index) => {
-        if (img.src === targetImage || img.getAttribute('data-zoom') === targetImage) {
-            targetIndex = index;
-        }
-    });
-
-    // Slide to the matching image
-    mainSwiperEl.swiper.slideTo(targetIndex);
 }
 
 function renderOptions(product) {
@@ -309,7 +236,6 @@ function handleOptionSelect(name, value) {
 
     updatePriceDisplay();
     updateAddToCartButton();
-    updateGalleryForSelectedVariation();
 }
 
 function findMatchingStock() {

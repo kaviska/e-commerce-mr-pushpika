@@ -1,3 +1,4 @@
+ 
  <footer class="footer position-relative bg-dark">
       <span class="position-absolute top-0 start-0 w-100 h-100 bg-body d-none d-block-dark"></span>
       <div class="container position-relative z-1 pt-sm-2 pt-md-3 pt-lg-4" data-bs-theme="dark">
@@ -90,23 +91,18 @@
                   <div class="accordion-collapse collapse d-sm-block" id="customerLinks" aria-labelledby="customerHeading" data-bs-parent="#footerLinks">
                     <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Payment methods</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/privacy-policy.php">Privacy Policy</a>
                       </li>
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Money back guarantee</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/terms-of-use.php">Terms of Use</a>
                       </li>
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Product returns</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/welcome.php">Welcome</a>
                       </li>
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Support center</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/app-privcy.php">App Privacy</a>
                       </li>
-                      <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Shipping</a>
-                      </li>
-                      <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Terms &amp; conditions</a>
-                      </li>
+                     
                     </ul>
                   </div>
                   <hr class="d-sm-none my-0">
@@ -118,109 +114,70 @@
 
         <!-- Category / tag links -->
         <div class="d-flex flex-column gap-3 pb-3 pb-md-4 pb-lg-5 mt-n2 mt-sm-n4 mt-lg-0 mb-4">
-          <ul class="nav align-items-center text-body-tertiary gap-2">
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Computers</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Smartphones</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">TV, Video</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Speakers</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Cameras</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Printers</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Video Games</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Headphones</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Wearable</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">HDD/SSD</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Smart Home</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Apple Devices</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Tablets</a>
-            </li>
+          <ul class="nav align-items-center text-body-tertiary gap-2" id="footer-categories-row-1">
+            <!-- Categories will be loaded dynamically -->
           </ul>
-          <ul class="nav align-items-center text-body-tertiary gap-2">
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Monitors</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Scanners</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Servers</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Heating and Cooling</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">E-readers</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Data Storage</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Networking</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Power Strips</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Plugs and Outlets</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Detectors and Sensors</a>
-            </li>
-            <li class="px-1">/</li>
-            <li class="animate-underline">
-              <a class="nav-link fw-normal p-0 animate-target" href="#!">Accessories</a>
-            </li>
+          <ul class="nav align-items-center text-body-tertiary gap-2" id="footer-categories-row-2">
+            <!-- Categories will be loaded dynamically -->
           </ul>
         </div>
+
+        <script>
+          // Load footer categories dynamically
+          async function loadFooterCategories() {
+            try {
+              const response = await fetch(`${window.SERVER_URL}/categories`);
+              const result = await response.json();
+
+              if (result.status === 'success' && result.data) {
+                renderFooterCategories(result.data);
+              }
+            } catch (error) {
+              console.error('Error loading footer categories:', error);
+            }
+          }
+
+          function renderFooterCategories(categories) {
+            const row1 = document.getElementById('footer-categories-row-1');
+            const row2 = document.getElementById('footer-categories-row-2');
+
+            if (!row1 || !row2) return;
+
+            // Split categories: first row for categories with subcategories, second row for those without
+            const categoriesWithSub = categories.filter(cat => cat.sub_categories && cat.sub_categories.length > 0);
+            const categoriesWithoutSub = categories.filter(cat => !cat.sub_categories || cat.sub_categories.length === 0);
+
+            // Render first row (categories with subcategories)
+            row1.innerHTML = categoriesWithSub.map((category, index) => `
+              <li class="animate-underline">
+                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog-electronics.php?category=${category.slug}">${category.name}</a>
+              </li>
+              ${index < categoriesWithSub.length - 1 ? '<li class="px-1">/</li>' : ''}
+            `).join('');
+
+            // Render second row (categories without subcategories)
+            row2.innerHTML = categoriesWithoutSub.map((category, index) => `
+              <li class="animate-underline">
+                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog-electronics.php?category=${category.slug}">${category.name}</a>
+              </li>
+              ${index < categoriesWithoutSub.length - 1 ? '<li class="px-1">/</li>' : ''}
+            `).join('');
+          }
+
+          // Load categories when DOM is ready
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadFooterCategories);
+          } else {
+            loadFooterCategories();
+          }
+        </script>
 
         <!-- Copyright + Payment methods -->
         <div class="d-md-flex align-items-center border-top py-4">
           <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
+             <div>
+              <img src="assets/img/payment-methods/cod.png" alt="Apple Pay" width="40">
+            </div>
             <div>
               <img src="assets/img/payment-methods/visa-dark-mode.svg" alt="Visa">
             </div>
@@ -236,6 +193,7 @@
             <div>
               <img src="assets/img/payment-methods/apple-pay-dark-mode.svg" alt="Apple Pay">
             </div>
+             
           </div>
           <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://createx.studio/" target="_blank" rel="noreferrer">Createx Studio</a></span></p>
         </div>
