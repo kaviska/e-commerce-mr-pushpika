@@ -54,7 +54,7 @@
                 <i class="ci-sun"></i>
               </span>
             </button>
-            <ul class="dropdown-menu" style="--cz-dropdown-min-width: 9rem">
+            <ul class="dropdown-menu dropdown-menu-end me-2" style="--cz-dropdown-min-width: 9rem">
               <li>
                 <button type="button" class="dropdown-item active" data-bs-theme-value="light" aria-pressed="true">
                   <span class="theme-icon d-flex fs-base me-2">
@@ -146,14 +146,14 @@
                       <span class="visually-hidden">Categories</span>
                     </a>
                     <button type="button" class="btn btn-lg btn-secondary dropdown-toggle w-100 rounded-bottom-0 justify-content-start pe-none">
-                      <i class="ci-grid fs-lg"></i>
+                      <!-- <i class="ci-grid fs-lg"></i> -->
                       <span class="ms-2 me-auto">Categories</span>
                     </button>
                   </div>
 
                   <!-- Buttton visible on screens < 992px wide (lg breakpoint) -->
                   <button type="button" class="btn btn-lg btn-secondary dropdown-toggle w-100 justify-content-start d-lg-none mb-2" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                    <i class="ci-grid fs-lg"></i>
+                    <!-- <i class="ci-grid fs-lg"></i> -->
                     <span class="ms-2 me-auto">Categories</span>
                   </button>
 
@@ -174,8 +174,12 @@
                   <a class="nav-link" href="shop-catalog-electronics.php">Shop</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link" href="account-signin.html">Account</a>
+                  <a class="nav-link" href="about-us.php">About Us</a>
                 </li>
+                <li class="nav-item me-lg-n1 me-xl-0">
+                  <a class="nav-link" href="contact-us.php">Contact Us</a>
+                </li>
+               
               </ul>
               <hr class="d-lg-none my-3">
               <ul class="navbar-nav ms-auto">

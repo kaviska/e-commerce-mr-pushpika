@@ -1,12 +1,519 @@
+// Show loading animation immediately
+showPageLoader();
+
+// Track when the page started loading
+const pageLoadStartTime = Date.now();
+
+// Check if current page should have extended loading (7 seconds minimum)
+function shouldUseExtendedLoading() {
+    const currentPage = window.location.pathname;
+    const pageName = currentPage.split('/').pop() || 'index.php';
+    
+    // List of pages that should show 7 second loading
+    const extendedLoadingPages = [
+        'shop-catalog-electronics.php',
+        'shop-product.php',
+        'index.php',
+        '' // root URL case
+    ];
+    
+    return extendedLoadingPages.includes(pageName) || currentPage === '/' || currentPage.endsWith('/');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('hhs');
     
     // Initialize WhatsApp popup
     initWhatsAppWidget();
+    
+    // Hide loader when page is fully loaded
+    window.addEventListener('load', () => {
+        if (shouldUseExtendedLoading()) {
+            // Calculate how long the page has been loading
+            const elapsedTime = Date.now() - pageLoadStartTime;
+            const minimumLoadTime = 5000; // 7 seconds
+            
+            // If less than 7 seconds have passed, wait for the remaining time
+            if (elapsedTime < minimumLoadTime) {
+                const remainingTime = minimumLoadTime - elapsedTime;
+                setTimeout(() => {
+                    hidePageLoader();
+                }, remainingTime);
+            } else {
+                // If already 7+ seconds, hide immediately
+                hidePageLoader();
+            }
+        } else {
+            // For other pages, hide loader immediately
+            hidePageLoader();
+        }
+    });
 });
 
 //updated
 window.SERVER_URL = 'http://127.0.0.1:8000/api';
+
+/**
+ * Page Loader Functions
+ * Beautiful loading animation that matches the theme
+ */
+
+/**
+ * Create and show page loader
+ */
+function showPageLoader() {
+    // Create loader HTML
+    const loader = document.createElement('div');
+    loader.id = 'page-loader';
+    loader.className = 'page-loader';
+    
+    loader.innerHTML = `
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="assets/logo.png" alt="Logo" class="loader-logo-img">
+            </div>
+            <div class="loader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <p class="loader-text">Loading<span class="loader-dots"></span></p>
+        </div>
+    `;
+    
+    document.body.appendChild(loader);
+    
+    // Prevent scrolling while loading
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Hide page loader with smooth fade out
+ */
+function hidePageLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('loaded');
+        
+        // Remove loader after animation completes
+        setTimeout(() => {
+            loader.remove();
+            // Restore scrolling
+            document.body.style.overflow = '';
+        }, 600);
+    }
+}
+
+/**
+ * Show content loader inside a specific element
+ * @param {string|HTMLElement} target - CSS selector or DOM element to show loader in
+ * @param {string} message - Optional loading message
+ */
+function showContentLoader(target, message = 'Loading...') {
+    const container = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!container) return;
+    
+    const loaderId = 'content-loader-' + Math.random().toString(36).substr(2, 9);
+    const loader = document.createElement('div');
+    loader.id = loaderId;
+    loader.className = 'content-loader';
+    
+    loader.innerHTML = `
+        <div class="content-loader-overlay">
+            <div class="content-loader-spinner">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="content-loader-text">${message}</p>
+            </div>
+        </div>
+    `;
+    
+    container.style.position = 'relative';
+    container.appendChild(loader);
+    
+    return loaderId;
+}
+
+/**
+ * Hide content loader from a specific element
+ * @param {string|HTMLElement} target - CSS selector, DOM element, or loader ID
+ */
+function hideContentLoader(target) {
+    let loader;
+    
+    if (typeof target === 'string') {
+        // Try as loader ID first
+        loader = document.getElementById(target);
+        
+        // If not found, try as container selector
+        if (!loader) {
+            const container = document.querySelector(target);
+            if (container) {
+                loader = container.querySelector('.content-loader');
+            }
+        }
+    } else if (target instanceof HTMLElement) {
+        loader = target.querySelector('.content-loader');
+    }
+    
+    if (loader) {
+        loader.classList.add('hiding');
+        setTimeout(() => loader.remove(), 300);
+    }
+}
+
+/**
+ * Fetch data with automatic loading indicator
+ * @param {string} url - API endpoint URL
+ * @param {object} options - Fetch options
+ * @param {string|HTMLElement} loaderTarget - Where to show loader (optional)
+ * @param {string} loaderMessage - Loading message (optional)
+ * @returns {Promise} Fetch promise
+ */
+async function fetchWithLoader(url, options = {}, loaderTarget = null, loaderMessage = 'Loading...') {
+    let loaderId = null;
+    
+    try {
+        // Show loader if target specified
+        if (loaderTarget) {
+            loaderId = showContentLoader(loaderTarget, loaderMessage);
+        }
+        
+        // Perform fetch
+        const response = await fetch(url, options);
+        
+        // Hide loader
+        if (loaderId) {
+            hideContentLoader(loaderId);
+        }
+        
+        return response;
+    } catch (error) {
+        // Hide loader on error
+        if (loaderId) {
+            hideContentLoader(loaderId);
+        }
+        throw error;
+    }
+}
+
+/**
+ * Show mini inline spinner (for buttons, small areas)
+ * @param {string|HTMLElement} target - Element to show spinner in
+ * @param {string} size - Size: 'sm', 'md', 'lg' (default: 'sm')
+ */
+function showMiniLoader(target, size = 'sm') {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!element) return;
+    
+    const originalContent = element.innerHTML;
+    element.setAttribute('data-original-content', originalContent);
+    element.disabled = true;
+    
+    const sizeClass = size === 'lg' ? 'spinner-border' : size === 'md' ? 'spinner-border spinner-border-sm' : 'spinner-border spinner-border-sm';
+    
+    element.innerHTML = `
+        <span class="${sizeClass}" role="status" aria-hidden="true"></span>
+        <span class="ms-2">Loading...</span>
+    `;
+}
+
+/**
+ * Hide mini inline spinner and restore original content
+ * @param {string|HTMLElement} target - Element to restore
+ */
+function hideMiniLoader(target) {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!element) return;
+    
+    const originalContent = element.getAttribute('data-original-content');
+    if (originalContent) {
+        element.innerHTML = originalContent;
+        element.removeAttribute('data-original-content');
+    }
+    element.disabled = false;
+}
+
+// Export functions to global scope for easy access
+window.showContentLoader = showContentLoader;
+window.hideContentLoader = hideContentLoader;
+window.fetchWithLoader = fetchWithLoader;
+window.showMiniLoader = showMiniLoader;
+window.hideMiniLoader = hideMiniLoader;
+
+/**
+ * Inject loader styles
+ */
+(function injectLoaderStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Page Loader Styles */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        
+        .page-loader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+            animation: loader-fade-in 0.6s ease;
+        }
+        
+        /* Logo Animation */
+        .loader-logo {
+            margin-bottom: 30px;
+            animation: logo-bounce 1.5s ease-in-out infinite;
+        }
+        
+        .loader-logo-img {
+            width: 120px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
+        }
+        
+        /* Spinner Animation */
+        .loader-spinner {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+        }
+        
+        .spinner-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: spinner-rotate 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        
+        .spinner-ring:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-top-color: rgba(255, 255, 255, 0.6);
+            animation-delay: -0.5s;
+        }
+        
+        .spinner-ring:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: rgba(255, 255, 255, 0.4);
+            animation-delay: -1s;
+        }
+        
+        /* Loading Text */
+        .loader-text {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .loader-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        /* Content Loader Styles */
+        .content-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .content-loader.hiding {
+            opacity: 0;
+        }
+        
+        .content-loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: inherit;
+        }
+        
+        [data-bs-theme="dark"] .content-loader-overlay {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .content-loader-spinner {
+            text-align: center;
+            animation: fade-in-up 0.3s ease;
+        }
+        
+        .content-loader-spinner .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3em;
+            color: #667eea;
+        }
+        
+        .content-loader-text {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+        
+        [data-bs-theme="dark"] .content-loader-text {
+            color: #ccc;
+        }
+        
+        /* Mini Loader for Buttons */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
+        }
+        
+        /* Keyframe Animations */
+        @keyframes loader-fade-in {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes logo-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes spinner-rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes dots {
+            0%, 20% {
+                content: '';
+            }
+            40% {
+                content: '.';
+            }
+            60% {
+                content: '..';
+            }
+            80%, 100% {
+                content: '...';
+            }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .page-loader {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .loader-logo-img {
+                width: 90px;
+            }
+            
+            .loader-spinner {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .loader-text {
+                font-size: 16px;
+            }
+            
+            .content-loader-spinner .spinner-border {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .loader-logo-img {
+                width: 70px;
+            }
+            
+            .loader-spinner {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 20px;
+            }
+            
+            .loader-text {
+                font-size: 14px;
+            }
+            
+            .content-loader-spinner .spinner-border {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .content-loader-text {
+                font-size: 13px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+})();
 
 /**
  * WhatsApp Widget Configuration

@@ -36,20 +36,20 @@
                   <div class="accordion-collapse collapse d-sm-block" id="companyLinks" aria-labelledby="companyHeading" data-bs-parent="#footerLinks">
                     <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">About company</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/about-us.php">About Us</a>
                       </li>
-                      <li class="d-flex w-100 pt-1">
+                      <!-- <li class="d-flex w-100 pt-1">
                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Our team</a>
                       </li>
                       <li class="d-flex w-100 pt-1">
                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Careers</a>
-                      </li>
+                      </li> -->
                       <li class="d-flex w-100 pt-1">
-                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Contact us</a>
+                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="/contact-us.php">Contact Us</a>
                       </li>
-                      <li class="d-flex w-100 pt-1">
+                      <!-- <li class="d-flex w-100 pt-1">
                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">News</a>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                   <hr class="d-sm-none my-0">

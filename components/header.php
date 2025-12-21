@@ -55,8 +55,8 @@
                 <i class="ci-sun"></i>
               </span>
             </button>
-            <ul class="dropdown-menu" style="--cz-dropdown-min-width: 9rem">
-              <li>
+            <ul class="dropdown-menu dropdown-menu-end me-2" style="--cz-dropdown-min-width: 9rem">
+              <li  >
                 <button type="button" class="dropdown-item active" data-bs-theme-value="light" aria-pressed="true">
                   <span class="theme-icon d-flex fs-base me-2">
                     <i class="ci-sun"></i>
@@ -175,8 +175,12 @@
                   <a class="nav-link" href="shop-catalog-electronics.php">Shop</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link" href="account-signin.html">Account</a>
+                  <a class="nav-link" href="about-us.php">About Us</a>
                 </li>
+                <li class="nav-item me-lg-n1 me-xl-0">
+                  <a class="nav-link" href="contact-us.php">Contact Us</a>
+                </li>
+               
               </ul>
               <hr class="d-lg-none my-3">
               <ul class="navbar-nav ms-auto">

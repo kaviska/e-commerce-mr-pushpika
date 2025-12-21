@@ -119,21 +119,8 @@ const renderSearchResults = (products, container, query) => {
 };
 
 const handleCategoryMenuState = () => {
-    // For other pages, category menu stays as dropdown (not expanded by default)
-    const megaMenu = document.getElementById('mega-menu-container');
-    
-    if (megaMenu && window.innerWidth >= 992) { // Desktop only
-        // Ensure main category menu is hidden
-        megaMenu.classList.remove('show');
-        megaMenu.style.display = 'none';
-        
-        // Ensure all submenu dropdowns are hidden
-        const subMenus = megaMenu.querySelectorAll('.dropdown-menu');
-        subMenus.forEach(menu => {
-            menu.classList.remove('show');
-            menu.style.display = 'none';
-        });
-    }
+    // Category menu will function as a normal dropdown - no forced states
+    // Bootstrap's dropdown component will handle the open/close behavior
 };
 
 const fetchCategories = async () => {
@@ -146,14 +133,14 @@ const fetchCategories = async () => {
         const data = await response.json();
 
         if (data.status === 'success') {
-            renderCategories(data.data);
+            renderForOtherPagesCategory(data.data);
         }
     } catch (error) {
         console.error('Error fetching categories:', error);
     }
 };
 
-const renderCategories = (categories) => {
+const renderForOtherPagesCategory = (categories) => {
     const container = document.getElementById('mega-menu-container');
     if (!container) return;
 
@@ -187,7 +174,7 @@ const renderCategories = (categories) => {
         // We just need to ensure data is loaded when it opens.
 
         li.innerHTML = `
-            <div class="position-relative rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover click" data-bs-auto-close="outside" aria-expanded="false">
+            <div class="position-relative d-lg-none d-block rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover click" data-bs-auto-close="outside" aria-expanded="false">
                 <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex" href="#">
                     <img src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
                     <span class="text-truncate">${category.name}</span>

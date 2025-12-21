@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
   <!-- SEO Meta Tags -->
-  <title>Cartzilla | Electronics Store - Product General Info</title>
+  <title>atsmore | Electronics Store - Product General Info</title>
   <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
   <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
   <meta name="author" content="Createx Studio">
@@ -619,9 +619,12 @@
 
 
     <!-- Viewed products (Carousel) -->
-    <?php
+     <div class=" pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+       <?php
     include './components/NewArrival.php'
     ?>
+     </div>
+   
 
 
     <!-- Subscription form + Vlog -->
