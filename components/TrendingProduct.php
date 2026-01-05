@@ -1,5 +1,5 @@
  <script defer src="src/js/custom/trending-product.js"></script>
- <section class="container">
+ <section class="container  pt-5 mt-2 mt-sm-3 mt-lg-4">
 
      <!-- Heading -->
      <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pb-md-4">
