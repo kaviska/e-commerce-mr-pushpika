@@ -9,7 +9,7 @@ function getURLParameter(name) {
 let allProducts = [];
 let currentPage = 1;
 const productsPerPage = 12;
-let priceChanged = false; // Track if user has changed price
+let userChangedPrice = false; // Track if user has interacted with price slider
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadFilters();
@@ -27,23 +27,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         sortSelect.addEventListener('change', () => loadProducts());
     }
 
-    // Price inputs
+    // Price inputs - handle both 'input' and 'change' events for range slider compatibility
     const priceMin = document.querySelector('[data-range-slider-min]');
     const priceMax = document.querySelector('[data-range-slider-max]');
 
     // Debounce price update
     let priceTimeout;
     const handlePriceChange = () => {
-        priceChanged = true; // Mark price as changed when user interacts
+        userChangedPrice = true; // Mark that user has interacted with price
         clearTimeout(priceTimeout);
         priceTimeout = setTimeout(() => loadProducts(), 800);
     };
 
-    if (priceMin) priceMin.addEventListener('change', handlePriceChange);
-    if (priceMax) priceMax.addEventListener('change', handlePriceChange);
+    if (priceMin) {
+        priceMin.addEventListener('change', handlePriceChange);
+        priceMin.addEventListener('input', handlePriceChange);
+    }
+    if (priceMax) {
+        priceMax.addEventListener('change', handlePriceChange);
+        priceMax.addEventListener('input', handlePriceChange);
+    }
 
-    // If there is a JS library updating these inputs, usually it triggers a change or input event.
-    // If it's noUiSlider, we might need to listen to its events, but assuming it updates inputs:
+    // Hook into noUiSlider if it exists
+    const rangeSliderContainer = document.querySelector('[data-range-slider]');
+    if (rangeSliderContainer) {
+        const rangeSliderUI = rangeSliderContainer.querySelector('.range-slider-ui');
+        if (rangeSliderUI && rangeSliderUI.noUiSlider) {
+            // Listen to the noUiSlider 'change' event (fired when user stops dragging)
+            rangeSliderUI.noUiSlider.on('change', handlePriceChange);
+        } else {
+            // If noUiSlider hasn't initialized yet, wait for it
+            setTimeout(() => {
+                const rangeSliderUI = rangeSliderContainer.querySelector('.range-slider-ui');
+                if (rangeSliderUI && rangeSliderUI.noUiSlider) {
+                    rangeSliderUI.noUiSlider.on('change', handlePriceChange);
+                }
+            }, 500);
+        }
+    }
 
     // Clear All Filters
     const clearAllBtn = document.getElementById('clear-all-filters');
@@ -52,15 +73,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Uncheck all checkboxes
             document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
 
-            // Reset price inputs if using noUiSlider or similar, might need more specific reset logic
-            // For now, let's just reset the inputs if they exist
-            priceChanged = false; // Reset price changed flag
-            if (priceMin) priceMin.value = priceMin.getAttribute('min') || 0;
-            if (priceMax) priceMax.value = priceMax.getAttribute('max') || 100000;
+            // Reset price inputs
+            const priceMin = document.querySelector('[data-range-slider-min]');
+            const priceMax = document.querySelector('[data-range-slider-max]');
+            userChangedPrice = false; // Reset the flag
+            if (priceMin) priceMin.value = '';
+            if (priceMax) priceMax.value = '';
 
-            // Trigger change event if needed for sliders to update UI? 
-            // Often custom sliders need their own API call to reset. 
-            // Assuming standard flow for now or that inputs drive the logic.
+            // Trigger input event to update slider UI if range slider library is active
+            if (priceMin) priceMin.dispatchEvent(new Event('input', { bubbles: true }));
+            if (priceMax) priceMax.dispatchEvent(new Event('input', { bubbles: true }));
 
             loadProducts();
         });
@@ -186,12 +208,14 @@ async function loadProducts() {
         params.append('in_stock', '1');
     }
 
-    // Price - only apply if user has changed it
-    if (priceChanged) {
-        const priceMin = document.querySelector('[data-range-slider-min]');
-        const priceMax = document.querySelector('[data-range-slider-max]');
-        if (priceMin && priceMin.value) params.append('web_price_min', priceMin.value);
-        if (priceMax && priceMax.value) params.append('web_price_max', priceMax.value);
+    // Price - apply if values are present AND user has interacted with slider
+    const priceMin = document.querySelector('[data-range-slider-min]');
+    const priceMax = document.querySelector('[data-range-slider-max]');
+    if (userChangedPrice && priceMin && priceMin.value && priceMin.value !== '') {
+        params.append('web_price_min', priceMin.value);
+    }
+    if (userChangedPrice && priceMax && priceMax.value && priceMax.value !== '') {
+        params.append('web_price_max', priceMax.value);
     }
 
     // Check URL for discount parameter
@@ -480,33 +504,25 @@ function updateSelectedFilters() {
         }));
     });
 
-    // Price - only show if user has changed it
-    if (priceChanged) {
-        const priceMin = document.querySelector('[data-range-slider-min]');
-        const priceMax = document.querySelector('[data-range-slider-max]');
-        if (priceMin && priceMax) {
-            if (priceMin.value && priceMax.value) {
-                // Only show if it matches a range logic or just show it if values present
-                // Let's verify values are valid numbers
-                const min = parseInt(priceMin.value) || 0;
-                const max = parseInt(priceMax.value) || 0;
-
-                // Simple heuristic: if it's not empty string
-                if (priceMin.value !== '' && priceMax.value !== '') {
-                    const display = `$${min} - $${max}`;
-                    tags.push(createTag(display, () => {
-                        // Reset to defaults or empty
-                        priceChanged = false; // Reset flag
-                        priceMin.value = ''; // Or default min
-                        priceMax.value = ''; // Or default max
-                        // Dispatch event if needed
-                        const event = new Event('change');
-                        priceMin.dispatchEvent(event);
-                        priceMax.dispatchEvent(event);
-                        loadProducts();
-                    }));
-                }
-            }
+    // Price - show if values are present AND user has changed them
+    const priceMinInput = document.querySelector('[data-range-slider-min]');
+    const priceMaxInput = document.querySelector('[data-range-slider-max]');
+    if (userChangedPrice && priceMinInput && priceMaxInput) {
+        if (priceMinInput.value !== '' && priceMaxInput.value !== '') {
+            const min = parseInt(priceMinInput.value) || 0;
+            const max = parseInt(priceMaxInput.value) || 0;
+            
+            const display = `$${min} - $${max}`;
+            tags.push(createTag(display, () => {
+                // Reset to empty
+                userChangedPrice = false; // Reset the flag
+                priceMinInput.value = '';
+                priceMaxInput.value = '';
+                // Dispatch events to update slider UI
+                priceMinInput.dispatchEvent(new Event('input', { bubbles: true }));
+                priceMaxInput.dispatchEvent(new Event('input', { bubbles: true }));
+                loadProducts();
+            }));
         }
     }
 

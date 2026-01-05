@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
   <!-- SEO Meta Tags -->
-  <title>atsmore | Electronics Store - Catalog</title>
-  <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-  <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-  <meta name="author" content="Createx Studio">
+  <title>Atsmore | Shop Electronics - Mobiles, Laptops, Gadgets &amp; More</title>
+  <meta name="description" content="Atsmore the premium online shopping site in Sri Lanka. Shop for trendy Clothes, Mobiles, Electronics &amp; many more with great prices all across Sri Lanka. COD">
+  <meta name="keywords" content="Buy &amp; sell electronics, cars, clothes, collectibles &amp; more on eBay, the world&apos;s online marketplace. Top brands, low prices &amp; free shipping on many items.">
+  <meta name="author" content="GIGANTOO (PVT) LTD">
 
   <script defer src='./src/js/custom/main.js'></script>
   <script defer src='./src/js/custom/shop.js'></script>

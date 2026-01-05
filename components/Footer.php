@@ -19,10 +19,10 @@
                   Help and consultation
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#!">Help center &amp; FAQ</a></li>
-                  <li><a class="dropdown-item" href="#!">Support chat</a></li>
-                  <li><a class="dropdown-item" href="#!">Open support ticket</a></li>
-                  <li><a class="dropdown-item" href="#!">Call center</a></li>
+                  <li><a class="dropdown-item" href="/whatsapp-support.php"><i class="ci-message-circle me-2"></i>WhatsApp Support</a></li>
+                  <li><a class="dropdown-item" href="/faq.php"><i class="ci-help-circle me-2"></i>FAQ & Help Center</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/contact-us.php"><i class="ci-phone me-2"></i>Call Center</a></li>
                 </ul>
               </div>
             </div>
@@ -54,7 +54,7 @@
                   </div>
                   <hr class="d-sm-none my-0">
                 </div>
-                <div class="accordion-item col border-0">
+                <!-- <div class="accordion-item col border-0">
                   <h6 class="accordion-header" id="accountHeading">
                     <span class="text-dark-emphasis d-none d-sm-block">Account</span>
                     <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#accountLinks" aria-expanded="false" aria-controls="accountLinks">Account</button>
@@ -82,7 +82,7 @@
                     </ul>
                   </div>
                   <hr class="d-sm-none my-0">
-                </div>
+                </div> -->
                 <div class="accordion-item col border-0">
                   <h6 class="accordion-header" id="customerHeading">
                     <span class="text-dark-emphasis d-none d-sm-block">Customer service</span>
@@ -195,7 +195,7 @@
             </div>
              
           </div>
-          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://createx.studio/" target="_blank" rel="noreferrer">Createx Studio</a></span></p>
+          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://gigantoo.com/" target="_blank" rel="noreferrer">Gigantoo(PVT) LTD</a></span></p>
         </div>
       </div>
 

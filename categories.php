@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
-    <title>Atsmore | Electronics Store - Categories</title>
-    <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-    <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-    <meta name="author" content="Createx Studio">
+    <title>Atsmore | Shop Categories - Electronics, Fashion, Cars &amp; More</title>
+    <meta name="description" content="Atsmore the premium online shopping site in Sri Lanka. Shop for trendy Clothes, Mobiles, Electronics &amp; many more with great prices all across Sri Lanka. COD">
+    <meta name="keywords" content="Buy &amp; sell electronics, cars, clothes, collectibles &amp; more on eBay, the world&apos;s online marketplace. Top brands, low prices &amp; free shipping on many items.">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -198,7 +198,7 @@
 
 
       <!-- Subscription form + Vlog -->
-      <section class="bg-body-tertiary py-5">
+      <!-- <section class="bg-body-tertiary py-5">
         <div class="container pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5">
           <div class="row">
             <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
@@ -258,7 +258,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> -->
     </main>
 
 

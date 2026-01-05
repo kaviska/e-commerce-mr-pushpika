@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
-    <title>atsmore | Terms and Conditions</title>
-    <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-    <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-    <meta name="author" content="Createx Studio">
+    <title>Terms and Conditions | Atsmore Sri Lanka Online Shopping</title>
+    <meta name="description" content="Read Atsmore's terms and conditions. Understand your rights, return policies, warranty terms, and shopping guidelines for online purchases in Sri Lanka.">
+    <meta name="keywords" content="terms and conditions sri lanka, atsmore policies, return policy, warranty terms, shopping guidelines, user agreement">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">

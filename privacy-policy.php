@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
-    <title>atsmore | Privacy Policy</title>
-    <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-    <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-    <meta name="author" content="Createx Studio">
+    <title>Privacy Policy | Atsmore Online Shopping Sri Lanka</title>
+    <meta name="description" content="Read Atsmore's privacy policy. Learn how we collect, use, and protect your personal information when shopping online in Sri Lanka. Your data security is our priority.">
+    <meta name="keywords" content="atsmore privacy policy, data protection, customer information, online privacy sri lanka, secure shopping, data security">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">

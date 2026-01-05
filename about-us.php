@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
+    <title>About Atsmore | Premium Online Shopping in Sri Lanka</title>
+    <meta name="description" content="Learn about Atsmore, Sri Lanka's premium online shopping destination. Discover our mission to provide quality products including electronics, fashion, and more with great prices and COD.">
+    <meta name="keywords" content="about atsmore, online shopping sri lanka, e-commerce company, gigantoo, sri lanka shopping, who we are, company profile">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
     <title>About Us | Atsmore - Your Coolest Shopping Partner</title>
     <meta name="description" content="Learn about Atsmore, one of the upcoming online shopping malls in Sri Lanka. Top quality products, best customer service, and fast delivery.">
     <meta name="keywords" content="about atsmore, online shopping sri lanka, electronics, mobiles, cameras, fashion">
-    <meta name="author" content="Createx Studio">
+    <meta name="author" content="Gigantoo">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">

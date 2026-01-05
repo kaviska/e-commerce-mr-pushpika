@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
-    <title>Cartzilla | App Privacy Policy</title>
-    <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-    <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-    <meta name="author" content="Createx Studio">
+    <title>Atsmore | App Privacy Policy - Data Protection &amp; Security</title>
+    <meta name="description" content="Read Atsmore's comprehensive privacy policy. Learn how we protect your personal information, data security measures, and your rights as a customer in Sri Lanka.">
+    <meta name="keywords" content="atsmore privacy policy, data protection sri lanka, customer privacy, personal information security, online shopping safety, privacy terms">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">

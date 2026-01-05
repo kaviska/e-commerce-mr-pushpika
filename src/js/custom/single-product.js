@@ -66,7 +66,7 @@ function renderProductDetails(product) {
     renderOptions(product);
 
     // 5. Description
-    const descEl = document.getElementById('product-description');
+    const descEl = document.getElementById('product-description-text');
     if (descEl) {
         descEl.innerHTML = product.description || 'No description available.';
     }

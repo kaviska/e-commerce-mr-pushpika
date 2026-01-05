@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
   <!-- SEO Meta Tags -->
-  <title>atsmore | Electronics Store - Product General Info</title>
-  <meta name="description" content="Cartzilla - Multipurpose Bootstrap E-Commerce HTML Template">
-  <meta name="keywords" content="online shop, e-commerce, online store, market, multipurpose, product landing, cart, checkout, ui kit, light and dark mode, bootstrap, html5, css3, javascript, gallery, slider, mobile, pwa">
-  <meta name="author" content="Createx Studio">
+  <title>Atsmore | Product Details - Shop Electronics, Fashion &amp; More</title>
+  <meta name="description" content="Atsmore the premium online shopping site in Sri Lanka. Shop for trendy Clothes, Mobiles, Electronics &amp; many more with great prices all across Sri Lanka. COD">
+  <meta name="keywords" content="Buy &amp; sell electronics, cars, clothes, collectibles &amp; more on eBay, the world&apos;s online marketplace. Top brands, low prices &amp; free shipping on many items.">
+  <meta name="author" content="GIGANTOO (PVT) LTD">
 
   <!-- Webmanifest + Favicon / App icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -476,34 +476,7 @@
             </table>
 
             <!-- Warranty + Payment info accordion -->
-            <div class="accordion" id="infoAccordion">
-              <div class="accordion-item border-top">
-                <h3 class="accordion-header" id="headingWarranty">
-                  <button type="button" class="accordion-button animate-underline collapsed" data-bs-toggle="collapse" data-bs-target="#warranty" aria-expanded="false" aria-controls="warranty">
-                    <span class="animate-target me-2">Warranty information</span>
-                  </button>
-                </h3>
-                <div class="accordion-collapse collapse" id="warranty" aria-labelledby="headingWarranty" data-bs-parent="#infoAccordion">
-                  <div class="accordion-body">
-                    <div class="alert d-flex alert-info mb-3" role="alert">
-                      <i class="ci-check-shield fs-xl mt-1 me-2"></i>
-                      <div class="fs-sm"><span class="fw-semibold">Warranty:</span> 12 months of official manufacturer's warranty. Exchange/return of the product within 14 days.</div>
-                    </div>
-                    <p class="mb-0">Explore the details of our <a class="fw-medium" href="#!">product warranties here</a>, including duration, coverage, and any additional protection plans available. We prioritize your satisfaction, and our warranty information is designed to keep you informed and confident in your purchase.</p>
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="accordion-item">
-                <h3 class="accordion-header" id="headingPayment">
-                  <button type="button" class="accordion-button animate-underline collapsed" data-bs-toggle="collapse" data-bs-target="#payment" aria-expanded="false" aria-controls="payment">
-                    <span class="animate-target me-2">Payment and credit</span>
-                  </button>
-                </h3>
-                <div class="accordion-collapse collapse" id="payment" aria-labelledby="headingPayment" data-bs-parent="#infoAccordion">
-                  <div class="accordion-body">Experience hassle-free transactions with our <a class="fw-medium" href="#!">flexible payment options</a> and credit facilities. Learn more about the various payment methods accepted, installment plans, and any exclusive credit offers available to make your shopping experience seamless.</div>
-                </div>
-              </div> -->
-            </div>
+           
           </div>
         </div>
       </div>
@@ -545,8 +518,7 @@
 
 
 
-    <!-- Trending products (Carousel) -->
-    <?php include './components/TrendingProduct.php'; ?>
+    
 
     <!-- Product details and Reviews shared container -->
     <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
@@ -554,8 +526,9 @@
         <div class="col-md-7">
 
           <!-- Product details -->
+          <div id="product-description" style="scroll-margin-top: 100px;"></div>
           <h2 class="h3 pb-2 pb-md-3">Product details</h2>
-          <div id="product-description" class="fs-sm mb-4">
+          <div id="product-description-text" class="fs-sm mb-4">
             <!-- Dynamic Description will load here -->
             Loading description...
           </div>
@@ -616,6 +589,8 @@
         </aside> -->
       </div>
     </section>
+    <!-- Trending products (Carousel) -->
+    <?php include './components/TrendingProduct.php'; ?>
 
 
     <!-- Viewed products (Carousel) -->

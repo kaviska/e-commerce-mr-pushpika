@@ -7,10 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
         <!-- SEO Meta Tags -->
-        <title>atsmore | Welcome</title>
-        <meta name="description" content="atsmore - The future of online shopping with seamless experience, exclusive deals, and 24/7 support">
-        <meta name="keywords" content="online shop, e-commerce, online store, shopping app, deals, discounts, convenience">
-        <meta name="author" content="atsmore">
+        <title>Welcome to Atsmore | Premium Online Shopping in Sri Lanka</title>
+        <meta name="description" content="Atsmore the premium online shopping site in Sri Lanka. Shop for trendy Clothes, Mobiles, Electronics &amp; many more with great prices all across Sri Lanka. COD">
+        <meta name="keywords" content="Buy &amp; sell electronics, cars, clothes, collectibles &amp; more on eBay, the world&apos;s online marketplace. Top brands, low prices &amp; free shipping on many items.">
+        <meta name="author" content="GIGANTOO (PVT) LTD">
 
         <!-- Webmanifest + Favicon / App icons -->
         <meta name="apple-mobile-web-app-capable" content="yes">

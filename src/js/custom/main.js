@@ -1,3 +1,238 @@
+// ==========================================
+// ASSET VERSION MANAGEMENT SYSTEM
+// ==========================================
+/**
+ * Asset versioning configuration
+ * Format: Version_LastUpdateDate_FileName.Extension
+ */
+const ASSET_VERSION_CONFIG = {
+    version: '1.0.0',
+    lastUpdate: '2026-01-05',
+    enabled: false, // Set to false to disable versioning
+    
+    // Asset types to version
+    assetTypes: {
+        images: ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'ico'],
+        styles: ['css'],
+        scripts: ['js'],
+        fonts: ['woff', 'woff2', 'ttf', 'otf', 'eot'],
+        documents: ['pdf', 'doc', 'docx']
+    }
+};
+
+/**
+ * Generate version string for assets
+ * Format: v1.0.0_2026-01-05
+ */
+function getVersionString() {
+    return `v${ASSET_VERSION_CONFIG.version}_${ASSET_VERSION_CONFIG.lastUpdate}`;
+}
+
+/**
+ * Add version parameter to asset URL
+ * @param {string} url - Original asset URL
+ * @returns {string} - Versioned URL
+ */
+function addVersionToAsset(url) {
+    if (!ASSET_VERSION_CONFIG.enabled || !url) return url;
+    
+    // Skip external URLs and data URIs
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+        // Only skip if it's not our domain
+        if (!url.includes(window.location.hostname)) {
+            return url;
+        }
+    }
+    
+    // Check if URL already has version parameter
+    if (url.includes('v=') || url.includes('version=')) {
+        return url;
+    }
+    
+    // Get file extension
+    const extension = url.split('.').pop().split('?')[0].split('#')[0].toLowerCase();
+    
+    // Check if this file type should be versioned
+    let shouldVersion = false;
+    for (const [type, extensions] of Object.entries(ASSET_VERSION_CONFIG.assetTypes)) {
+        if (extensions.includes(extension)) {
+            shouldVersion = true;
+            break;
+        }
+    }
+    
+    if (!shouldVersion) return url;
+    
+    // Add version parameter
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}v=${getVersionString()}`;
+}
+
+/**
+ * Apply versioning to all existing assets on page load
+ */
+function versionExistingAssets() {
+    if (!ASSET_VERSION_CONFIG.enabled) return;
+    
+    // Version all images
+    document.querySelectorAll('img[src]').forEach(img => {
+        const originalSrc = img.getAttribute('src');
+        if (originalSrc && !originalSrc.includes('v=')) {
+            img.src = addVersionToAsset(originalSrc);
+        }
+    });
+    
+    // Version all stylesheets
+    document.querySelectorAll('link[rel="stylesheet"][href]').forEach(link => {
+        const originalHref = link.getAttribute('href');
+        if (originalHref && !originalHref.includes('v=')) {
+            link.href = addVersionToAsset(originalHref);
+        }
+    });
+    
+    // Version all scripts
+    document.querySelectorAll('script[src]').forEach(script => {
+        const originalSrc = script.getAttribute('src');
+        if (originalSrc && !originalSrc.includes('v=')) {
+            // Note: Changing script src after page load won't re-execute it
+            // This is mainly for documentation/debugging purposes
+            script.setAttribute('data-versioned-src', addVersionToAsset(originalSrc));
+        }
+    });
+    
+    // Version all background images in inline styles
+    document.querySelectorAll('[style*="background"]').forEach(element => {
+        const style = element.getAttribute('style');
+        if (style && style.includes('url(')) {
+            const versionedStyle = style.replace(/url\(['"]?([^'")\s]+)['"]?\)/g, (match, url) => {
+                return `url('${addVersionToAsset(url)}')`;
+            });
+            element.setAttribute('style', versionedStyle);
+        }
+    });
+    
+    console.log(`[Asset Versioning] Applied version ${getVersionString()} to page assets`);
+}
+
+/**
+ * Intercept dynamic image loading and add versioning
+ */
+function interceptDynamicAssets() {
+    if (!ASSET_VERSION_CONFIG.enabled) return;
+    
+    // Override Image constructor
+    const OriginalImage = window.Image;
+    window.Image = function() {
+        const img = new OriginalImage();
+        const originalSetAttribute = img.setAttribute.bind(img);
+        
+        img.setAttribute = function(name, value) {
+            if (name === 'src' && value) {
+                value = addVersionToAsset(value);
+            }
+            return originalSetAttribute(name, value);
+        };
+        
+        // Intercept src property setter
+        Object.defineProperty(img, 'src', {
+            get() { return img.getAttribute('src'); },
+            set(value) {
+                img.setAttribute('src', addVersionToAsset(value));
+            }
+        });
+        
+        return img;
+    };
+    
+    // Monitor DOM for new images added dynamically
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) { // Element node
+                    // Check if node is an image
+                    if (node.tagName === 'IMG' && node.src) {
+                        const originalSrc = node.getAttribute('src');
+                        if (originalSrc && !originalSrc.includes('v=')) {
+                            node.src = addVersionToAsset(originalSrc);
+                        }
+                    }
+                    
+                    // Check for images within added nodes
+                    if (node.querySelectorAll) {
+                        node.querySelectorAll('img[src]').forEach(img => {
+                            const originalSrc = img.getAttribute('src');
+                            if (originalSrc && !originalSrc.includes('v=')) {
+                                img.src = addVersionToAsset(originalSrc);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+    
+    // Start observing
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+}
+
+/**
+ * Helper function to load versioned asset
+ * @param {string} url - Asset URL
+ * @param {string} type - Asset type: 'image', 'script', 'style'
+ * @returns {Promise} - Promise that resolves when asset is loaded
+ */
+function loadVersionedAsset(url, type = 'image') {
+    return new Promise((resolve, reject) => {
+        const versionedUrl = addVersionToAsset(url);
+        
+        if (type === 'image') {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = versionedUrl;
+        } else if (type === 'script') {
+            const script = document.createElement('script');
+            script.onload = resolve;
+            script.onerror = reject;
+            script.src = versionedUrl;
+            document.head.appendChild(script);
+        } else if (type === 'style') {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.onload = resolve;
+            link.onerror = reject;
+            link.href = versionedUrl;
+            document.head.appendChild(link);
+        }
+    });
+}
+
+// Initialize asset versioning system
+if (ASSET_VERSION_CONFIG.enabled) {
+    // Apply to existing assets when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            versionExistingAssets();
+            interceptDynamicAssets();
+        });
+    } else {
+        versionExistingAssets();
+        interceptDynamicAssets();
+    }
+}
+
+// Make helper functions available globally
+window.addVersionToAsset = addVersionToAsset;
+window.loadVersionedAsset = loadVersionedAsset;
+window.getAssetVersion = getVersionString;
+
+// ==========================================
+// END ASSET VERSION MANAGEMENT SYSTEM
+// ==========================================
+
 // Show loading animation immediately
 showPageLoader();
 
@@ -69,22 +304,14 @@ function showPageLoader() {
     
     loader.innerHTML = `
         <div class="loader-content">
-            <div class="loader-logo">
-                <img src="assets/logo.png" alt="Logo" class="loader-logo-img">
-            </div>
             <div class="loader-spinner">
                 <div class="spinner-ring"></div>
                 <div class="spinner-ring"></div>
-                <div class="spinner-ring"></div>
             </div>
-            <p class="loader-text">Loading<span class="loader-dots"></span></p>
         </div>
     `;
     
     document.body.appendChild(loader);
-    
-    // Prevent scrolling while loading
-    document.body.style.overflow = 'hidden';
 }
 
 /**
@@ -98,9 +325,7 @@ function hidePageLoader() {
         // Remove loader after animation completes
         setTimeout(() => {
             loader.remove();
-            // Restore scrolling
-            document.body.style.overflow = '';
-        }, 600);
+        }, 400);
     }
 }
 
@@ -248,52 +473,49 @@ window.hideMiniLoader = hideMiniLoader;
 (function injectLoaderStyles() {
     const style = document.createElement('style');
     style.textContent = `
-        /* Page Loader Styles */
+        /* Page Loader Styles - Small Transparent Icon */
         .page-loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
             opacity: 1;
             visibility: visible;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: scale(1);
+        }
+        
+        [data-bs-theme="dark"] .page-loader {
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
         }
         
         .page-loader.loaded {
             opacity: 0;
             visibility: hidden;
+            transform: scale(0.8);
         }
         
         .loader-content {
-            text-align: center;
-            animation: loader-fade-in 0.6s ease;
-        }
-        
-        /* Logo Animation */
-        .loader-logo {
-            margin-bottom: 30px;
-            animation: logo-bounce 1.5s ease-in-out infinite;
-        }
-        
-        .loader-logo-img {
-            width: 120px;
-            height: auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.95;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Spinner Animation */
         .loader-spinner {
             position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 25px;
+            width: 36px;
+            height: 36px;
         }
         
         .spinner-ring {
@@ -301,9 +523,10 @@ window.hideMiniLoader = hideMiniLoader;
             width: 100%;
             height: 100%;
             border: 3px solid transparent;
-            border-top-color: rgba(255, 255, 255, 0.8);
+            border-top-color: #667eea;
+            border-right-color: #667eea;
             border-radius: 50%;
-            animation: spinner-rotate 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            animation: spinner-rotate 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         }
         
         .spinner-ring:nth-child(2) {
@@ -311,32 +534,9 @@ window.hideMiniLoader = hideMiniLoader;
             height: 70%;
             top: 15%;
             left: 15%;
-            border-top-color: rgba(255, 255, 255, 0.6);
-            animation-delay: -0.5s;
-        }
-        
-        .spinner-ring:nth-child(3) {
-            width: 40%;
-            height: 40%;
-            top: 30%;
-            left: 30%;
-            border-top-color: rgba(255, 255, 255, 0.4);
-            animation-delay: -1s;
-        }
-        
-        /* Loading Text */
-        .loader-text {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 500;
-            margin: 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .loader-dots::after {
-            content: '';
-            animation: dots 1.5s steps(4, end) infinite;
+            border-top-color: #764ba2;
+            border-right-color: #764ba2;
+            animation-delay: -0.4s;
         }
         
         /* Content Loader Styles */
@@ -404,10 +604,10 @@ window.hideMiniLoader = hideMiniLoader;
         }
         
         /* Keyframe Animations */
-        @keyframes loader-fade-in {
+        @keyframes fade-in-scale {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.8);
             }
             to {
                 opacity: 1;
@@ -426,15 +626,6 @@ window.hideMiniLoader = hideMiniLoader;
             }
         }
         
-        @keyframes logo-bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
         @keyframes spinner-rotate {
             0% {
                 transform: rotate(0deg);
@@ -444,41 +635,22 @@ window.hideMiniLoader = hideMiniLoader;
             }
         }
         
-        @keyframes dots {
-            0%, 20% {
-                content: '';
-            }
-            40% {
-                content: '.';
-            }
-            60% {
-                content: '..';
-            }
-            80%, 100% {
-                content: '...';
-            }
-        }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            .page-loader {
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            }
-        }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
-            .loader-logo-img {
-                width: 90px;
+            .page-loader {
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
             }
             
             .loader-spinner {
-                width: 60px;
-                height: 60px;
+                width: 30px;
+                height: 30px;
             }
             
-            .loader-text {
-                font-size: 16px;
+            .spinner-ring {
+                border-width: 2.5px;
             }
             
             .content-loader-spinner .spinner-border {
@@ -488,18 +660,18 @@ window.hideMiniLoader = hideMiniLoader;
         }
         
         @media (max-width: 480px) {
-            .loader-logo-img {
-                width: 70px;
+            .page-loader {
+                width: 45px;
+                height: 45px;
             }
             
             .loader-spinner {
-                width: 50px;
-                height: 50px;
-                margin-bottom: 20px;
+                width: 26px;
+                height: 26px;
             }
             
-            .loader-text {
-                font-size: 14px;
+            .spinner-ring {
+                border-width: 2.5px;
             }
             
             .content-loader-spinner .spinner-border {

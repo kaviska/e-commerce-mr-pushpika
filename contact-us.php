@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 
     <!-- SEO Meta Tags -->
-    <title>Contact Us | Atsmore  Store</title>
-    <meta name="description" content="Get in touch with Cartzilla. Visit our store, call us, or send us an email.">
-    <meta name="keywords" content="contact, customer service, support, store location">
-    <meta name="author" content="Createx Studio">
+    <title>Atsmore | Contact Us - Customer Support &amp; Store Location</title>
+    <meta name="description" content="Atsmore the premium online shopping site in Sri Lanka. Shop for trendy Clothes, Mobiles, Electronics &amp; many more with great prices all across Sri Lanka. COD">
+    <meta name="keywords" content="Buy &amp; sell electronics, cars, clothes, collectibles &amp; more on eBay, the world&apos;s online marketplace. Top brands, low prices &amp; free shipping on many items.">
+    <meta name="author" content="GIGANTOO (PVT) LTD">
 
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -36,6 +36,9 @@
 
     <!-- Custom script -->
     <script defer src="src/js/custom/main.js"></script>
+    
+    <!-- Google reCAPTCHA v2 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <!-- Body -->
@@ -196,6 +199,14 @@
                       <textarea class="form-control form-control-lg" id="message" rows="5" required></textarea>
                       <div class="invalid-feedback">Please enter your message</div>
                     </div>
+                    <div class="col-12">
+                      <!-- Google reCAPTCHA Widget -->
+                      <!-- Replace YOUR_SITE_KEY with your actual reCAPTCHA Site Key -->
+                      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div>
+                      <div class="invalid-feedback d-block" id="recaptcha-error" style="display: none !important;">
+                        Please complete the reCAPTCHA verification
+                      </div>
+                    </div>
                     <div class="col-12 pt-2">
                       <button type="submit" class="btn btn-lg btn-primary w-100 w-sm-auto">
                         <i class="ci-send fs-base ms-n1 me-2"></i>
@@ -249,20 +260,61 @@
 
     <!-- Form validation -->
     <script>
-      // Form validation
+      // Form validation with reCAPTCHA
       (function() {
         'use strict';
         const form = document.getElementById('contactForm');
+        const recaptchaError = document.getElementById('recaptcha-error');
         
         form.addEventListener('submit', function(event) {
           event.preventDefault();
           event.stopPropagation();
 
+          // Validate reCAPTCHA
+          const recaptchaResponse = grecaptcha.getResponse();
+          
+          if (!recaptchaResponse) {
+            // reCAPTCHA not completed
+            recaptchaError.style.display = 'block';
+            return;
+          } else {
+            recaptchaError.style.display = 'none';
+          }
+
           if (form.checkValidity()) {
-            // Here you can add AJAX submission logic
+            // Here you can add AJAX submission logic with reCAPTCHA verification
+            // Send recaptchaResponse to your server for verification
+            
+            const formData = {
+              name: document.getElementById('name').value,
+              email: document.getElementById('email').value,
+              phone: document.getElementById('phone').value,
+              subject: document.getElementById('subject').value,
+              message: document.getElementById('message').value,
+              'g-recaptcha-response': recaptchaResponse
+            };
+
+            // Example: Submit to your backend
+            // fetch('your-backend-endpoint.php', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify(formData)
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //   if (data.success) {
+            //     alert('Thank you for your message! We will get back to you soon.');
+            //     form.reset();
+            //     grecaptcha.reset();
+            //   } else {
+            //     alert('Error: ' + data.message);
+            //   }
+            // });
+
             alert('Thank you for your message! We will get back to you soon.');
             form.reset();
             form.classList.remove('was-validated');
+            grecaptcha.reset(); // Reset reCAPTCHA
           } else {
             form.classList.add('was-validated');
           }

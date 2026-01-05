@@ -86,6 +86,12 @@
             </ul>
           </div>
 
+          <!-- Call button -->
+          <a href="tel:+94770744863" class="btn btn-outline-secondary border-0 rounded-pill animate-shake d-none d-md-flex align-items-center me-2" aria-label="Call us">
+            <i class="ci-phone fs-lg me-2 animate-target"></i>
+            <span class="text-nowrap">+94 770744863</span>
+          </a>
+
           <!-- Search toggle button visible on screens < 992px wide (lg breakpoint) -->
           <button type="button" class="btn btn-icon btn-lg fs-xl btn-outline-secondary border-0 rounded-circle animate-shake d-lg-none" data-bs-toggle="collapse" data-bs-target="#searchBar" aria-expanded="false" aria-controls="searchBar" aria-label="Toggle search bar">
             <i class="ci-search animate-target"></i>
