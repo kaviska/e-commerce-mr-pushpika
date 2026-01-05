@@ -193,17 +193,17 @@
                 <li class="nav-item dropdown me-lg-n2 me-xl-n1">
                   <a class="nav-link dropdown-toggle fs-sm px-3" href="#!" role="button" data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">Eng</a>
                   <ul class="dropdown-menu fs-sm" style="--cz-dropdown-min-width: 7.5rem; --cz-dropdown-spacer: .25rem">
-                    <li><a class="dropdown-item" href="#!">Français</a></li>
-                    <li><a class="dropdown-item" href="#!">Deutsch</a></li>
-                    <li><a class="dropdown-item" href="#!">Italiano</a></li>
+                    <li><a class="dropdown-item" href="#!">English</a></li>
+                    <!-- <li><a class="dropdown-item" href="#!">Deutsch</a></li>
+                    <li><a class="dropdown-item" href="#!">Italiano</a></li> -->
                   </ul>
                 </li>
                 <li class="nav-item dropdown me-lg-n1">
                   <a class="nav-link dropdown-toggle fs-sm px-3" href="#!" role="button" data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">LKR</a>
                   <ul class="dropdown-menu dropdown-menu-end fs-sm" style="--cz-dropdown-min-width: 7rem; --cz-dropdown-spacer: .25rem">
-                    <li><a class="dropdown-item" href="#!">€ EUR</a></li>
-                    <li><a class="dropdown-item" href="#!">£ UKP</a></li>
-                    <li><a class="dropdown-item" href="#!">¥ JPY</a></li>
+                    <li><a class="dropdown-item" href="#!">LKR</a></li>
+                    <!-- <li><a class="dropdown-item" href="#!">£ UKP</a></li>
+                    <li><a class="dropdown-item" href="#!">¥ JPY</a></li> -->
                   </ul>
                 </li>
               </ul>

@@ -75,6 +75,9 @@ function renderProductDetails(product) {
     if (product.id) {
         loadReviews(product.id);
     }
+
+    // 7. Show initial selection note
+    updateAddToCartButton();
 }
 
 
@@ -286,6 +289,8 @@ function updateAddToCartButton() {
     if (!btn) return;
 
     const matchingStock = findMatchingStock();
+    const noteDiv = document.getElementById('selection-note');
+    const noteText = document.getElementById('selection-note-text');
 
     if (matchingStock) {
         const quantity = matchingStock.quantity - (matchingStock.reserved_quantity || 0);
@@ -295,17 +300,39 @@ function updateAddToCartButton() {
             btn.innerHTML = `<i class="ci-message-circle fs-lg animate-target ms-n1 me-2"></i> Buy on WhatsApp`;
             btn.classList.remove('btn-secondary', 'btn-primary');
             btn.classList.add('btn-success');
+            
+            // Hide note when stock is selected and available
+            if (noteDiv) noteDiv.classList.add('d-none');
         } else {
             btn.disabled = true;
             btn.innerText = 'Out of Stock';
             btn.classList.remove('btn-primary', 'btn-success');
             btn.classList.add('btn-secondary');
+            
+            // Show out of stock message
+            if (noteDiv && noteText) {
+                noteText.innerText = 'This product variation is currently out of stock.';
+                noteDiv.classList.remove('d-none');
+                noteDiv.classList.remove('alert-warning');
+                noteDiv.classList.add('alert-danger');
+            }
         }
     } else {
         btn.disabled = true;
         btn.innerHTML = `<i class="ci-message-circle fs-lg animate-target ms-n1 me-2"></i> Buy on WhatsApp`;
         btn.classList.remove('btn-success');
         btn.classList.add('btn-primary');
+        
+        // Show selection note
+        if (noteDiv && noteText) {
+            const missingOptions = getMissingOptions();
+            if (missingOptions.length > 0) {
+                const optionsList = missingOptions.map(opt => `<strong>${opt}</strong>`).join(', ');
+                noteText.innerHTML = `Please select ${optionsList} option${missingOptions.length > 1 ? 's' : ''} before adding the product to your cart.`;
+                noteDiv.classList.remove('d-none', 'alert-danger');
+                noteDiv.classList.add('alert-warning');
+            }
+        }
     }
 }
 
@@ -517,4 +544,28 @@ function getStockDescription(stock) {
         });
     }
     return desc.join(', ') || 'Standard';
+}
+
+function getMissingOptions() {
+    // Get all variation names available in the product
+    const allVarNames = new Set();
+    productStocks.forEach(stock => {
+        if (stock.variation_stocks) {
+            stock.variation_stocks.forEach(vs => {
+                if (vs.variation_option?.variation?.name) {
+                    allVarNames.add(vs.variation_option.variation.name);
+                }
+            });
+        }
+    });
+
+    // Find which ones are not selected
+    const missing = [];
+    allVarNames.forEach(varName => {
+        if (!selectedVariations[varName]) {
+            missing.push(varName);
+        }
+    });
+
+    return missing;
 }

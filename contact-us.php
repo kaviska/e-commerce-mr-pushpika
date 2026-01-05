@@ -78,7 +78,9 @@
                   </div>
                   <h3 class="h6 mb-0">Main Store Address</h3>
                 </div>
-                <p class="fs-sm mb-0">Gigantoo (PVT) LTD, No 40, Upstairs, SuperMarket, Anguruwatota Road, Horana, 12400, Sri Lanka.</p>
+                <a class="nav-link animate-underline p-0" href="https://share.google/CPkh64yczWxSSkLw" target="_blank" rel="noopener noreferrer">
+                  <p class="fs-sm mb-0"><span class="animate-target">Gigantoo (PVT) LTD, No 40, Upstairs, SuperMarket, Anguruwatota Road, Horana, 12400, Sri Lanka.</span></p>
+                </a>
               </div>
             </div>
           </div>
@@ -94,13 +96,13 @@
                   <h3 class="h6 mb-0">Working Hours</h3>
                 </div>
                 <ul class="list-unstyled fs-sm mb-0">
-                  <li class="d-flex justify-content-between mb-1">
+                  <li class="mb-1">
                     <span class="text-body-secondary">Mon - Fri:</span>
-                    <span class="text-dark-emphasis fw-medium">9AM - 7PM</span>
+                    <span class="text-dark-emphasis fw-medium"> 9AM - 7PM</span>
                   </li>
-                  <li class="d-flex justify-content-between">
+                  <li>
                     <span class="text-body-secondary">Sun:</span>
-                    <span class="text-dark-emphasis fw-medium">11AM - 5PM</span>
+                    <span class="text-dark-emphasis fw-medium"> 11AM - 5PM</span>
                   </li>
                 </ul>
               </div>
@@ -225,7 +227,7 @@
       <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
         <div class="rounded-4 overflow-hidden">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7654!2d80.0621!3d6.7167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDMnMDAuMSJOIDgwwrAwMycxOS42IkU!5e0!3m2!1sen!2slk!4v1234567890123" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.768574!2d80.0595869!3d6.7158532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae24b1dc5850325:0x9163ce7acefeaf83!2sAtsmore!5e0!3m2!1sen!2slk!4v1736071200000" 
             width="100%" 
             height="450" 
             style="border:0;" 

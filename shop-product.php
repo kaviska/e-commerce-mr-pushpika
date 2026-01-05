@@ -417,6 +417,12 @@
                 </button>
               </div>
 
+              <!-- Selection Note -->
+              <div id="selection-note" class="alert alert-warning d-none mb-3" role="alert">
+                <i class="ci-info-circle me-2"></i>
+                <span id="selection-note-text"></span>
+              </div>
+
               <!-- Features -->
               <div class="d-flex flex-wrap gap-3 gap-xl-4 pb-4 pb-lg-5 mb-2 mb-lg-0 mb-xl-2">
                 <div class="d-flex align-items-center fs-sm">
