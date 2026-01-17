@@ -65,7 +65,7 @@
       <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item">
-            <a href="index.php"><i class="ci-home fs-lg opacity-50 me-1"></i>Home</a>
+            <a href="index.php">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">FAQ</li>
         </ol>
@@ -142,8 +142,8 @@
                   </h3>
                   <div class="accordion-collapse collapse" id="shippingA1" aria-labelledby="shippingQ1" data-bs-parent="#shippingQuestions">
                     <div class="accordion-body fs-sm pt-0">
-                      We offer island-wide delivery across Sri Lanka. Delivery times vary by location:
-                      <ul class="mt-2">
+                      <p class="mb-2">We offer island-wide delivery across Sri Lanka. Delivery times vary by location:</p>
+                      <ul class="mb-0">
                         <li>Colombo & suburbs: 1-2 business days</li>
                         <li>Other major cities: 2-3 business days</li>
                         <li>Remote areas: 3-5 business days</li>
@@ -194,8 +194,8 @@
                   </h3>
                   <div class="accordion-collapse collapse" id="paymentA1" aria-labelledby="paymentQ1" data-bs-parent="#paymentQuestions">
                     <div class="accordion-body fs-sm pt-0">
-                      We accept multiple payment methods:
-                      <ul class="mt-2">
+                      <p class="mb-2">We accept multiple payment methods:</p>
+                      <ul class="mb-0">
                         <li><strong>Cash on Delivery (COD)</strong> - Pay when you receive your order</li>
                         <li><strong>Bank Transfer</strong> - Direct bank deposit</li>
                         <li><strong>Credit/Debit Cards</strong> - Visa, Mastercard</li>

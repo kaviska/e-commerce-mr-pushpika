@@ -36,9 +36,6 @@
 
     <!-- Custom script -->
     <script defer src="src/js/custom/main.js"></script>
-    
-    <!-- Google reCAPTCHA v2 -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <!-- Body -->
@@ -53,7 +50,7 @@
       <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item">
-            <a href="index.php"><i class="ci-home fs-lg opacity-50 me-1"></i>Home</a>
+            <a href="index.php">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
         </ol>
@@ -78,7 +75,7 @@
                   </div>
                   <h3 class="h6 mb-0">Main Store Address</h3>
                 </div>
-                <a class="nav-link animate-underline p-0" href="https://share.google/CPkh64yczWxSSkLw" target="_blank" rel="noopener noreferrer">
+                <a class="nav-link animate-underline p-0" href="https://share.google/CPkh64yczWxSSkLwE" target="_blank" rel="noopener noreferrer">
                   <p class="fs-sm mb-0"><span class="animate-target">Gigantoo (PVT) LTD, No 40, Upstairs, SuperMarket, Anguruwatota Road, Horana, 12400, Sri Lanka.</span></p>
                 </a>
               </div>
@@ -202,12 +199,9 @@
                       <div class="invalid-feedback">Please enter your message</div>
                     </div>
                     <div class="col-12">
-                      <!-- Google reCAPTCHA Widget -->
-                      <!-- Replace YOUR_SITE_KEY with your actual reCAPTCHA Site Key -->
-                      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div>
-                      <div class="invalid-feedback d-block" id="recaptcha-error" style="display: none !important;">
-                        Please complete the reCAPTCHA verification
-                      </div>
+                      <label for="mathChallenge" class="form-label">Security Check: What is <span id="mathQuestion"></span>? <span class="text-danger">*</span></label>
+                      <input type="number" class="form-control form-control-lg" id="mathChallenge" required>
+                      <div class="invalid-feedback" id="math-error">Please enter the correct answer</div>
                     </div>
                     <div class="col-12 pt-2">
                       <button type="submit" class="btn btn-lg btn-primary w-100 w-sm-auto">
@@ -262,38 +256,52 @@
 
     <!-- Form validation -->
     <script>
-      // Form validation with reCAPTCHA
+      // Form validation with math challenge
       (function() {
         'use strict';
         const form = document.getElementById('contactForm');
-        const recaptchaError = document.getElementById('recaptcha-error');
+        const mathError = document.getElementById('math-error');
+        const mathChallengeInput = document.getElementById('mathChallenge');
+        const mathQuestionSpan = document.getElementById('mathQuestion');
+        
+        // Generate random math question
+        let num1, num2, correctAnswer;
+        
+        function generateMathChallenge() {
+          num1 = Math.floor(Math.random() * 10) + 1;
+          num2 = Math.floor(Math.random() * 10) + 1;
+          correctAnswer = num1 + num2;
+          mathQuestionSpan.textContent = `${num1} + ${num2}`;
+        }
+        
+        // Initialize on page load
+        generateMathChallenge();
         
         form.addEventListener('submit', function(event) {
           event.preventDefault();
           event.stopPropagation();
 
-          // Validate reCAPTCHA
-          const recaptchaResponse = grecaptcha.getResponse();
+          // Validate math challenge
+          const userAnswer = parseInt(mathChallengeInput.value);
           
-          if (!recaptchaResponse) {
-            // reCAPTCHA not completed
-            recaptchaError.style.display = 'block';
+          if (userAnswer !== correctAnswer) {
+            mathChallengeInput.setCustomValidity('Incorrect answer');
+            mathError.textContent = 'Please enter the correct answer';
+            mathChallengeInput.classList.add('is-invalid');
+            form.classList.add('was-validated');
             return;
           } else {
-            recaptchaError.style.display = 'none';
+            mathChallengeInput.setCustomValidity('');
+            mathChallengeInput.classList.remove('is-invalid');
           }
 
           if (form.checkValidity()) {
-            // Here you can add AJAX submission logic with reCAPTCHA verification
-            // Send recaptchaResponse to your server for verification
-            
             const formData = {
               name: document.getElementById('name').value,
               email: document.getElementById('email').value,
               phone: document.getElementById('phone').value,
               subject: document.getElementById('subject').value,
-              message: document.getElementById('message').value,
-              'g-recaptcha-response': recaptchaResponse
+              message: document.getElementById('message').value
             };
 
             // Example: Submit to your backend
@@ -307,7 +315,7 @@
             //   if (data.success) {
             //     alert('Thank you for your message! We will get back to you soon.');
             //     form.reset();
-            //     grecaptcha.reset();
+            //     generateMathChallenge();
             //   } else {
             //     alert('Error: ' + data.message);
             //   }
@@ -316,11 +324,17 @@
             alert('Thank you for your message! We will get back to you soon.');
             form.reset();
             form.classList.remove('was-validated');
-            grecaptcha.reset(); // Reset reCAPTCHA
+            generateMathChallenge(); // Generate new question
           } else {
             form.classList.add('was-validated');
           }
         }, false);
+        
+        // Reset custom validity on input
+        mathChallengeInput.addEventListener('input', function() {
+          this.setCustomValidity('');
+          this.classList.remove('is-invalid');
+        });
       })();
     </script>
 

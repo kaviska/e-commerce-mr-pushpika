@@ -34,35 +34,40 @@ function renderBrands(brands) {
     container.innerHTML = '';
 
     // Show more brands for better coverage
-    const brandsToShow = brands.slice(0, 12);
+    const brandsToShow = brands.slice(0, 11);
 
     brandsToShow.forEach(brand => {
         const col = document.createElement('div');
         col.className = 'col';
 
-        // Modern card design with hover effects and brand logo placeholder
+        // Determine the image to use: brand image, or default apple logo
+        const defaultImage = 'assets/img/shop/electronics/brands/apple-light-mode.svg';
+        const defaultImageDark = 'assets/img/shop/electronics/brands/apple-dark-mode.svg';
+        const brandImage = brand.image ? `${window.SERVER_URL.replace('/api', '')}/${brand.image}` : null;
+
         col.innerHTML = `
-            <div class="brand-card position-relative">
-                <a class="d-block text-decoration-none" href="shop-catalog-electronics.php?brand=${brand.slug || brand.id}">
-                    <div class="bg-body-tertiary rounded-3 p-4 text-center transition-all hover-lift" style="min-height: 100px;">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            ${brand.logo ? 
-                                `<img src="${window.SERVER_URL.replace('/api', '')}/${brand.logo}" 
-                                     alt="${brand.name}" 
-                                     class="img-fluid" 
-                                     style="max-height: 60px; max-width: 100%; object-fit: contain;"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                 <span class="fw-semibold text-body-emphasis d-none" style="font-size: 0.95rem;">${brand.name}</span>` 
-                                : 
-                                `<span class="fw-semibold text-body-emphasis" style="font-size: 0.95rem;">${brand.name}</span>`
-                            }
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <a class="btn btn-outline-secondary w-100 rounded-4 p-3" href="shop-catalog.php?brand=${brand.slug || brand.id}">
+                ${brandImage ? 
+                    `<img src="${brandImage}" alt="${brand.name}" class="img-fluid" style="max-height: 60px; object-fit: contain;" onerror="this.src='${defaultImage}';">` 
+                    : 
+                    `<img src="${defaultImage}" class="d-none-dark" alt="${brand.name}">
+                     <img src="${defaultImageDark}" class="d-none d-block-dark" alt="${brand.name}">`
+                }
+            </a>
         `;
         container.appendChild(col);
     });
+
+    // Add "All brands" button
+    const allBrandsCol = document.createElement('div');
+    allBrandsCol.className = 'col';
+    allBrandsCol.innerHTML = `
+        <a class="btn btn-outline-secondary w-100 h-100 rounded-4 p-3" href="shop-catalog.php">
+            All brands
+            <i class="ci-plus-circle fs-base ms-2"></i>
+        </a>
+    `;
+    container.appendChild(allBrandsCol);
 }
 
 // Add custom CSS for hover effects

@@ -107,7 +107,7 @@ const renderSearchResults = (products, container, query) => {
 
     if (query) {
         html += `
-            <a href="shop-catalog-electronics.php?search=${encodeURIComponent(query)}" class="list-group-item list-group-item-action py-3 text-center text-primary fw-medium fs-sm border-0">
+            <a href="shop-catalog.php?search=${encodeURIComponent(query)}" class="list-group-item list-group-item-action py-3 text-center text-primary fw-medium fs-sm border-0">
                 View all results
                 <i class="ci-chevron-right fs-xs ms-1"></i>
             </a>

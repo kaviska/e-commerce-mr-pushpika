@@ -14,7 +14,7 @@
       <div class="col-lg-3 mt-3 mt-lg-0">
         <div class="d-flex align-items-center justify-content-lg-end text-nowrap">
           <label class="form-label fw-semibold mb-0 me-2">Sort by:</label>
-          <div style="width: 250px">
+          <div style="width: 250px; position: relative; z-index: 1035;">
             <select class="form-select border-0 rounded-0 px-1" id="sort-select" data-select='{
                   "removeItemButton": false,
                   "classNames": {

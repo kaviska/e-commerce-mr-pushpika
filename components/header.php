@@ -14,7 +14,7 @@
         <!-- Navbar brand (Logo) -->
         <a href="index.php" class="navbar-brand me-0">
           <span class="d-none d-sm-flex flex-shrink-0 text-primary me-2">
-           <img src="assets/logo.png" width="117" alt="Cartzilla">
+           <img src="assets/logo.png" width="117" alt="GIGANTOO">
           </span>
         
         </a>
@@ -30,7 +30,7 @@
         </div>
 
         <!-- Sale link visible on screens > 1200px wide (xl breakpoint) -->
-        <a class="d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5" href="shop-catalog-electronics.php?has_web_discount=1">
+        <a class="d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5" href="shop-catalog.php?has_web_discount=1">
           <div class="btn btn-icon btn-lg fs-lg text-primary bg-body-secondary bg-opacity-75 pe-none rounded-circle">
             <i class="ci-percent animate-target"></i>
           </div>
@@ -135,7 +135,7 @@
   <div class="collapse navbar-stuck-hide" id="stuckNav">
     <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
       <div class="offcanvas-header py-3">
-        <h5 class="offcanvas-title" id="navbarNavLabel">Browse Cartzilla</h5>
+        <h5 class="offcanvas-title" id="navbarNavLabel">Browse GIGANTOO</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body py-3 py-lg-0">
@@ -173,18 +173,25 @@
 
             <!-- Navbar nav -->
             <div class="col-lg-9 d-lg-flex pt-3 pt-lg-0 ps-lg-0 align-items-center">
+              <?php
+              $current_page = basename($_SERVER['PHP_SELF']);
+              $is_home = ($current_page == 'index.php' || $current_page == '');
+              $is_shop = ($current_page == 'shop-catalog.php');
+              $is_about = ($current_page == 'about-us.php');
+              $is_contact = ($current_page == 'contact-us.php');
+              ?>
               <ul class="navbar-nav position-relative mx-auto">
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link active" href="index.php">Home</a>
+                  <a class="nav-link <?php echo $is_home ? 'active' : ''; ?>" href="index.php">Home</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link" href="shop-catalog-electronics.php">Shop</a>
+                  <a class="nav-link <?php echo $is_shop ? 'active' : ''; ?>" href="shop-catalog.php">Shop</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link" href="about-us.php">About Us</a>
+                  <a class="nav-link <?php echo $is_about ? 'active' : ''; ?>" href="about-us.php">About Us</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link" href="contact-us.php">Contact Us</a>
+                  <a class="nav-link <?php echo $is_contact ? 'active' : ''; ?>" href="contact-us.php">Contact Us</a>
                 </li>
                
               </ul>

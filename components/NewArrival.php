@@ -12,7 +12,7 @@
                 <h3 class="display-2 mb-2">MacBook</h3>
                 <p class="text-body fw-medium mb-4">Be Pro Anywhere</p>
                 <a class="btn btn-sm btn-primary" href="#!">
-                    From $1,199
+                    From LKR 1,199
                     <i class="ci-arrow-up-right fs-base ms-1 me-n1"></i>
                 </a>
             </div>

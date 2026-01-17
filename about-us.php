@@ -54,7 +54,7 @@
       <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item">
-            <a href="index.php"><i class="ci-home fs-lg opacity-50 me-1"></i>Home</a>
+            <a href="index.php">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">About Us</li>
         </ol>

@@ -5,7 +5,7 @@
      <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pb-md-4">
          <h2 class="h3 mb-0">Trending products</h2>
          <div class="nav ms-3">
-             <a class="nav-link animate-underline px-0 py-2" href="shop-catalog-electronics.php">
+             <a class="nav-link animate-underline px-0 py-2" href="shop-catalog.php">
                  <span class="animate-target">View all</span>
                  <i class="ci-chevron-right fs-base ms-1"></i>
              </a>

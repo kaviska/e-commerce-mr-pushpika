@@ -71,7 +71,7 @@
       <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item">
-            <a href="index.php"><i class="ci-home fs-lg opacity-50 me-1"></i>Home</a>
+            <a href="index.php">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">WhatsApp Support</li>
         </ol>
@@ -282,12 +282,7 @@
     <?php include 'components/Footer.php'; ?>
 
     <!-- Floating WhatsApp Button -->
-    <div class="position-fixed bottom-0 end-0 z-sticky mb-3 me-3" style="bottom: 80px !important;">
-      <a href="https://wa.me/94770000000?text=Hello%2C%20I%20need%20help%20with..." class="btn btn-success btn-lg rounded-pill shadow-lg pulse-animation" target="_blank">
-        <i class="ci-message-circle fs-lg me-2"></i>
-        Chat Now
-      </a>
-    </div>
+    
 
     <!-- Back to top button -->
     <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">

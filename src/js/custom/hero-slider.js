@@ -41,7 +41,7 @@ function renderHeroSliders(sliders) {
         textSlide.innerHTML = `
             <p class="text-body">${slider.sub_heading || ''}</p>
             <h2 class="display-4 pb-2 pb-xl-4">${slider.heading || ''}</h2>
-            <a class="btn btn-lg btn-primary" href="shop-catalog-electronics.php">
+            <a class="btn btn-lg btn-primary" href="shop-catalog.php">
                 Shop now
                 <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
             </a>

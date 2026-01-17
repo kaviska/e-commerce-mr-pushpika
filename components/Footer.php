@@ -8,7 +8,7 @@
           <div class="row">
             <div class="col-md-4 d-sm-flex flex-md-column align-items-center align-items-md-start pb-3 mb-sm-4">
               <h4 class="mb-sm-0 mb-md-4 me-4">
-                <a class="text-dark-emphasis text-decoration-none" href="home-electronics.html">Cartzilla</a>
+                <a class="text-dark-emphasis text-decoration-none" href="home-electronics.html">GIGANTOO</a>
               </h4>
               <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">Got questions? Contact us 24/7</p>
               <div class="dropdown" style="max-width: 250px">
@@ -150,7 +150,7 @@
             // Render first row (categories with subcategories)
             row1.innerHTML = categoriesWithSub.map((category, index) => `
               <li class="animate-underline">
-                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog-electronics.php?category=${category.slug}">${category.name}</a>
+                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog.php?category=${category.slug}">${category.name}</a>
               </li>
               ${index < categoriesWithSub.length - 1 ? '<li class="px-1">/</li>' : ''}
             `).join('');
@@ -158,7 +158,7 @@
             // Render second row (categories without subcategories)
             row2.innerHTML = categoriesWithoutSub.map((category, index) => `
               <li class="animate-underline">
-                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog-electronics.php?category=${category.slug}">${category.name}</a>
+                <a class="nav-link fw-normal p-0 animate-target" href="shop-catalog.php?category=${category.slug}">${category.name}</a>
               </li>
               ${index < categoriesWithoutSub.length - 1 ? '<li class="px-1">/</li>' : ''}
             `).join('');
@@ -195,7 +195,7 @@
             </div>
              
           </div>
-          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://gigantoo.com/" target="_blank" rel="noreferrer">Gigantoo(PVT) LTD</a></span></p>
+          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://gigantoo.com/" target="_blank" rel="noreferrer">Gigantoo (PVT) LTD</a></span></p>
         </div>
       </div>
 

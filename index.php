@@ -181,7 +181,7 @@
               </div>
               <div class="text-center text-xxl-start ps-xxl-3">
                 <h3 class="h6 mb-1">Free Shipping &amp; Returns</h3>
-                <p class="fs-sm mb-0">For all orders over $199.00</p>
+                <p class="fs-sm mb-0">For all orders over LKR 199.00</p>
               </div>
             </div>
           </div>
