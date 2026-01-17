@@ -39,9 +39,9 @@ function renderHeroSliders(sliders) {
         const textSlide = document.createElement('div');
         textSlide.className = 'swiper-slide text-center text-xl-start pt-5 py-xl-5';
         textSlide.innerHTML = `
-            <p class="text-body">${slider.sub_heading || ''}</p>
-            <h2 class="display-4 pb-2 pb-xl-4">${slider.heading || ''}</h2>
-            <a class="btn btn-lg btn-primary" href="shop-catalog.php">
+            <p class="text-body fs-sm fs-xl-base">${slider.sub_heading || ''}</p>
+            <h2 class="h3 h1-xl pb-2 pb-xl-4">${slider.heading || ''}</h2>
+            <a class="btn btn-md btn-lg-lg btn-primary" href="shop-catalog.php">
                 Shop now
                 <i class="ci-arrow-up-right fs-lg ms-2 me-n1"></i>
             </a>

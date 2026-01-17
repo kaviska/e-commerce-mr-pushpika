@@ -16,7 +16,7 @@
           <span class="d-none d-sm-flex flex-shrink-0 text-primary me-2">
            <img src="assets/logo.png" width="117" alt="GIGANTOO">
           </span>
-        
+          <span class="d-sm-none text-white fs-5 fw-semibold">Atsmore</span>
         </a>
       </div>
       <div class="col col-lg-9 d-flex align-items-center justify-content-end">
