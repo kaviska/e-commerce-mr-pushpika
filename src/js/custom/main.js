@@ -286,8 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 //updated
-window.SERVER_URL = 'http://127.0.0.1:8000/api';
-//window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
+//window.SERVER_URL = 'http://127.0.0.1:8000/api';
+window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
 
 
 
