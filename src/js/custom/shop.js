@@ -268,9 +268,20 @@ function renderProducts(products, container) {
     container.innerHTML = ''; // Clear container
 
     if (products.length === 0) {
-        container.innerHTML = '<div class="col-12 text-center py-5"><h3>No products found matching your criteria.</h3></div>';
+        // Add centering styles to the grid container itself
+        container.style.display = 'flex';
+        container.style.justifyContent = 'center';
+        container.style.alignItems = 'center';
+        container.style.minHeight = '400px';
+        container.innerHTML = '<h5 class="text-muted text-center">No products found matching your criteria.</h5>';
         return;
     }
+
+    // Reset grid styles when products exist
+    container.style.display = '';
+    container.style.justifyContent = '';
+    container.style.alignItems = '';
+    container.style.minHeight = '';
 
     products.forEach(product => {
         // --- Price Calculation ---

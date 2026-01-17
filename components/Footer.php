@@ -172,6 +172,16 @@
           }
         </script>
 
+        <!-- App Download Links -->
+        <div class="d-flex gap-3 justify-content-center justify-content-md-start pb-4 border-top pt-4">
+          <a href="#!" target="_blank" rel="noopener">
+            <img src="/assets/img/Download_on_the_App_Store_Badge.svg.png" alt="Download on App Store" style="height: 40px;">
+          </a>
+          <a href="#!" target="_blank" rel="noopener">
+            <img src="/assets/img/Google_Play_Store_badge_EN.svg.webp" alt="Get it on Google Play" style="height: 40px;">
+          </a>
+        </div>
+
         <!-- Copyright + Payment methods -->
         <div class="d-md-flex align-items-center border-top py-4">
           <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
