@@ -36,6 +36,16 @@
 
     <!-- Custom script -->
     <script defer src="src/js/custom/main.js"></script>
+    
+    <!-- Custom styles for FAQ -->
+    <style>
+      .accordion-button {
+        padding: 1.25rem 1.5rem !important;
+      }
+      .accordion-body {
+        padding: 1.25rem 1.5rem !important;
+      }
+    </style>
   </head>
 
   <!-- Body -->
