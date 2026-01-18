@@ -151,7 +151,7 @@ const renderForOtherPagesCategory = (categories) => {
     const mobileHeader = document.createElement('li');
     mobileHeader.className = 'd-lg-none pt-2';
     mobileHeader.innerHTML = `
-        <a class="dropdown-item fw-medium" href="#">
+        <a class="dropdown-item fw-medium" href="categories.php">
             <i class="ci-grid fs-xl opacity-60 pe-1 me-2"></i>
             All Categories
             <i class="ci-chevron-right fs-base ms-auto me-n1"></i>
@@ -174,8 +174,8 @@ const renderForOtherPagesCategory = (categories) => {
         // We just need to ensure data is loaded when it opens.
 
         li.innerHTML = `
-            <div class="position-relative d-lg-none d-block rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover click" data-bs-auto-close="outside" aria-expanded="false">
-                <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex" href="#">
+            <div class="position-relative rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover click" data-bs-auto-close="outside" aria-expanded="false">
+                <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex">
                     <img src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
                     <span class="text-truncate">${category.name}</span>
                     <i class="ci-chevron-right fs-base ms-auto me-n1"></i>
@@ -195,27 +195,41 @@ const renderForOtherPagesCategory = (categories) => {
             </div>
         `;
 
-        // Event handling
-        // We attach listeners to the trigger element (the div with data-bs-toggle)
+        // Event handling with responsive behavior
         const trigger = li.querySelector('[data-bs-toggle="dropdown"]');
-        if (trigger) {
-            // Mouseenter for desktop smooth preloading
-            trigger.addEventListener('mouseenter', () => {
-                loadProductByCategory(category.id, li.querySelector('.dropdown-menu'));
+        const dropdownMenu = li.querySelector('.dropdown-menu');
+        
+        if (trigger && dropdownMenu) {
+            // Desktop: hover to show dropdown
+            li.addEventListener('mouseenter', () => {
+                if (window.innerWidth >= 992) { // lg breakpoint
+                    loadProductByCategory(category.id, dropdownMenu);
+                    
+                    // Use Bootstrap's dropdown if available
+                    if (window.bootstrap && window.bootstrap.Dropdown) {
+                        const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(trigger);
+                        dropdownInstance.show();
+                    }
+                }
             });
-
-            // "show.bs.dropdown" is the native Bootstrap event that fires when the instance is about to show.
-            // This covers click (mobile/desktop) and focus.
+            
+            li.addEventListener('mouseleave', () => {
+                if (window.innerWidth >= 992) { // lg breakpoint
+                    // Use Bootstrap's dropdown if available
+                    if (window.bootstrap && window.bootstrap.Dropdown) {
+                        const dropdownInstance = bootstrap.Dropdown.getInstance(trigger);
+                        if (dropdownInstance) {
+                            dropdownInstance.hide();
+                        }
+                    }
+                }
+            });
+            
+            // Mobile: click handled by Bootstrap's data-bs-trigger
             trigger.addEventListener('show.bs.dropdown', () => {
-                loadProductByCategory(category.id, li.querySelector('.dropdown-menu'));
-            });
-
-            // Fallback: Click listener.
-            // In case show.bs.dropdown doesn't bubble or bind correctly in this specific setup,
-            // a direct click ensures the fetch is called. 
-            // Caching prevents redundancy.
-            trigger.addEventListener('click', () => {
-                loadProductByCategory(category.id, li.querySelector('.dropdown-menu'));
+                if (window.innerWidth < 992) { // Mobile only
+                    loadProductByCategory(category.id, dropdownMenu);
+                }
             });
         }
 

@@ -192,9 +192,7 @@
 
 
       <!-- Trending products (Grid) -->
-      <?php
-      include ('./components/TrendingProduct.php');
-      ?>
+    
 
 
       <!-- Subscription form + Vlog -->

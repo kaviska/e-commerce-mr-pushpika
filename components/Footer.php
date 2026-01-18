@@ -205,7 +205,7 @@
             </div>
              
           </div>
-          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://gigantoo.com/" target="_blank" rel="noreferrer">Gigantoo (PVT) LTD</a></span></p>
+          <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://gigantoo.com/" target="_blank" rel="noreferrer">Gigantoo (PVT) LTD</a></span> | Version 1.0.0</p>
         </div>
       </div>
 

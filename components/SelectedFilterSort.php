@@ -1,4 +1,15 @@
-  <section class="container mb-4">
+  <style>
+  .sort-select-wrapper {
+    position: relative;
+    z-index: 10;
+  }
+  @media (min-width: 992px) {
+    .sort-select-wrapper {
+      z-index: 1035;
+    }
+  }
+</style>
+<section class="container mb-4">
     <div class="row">
       <div class="col-lg-9">
         <div class="d-md-flex align-items-start">
@@ -14,7 +25,7 @@
       <div class="col-lg-3 mt-3 mt-lg-0">
         <div class="d-flex align-items-center justify-content-lg-end text-nowrap">
           <label class="form-label fw-semibold mb-0 me-2">Sort by:</label>
-          <div style="width: 250px; position: relative; z-index: 1035;">
+          <div class="sort-select-wrapper" style="width: 250px;">
             <select class="form-select border-0 rounded-0 px-1" id="sort-select" data-select='{
                   "removeItemButton": false,
                   "classNames": {

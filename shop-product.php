@@ -388,7 +388,7 @@
               <!-- Price -->
               <div class="d-flex flex-wrap align-items-center mb-3">
                 <div class="h4 mb-0 me-3" id="product-price"></div>
-                <div class="d-flex align-items-center text-success fs-sm ms-auto">
+                <div class="d-flex mt-md-0 mt-3 align-items-center text-success fs-sm ms-auto">
                   <i class="ci-check-circle fs-base me-2"></i>
                   Available to order
                 </div>

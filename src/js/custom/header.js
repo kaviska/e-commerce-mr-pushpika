@@ -160,7 +160,7 @@ const renderCategories = (categories) => {
     const mobileHeader = document.createElement('li');
     mobileHeader.className = 'd-lg-none pt-2';
     mobileHeader.innerHTML = `
-        <a class="dropdown-item fw-medium" href="#">
+        <a class="dropdown-item fw-medium" href="categories.php">
             <i class="ci-grid fs-xl opacity-60 pe-1 me-2"></i>
             All Categories
             <i class="ci-chevron-right fs-base ms-auto me-n1"></i>

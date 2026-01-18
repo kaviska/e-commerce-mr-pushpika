@@ -16,7 +16,7 @@
           <span class="d-none d-sm-flex flex-shrink-0 text-primary me-2">
            <img src="assets/logo.png" width="117" alt="GIGANTOO">
           </span>
-          <span class="d-sm-none text-white fs-5 fw-semibold">Atsmore</span>
+        
         </a>
       </div>
       <div class="col col-lg-9 d-flex align-items-center justify-content-end">
@@ -134,7 +134,7 @@
   <div class="collapse navbar-stuck-hide" id="stuckNav">
     <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
       <div class="offcanvas-header py-3">
-        <h5 class="offcanvas-title" id="navbarNavLabel">Browse GIGANTOO</h5>
+        <h5 class="offcanvas-title" id="navbarNavLabel">Browse Atsmore</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body py-3 py-lg-0">
@@ -147,7 +147,7 @@
                 <div class="dropdown w-100">
 
                   <!-- Buttton visible on screens > 991px wide (lg breakpoint) -->
-                  <div class="cursor-pointer d-none d-lg-block" data-bs-toggle="dropdown" data-bs-trigger="hover" data-bs-theme="dark">
+                  <div class="cursor-pointer d-none d-lg-block" data-bs-toggle="dropdown" data-bs-theme="dark">
                     <a class="position-absolute top-0 start-0 w-100 h-100" href="categories.php">
                       <span class="visually-hidden">Categories</span>
                     </a>
@@ -164,7 +164,7 @@
                   </button>
 
                   <!-- Mega menu -->
-                  <ul class="dropdown-menu dropdown-menu-static w-100 rounded-top-0 rounded-bottom-4 py-1 p-lg-1" id="mega-menu-container" style="--cz-dropdown-spacer: 0; --cz-dropdown-item-padding-y: .625rem; --cz-dropdown-item-spacer: 0">
+                  <ul class="dropdown-menu w-100 rounded-top-0 rounded-bottom-4 py-1 p-lg-1" id="mega-menu-container" style="--cz-dropdown-spacer: 0; --cz-dropdown-item-padding-y: .625rem; --cz-dropdown-item-spacer: 0">
                   </ul>
                 </div>
               </div>
@@ -172,25 +172,18 @@
 
             <!-- Navbar nav -->
             <div class="col-lg-9 d-lg-flex pt-3 pt-lg-0 ps-lg-0 align-items-center">
-              <?php
-              $current_page = basename($_SERVER['PHP_SELF']);
-              $is_home = ($current_page == 'index.php' || $current_page == '');
-              $is_shop = ($current_page == 'shop-catalog.php');
-              $is_about = ($current_page == 'about-us.php');
-              $is_contact = ($current_page == 'contact-us.php');
-              ?>
               <ul class="navbar-nav position-relative mx-auto">
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link <?php echo $is_home ? 'active' : ''; ?>" href="index.php">Home</a>
+                  <a class="nav-link active" href="index.php">Home</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link <?php echo $is_shop ? 'active' : ''; ?>" href="shop-catalog.php">Shop</a>
+                  <a class="nav-link" href="shop-catalog.php">Shop</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link <?php echo $is_about ? 'active' : ''; ?>" href="about-us.php">About Us</a>
+                  <a class="nav-link" href="about-us.php">About Us</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link <?php echo $is_contact ? 'active' : ''; ?>" href="contact-us.php">Contact Us</a>
+                  <a class="nav-link" href="contact-us.php">Contact Us</a>
                 </li>
                
               </ul>
@@ -206,11 +199,11 @@
                 </li>
                 <li class="nav-item dropdown me-lg-n1">
                   <a class="nav-link dropdown-toggle fs-sm px-3" href="#!" role="button" data-bs-toggle="dropdown" data-bs-trigger="hover" aria-expanded="false">LKR</a>
-                  <!-- <ul class="dropdown-menu dropdown-menu-end fs-sm" style="--cz-dropdown-min-width: 7rem; --cz-dropdown-spacer: .25rem">
-                    <li><a class="dropdown-item" href="#!">€ EUR</a></li>
-                    <li><a class="dropdown-item" href="#!">£ UKP</a></li>
-                    <li><a class="dropdown-item" href="#!">¥ JPY</a></li>
-                  </ul> -->
+                  <ul class="dropdown-menu dropdown-menu-end fs-sm" style="--cz-dropdown-min-width: 7rem; --cz-dropdown-spacer: .25rem">
+                    <li><a class="dropdown-item" href="#!">LKR</a></li>
+                    <!-- <li><a class="dropdown-item" href="#!">£ UKP</a></li>
+                    <li><a class="dropdown-item" href="#!">¥ JPY</a></li> -->
+                  </ul>
                 </li>
               </ul>
             </div>

@@ -199,7 +199,7 @@
                       <div class="invalid-feedback">Please enter your message</div>
                     </div>
                     <div class="col-12">
-                      <label for="mathChallenge" class="form-label">Security Check: What is <span id="mathQuestion"></span>? <span class="text-danger">*</span></label>
+                      <label for="mathChallenge" class="form-label">Security Check: What is <span id="mathQuestion"></span> ? <span class="text-danger">*</span></label>
                       <input type="number" class="form-control form-control-lg" id="mathChallenge" required>
                       <div class="invalid-feedback" id="math-error">Please enter the correct answer</div>
                     </div>
