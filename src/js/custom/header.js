@@ -5,7 +5,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchCategories();
     handleCategoryMenuState();
     initializeSearch();
+    highlightActiveNavLink();
 });
+
+const highlightActiveNavLink = () => {
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.php';
+    
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    
+    navLinks.forEach(link => {
+        // Remove active class from all links
+        link.classList.remove('active');
+        
+        // Get the href attribute
+        const href = link.getAttribute('href');
+        
+        if (href) {
+            // Extract filename from href
+            const linkPage = href.substring(href.lastIndexOf('/') + 1).split('?')[0];
+            
+            // Check if current page matches
+            if (currentPage === linkPage || 
+                (currentPage === '' && linkPage === 'index.php') ||
+                (currentPage === 'index.php' && linkPage === 'index.php')) {
+                link.classList.add('active');
+            }
+        }
+    });
+};
 
 const initializeSearch = () => {
     const searchInputs = document.querySelectorAll('[data-search-input]');

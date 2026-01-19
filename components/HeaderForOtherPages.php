@@ -174,7 +174,7 @@
             <div class="col-lg-9 d-lg-flex pt-3 pt-lg-0 ps-lg-0 align-items-center">
               <ul class="navbar-nav position-relative mx-auto">
                 <li class="nav-item me-lg-n1 me-xl-0">
-                  <a class="nav-link active" href="index.php">Home</a>
+                  <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item me-lg-n1 me-xl-0">
                   <a class="nav-link" href="shop-catalog.php">Shop</a>
