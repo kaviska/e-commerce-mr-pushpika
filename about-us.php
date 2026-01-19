@@ -65,7 +65,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-8">
             
-            <div class="text-center mb-5">
+            <div class="mb-5">
               <h1 class="display-5 mb-3">About Us</h1>
               <p class="fs-3 text-primary mb-0">Welcome to Atsmore</p>
             </div>
@@ -89,7 +89,7 @@
                   We facilitate you to buy your choices through internet with remarkable prices. After all atsmore.com gives you a memorable online shopping experience. So, enjoy the shopping with us. We will be your coolest shopping partner
                 </p>
 
-                <div class="text-center mt-5 pt-4 border-top">
+                <div class="mt-5 pt-4 border-top">
                   <p class="fs-lg text-primary mb-2">Love,</p>
                   <p class="h4 text-dark-emphasis mb-0">Atsmore Team</p>
                 </div>
