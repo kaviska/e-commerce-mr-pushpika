@@ -128,7 +128,7 @@ const renderSearchResults = (products, container, query) => {
                         <span class="fs-xs fw-medium text-body-tertiary text-uppercase">${categoryName}</span>
                     </div>
                     <div class="h6 mb-0 text-truncate fs-sm">${product.name}</div>
-                    <div class="text-primary fw-semibold fs-sm">${price}</div>
+                    <div class="text-primary fw-semibold fs-sm">LKR ${price}</div>
                 </div>
             </a>
         `;
