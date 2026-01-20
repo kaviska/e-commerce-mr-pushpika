@@ -153,11 +153,25 @@
 
     <!-- Page content -->
     <main class="content-wrapper">
-      <div class="container py-5 mb-2 mt-n2 mt-sm-1 my-md-3 my-lg-4 mb-xl-5">
-        <div class="row justify-content-center">
-          <div class="col-lg-11 col-xl-10 col-xxl-9">
-            <h1 class="h2 pb-2 pb-sm-3 pb-lg-4">Privacy Policy</h1>
-            <hr class="mt-0">
+      
+      <!-- Breadcrumb -->
+      <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="index.php">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Privacy Policy</li>
+        </ol>
+      </nav>
+
+      <!-- Page title -->
+      <section class="container pb-3 pb-lg-4">
+        <h1 class="h2 mb-0">Privacy Policy</h1>
+      </section>
+
+      <!-- Page content -->
+      <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+        <hr class="mb-4">
 
             <p class="pt-2 pt-lg-3">In order for the website to provide a safe and useful service, it is important for <a href="http://atsmore.com/" target="_blank">http://atsmore.com/</a> to collect, use, and share personal information.</p>
 
@@ -236,9 +250,7 @@
                 No
               </button>
             </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
 
 

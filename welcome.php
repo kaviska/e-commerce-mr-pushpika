@@ -100,11 +100,25 @@
 
         <!-- Page content -->
         <main class="content-wrapper">
-            <div class="container py-5 mb-2 mt-n2 mt-sm-1 my-md-3 my-lg-4 mb-xl-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-11 col-xl-10 col-xxl-9">
-                        <h1 class="h2 pb-2 pb-sm-3 pb-lg-4">Elevate Your Shopping Experience with atsmore</h1>
-                        <hr class="mt-0">
+            
+            <!-- Breadcrumb -->
+            <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a href="index.php">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Welcome</li>
+                </ol>
+            </nav>
+
+            <!-- Page title -->
+            <section class="container pb-3 pb-lg-4">
+                <h1 class="h2 mb-0">Elevate Your Shopping Experience with atsmore</h1>
+            </section>
+
+            <!-- Page content -->
+            <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+                <hr class="mb-4">
 
                         <p class="fs-base">Welcome to atsmore, the future of online shopping! Designed with a seamless user experience in mind, our app delivers an unparalleled blend of convenience, variety, and affordability right at your fingertips. Say goodbye to the hassle of browsing multiple sites for the best deals. With atsmore, we bring the best to you!</p>
 
@@ -167,13 +181,7 @@
                                 No
                             </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </main>
 
-        <!-- Page footer -->
-        <?php include 'components/Footer.php'; ?>
 
         <!-- Back to top button -->
         <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">

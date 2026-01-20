@@ -49,11 +49,25 @@
 
     <!-- Page content -->
     <main class="content-wrapper">
-      <div class="container py-5 mb-2 mt-n2 mt-sm-1 my-md-3 my-lg-4 mb-xl-5">
-        <div class="row justify-content-center">
-          <div class="col-lg-11 col-xl-10 col-xxl-9">
-            <h1 class="h2 pb-2 pb-sm-3 pb-lg-4">About Us</h1>
-            <hr class="mt-0">
+      
+      <!-- Breadcrumb -->
+      <nav class="container py-4 my-lg-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="index.php">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">About Us</li>
+        </ol>
+      </nav>
+
+      <!-- Page title -->
+      <section class="container pb-3 pb-lg-4">
+        <h1 class="h2 mb-0">About Us</h1>
+      </section>
+
+      <!-- Page content -->
+      <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+        <hr class="mb-4">
 
             <h2 class="h4 pt-3 pt-lg-4 text-primary">Welcome to Atsmore</h2>
             
@@ -73,9 +87,7 @@
 
             <p class="pt-3 pt-lg-4"><strong>Love,</strong><br>Atsmore Team</p>
 
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
 
     <?php include 'components/Footer.php'; ?>
