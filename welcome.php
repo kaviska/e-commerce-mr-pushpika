@@ -181,8 +181,11 @@
                                 No
                             </button>
                         </div>
+            </section>
+        </main>
 
- <?php include 'components/Footer.php'; ?>
+        <!-- Page footer -->
+        <?php include 'components/Footer.php'; ?>
 
         <!-- Back to top button -->
         <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
