@@ -83,16 +83,15 @@
 
       <!-- Page title -->
       <section class="container pb-3 pb-lg-4">
-        <h1 class="h2 mb-3">Frequently Asked Questions</h1>
-        <p class="fs-lg text-body-secondary">Find answers to common questions about shopping at Atsmore</p>
+        <h1 class="h2 mb-0">Frequently Asked Questions</h1>
       </section>
 
       <!-- FAQ Accordion -->
       <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
-        <div class="row">
-          <div class="col-lg-10 col-xl-9 mx-auto">
-            
-            <!-- General Questions -->
+        <hr class="mb-4">
+        <p class="fs-lg text-body-secondary mb-5">Find answers to common questions about shopping at Atsmore</p>
+        
+        <!-- General Questions -->
             <div class="mb-5">
               <h2 class="h3 mb-4">General Questions</h2>
               <div class="accordion" id="generalQuestions">
@@ -309,28 +308,6 @@
               </div>
             </div>
 
-          </div>
-        </div>
       </section>
 
     </main>
-
-    <?php include 'components/Footer.php'; ?>
-
-    <!-- Back to top button -->
-    <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
-      <a class="btn-scroll-top btn btn-sm bg-body border-0 rounded-pill shadow animate-slide-end" href="#top">
-        Top
-        <i class="ci-arrow-right fs-base ms-1 me-n1 animate-target"></i>
-        <span class="position-absolute top-0 start-0 w-100 h-100 border rounded-pill z-0"></span>
-        <svg class="position-absolute top-0 start-0 w-100 h-100 z-1" viewBox="0 0 62 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x=".75" y=".75" width="60.5" height="30.5" rx="15.25" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"></rect>
-        </svg>
-      </a>
-    </div>
-
-    <!-- Bootstrap + Theme scripts -->
-    <script src="assets/js/theme.min.js"></script>
-
-  </body>
-</html>

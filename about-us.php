@@ -69,7 +69,7 @@
       <section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
         <hr class="mb-4">
 
-            <h2 class="h4 pt-3 pt-lg-4 text-primary">Welcome to Atsmore</h2>
+            <h2 class="h4 pt-3 pt-lg-4 ">Welcome to Atsmore</h2>
             
             <ul class="gap-3">
               <li>Top quality products and Top quality Packaging</li>
