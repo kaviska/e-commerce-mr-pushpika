@@ -1,6 +1,6 @@
 // Settings
 const SETTINGS = {
-  appName: 'Cartzilla',
+  appName: 'Atsmore',
   // To clear cache on devices, always change SETTINGS.appVersion number after making changes.
   // The app will serve fresh content right away or after 2-3 refreshes (open / close)
   appVersion: '3.1.1',
