@@ -3,7 +3,7 @@ const SETTINGS = {
   appName: 'Atsmore',
   // To clear cache on devices, always change SETTINGS.appVersion number after making changes.
   // The app will serve fresh content right away or after 2-3 refreshes (open / close)
-  appVersion: '3.1.1',
+  appVersion: '3.1.2',
   diagnostics: false, // Set to true to enable diagnostic logs
   // Add all files you want to view offline to cachedFiles array.
   // Leave the array empty to disable offline mode and file caching.
