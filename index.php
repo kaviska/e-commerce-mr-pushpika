@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
 
     <!-- Bootstrap + Theme styles -->
-    <!-- <link rel="preload" href="assets/css/theme.min.css" as="style"> -->
+    <link rel="preload" href="assets/css/theme.min.css" as="style">
     <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
     <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
 
@@ -386,9 +386,9 @@
 
 
     <!-- Vendor scripts -->
-    <!-- <script src="assets/vendor/swiper/swiper-bundle.min.js"></script> -->
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
     <!-- Bootstrap + Theme scripts -->
-    <!-- <script src="assets/js/theme.min.js"></script> -->
+    <script src="assets/js/theme.min.js"></script>
   </body>
 </html>

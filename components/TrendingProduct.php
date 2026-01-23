@@ -13,7 +13,7 @@
      </div>
 
      <!-- Product grid -->
-     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4" id="trending-product-container">
+     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4" id="trending-product-container" style="min-height: 400px">
          <!-- Item (Static items removed) -->
      </div>
  </section>
