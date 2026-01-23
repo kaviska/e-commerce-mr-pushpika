@@ -233,245 +233,8 @@ window.getAssetVersion = getVersionString;
 // END ASSET VERSION MANAGEMENT SYSTEM
 // ==========================================
 
-// Show loading animation immediately
-showPageLoader();
-
-// Track when the page started loading
-const pageLoadStartTime = Date.now();
-
-// Check if current page should have extended loading (7 seconds minimum)
-function shouldUseExtendedLoading() {
-    const currentPage = window.location.pathname;
-    const pageName = currentPage.split('/').pop() || 'index.php';
-    
-    // List of pages that should show 7 second loading
-    const extendedLoadingPages = [
-        'shop-catalog-electronics.php',
-        'shop-product.php',
-        'index.php',
-        '' // root URL case
-    ];
-    
-    return extendedLoadingPages.includes(pageName) || currentPage === '/' || currentPage.endsWith('/');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('hhs');
-    
-    // Initialize WhatsApp popup
-    initWhatsAppWidget();
-    
-    // Hide loader when page is fully loaded
-    window.addEventListener('load', () => {
-        if (shouldUseExtendedLoading()) {
-            // Calculate how long the page has been loading
-            const elapsedTime = Date.now() - pageLoadStartTime;
-            const minimumLoadTime = 5000; // 7 seconds
-            
-            // If less than 7 seconds have passed, wait for the remaining time
-            if (elapsedTime < minimumLoadTime) {
-                const remainingTime = minimumLoadTime - elapsedTime;
-                setTimeout(() => {
-                    hidePageLoader();
-                }, remainingTime);
-            } else {
-                // If already 7+ seconds, hide immediately
-                hidePageLoader();
-            }
-        } else {
-            // For other pages, hide loader immediately
-            hidePageLoader();
-        }
-    });
-});
-
-//updated
-//window.SERVER_URL = 'http://127.0.0.1:8000/api';
-window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
-
-
-
 /**
- * Page Loader Functions
- * Beautiful loading animation that matches the theme
- */
-
-/**
- * Create and show page loader
- */
-function showPageLoader() {
-    // Create loader HTML
-    const loader = document.createElement('div');
-    loader.id = 'page-loader';
-    loader.className = 'page-loader';
-    
-    loader.innerHTML = `
-        <div class="loader-content">
-            <div class="loader-spinner">
-                <div class="spinner-ring"></div>
-                <div class="spinner-ring"></div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(loader);
-}
-
-/**
- * Hide page loader with smooth fade out
- */
-function hidePageLoader() {
-    const loader = document.getElementById('page-loader');
-    if (loader) {
-        loader.classList.add('loaded');
-        
-        // Remove loader after animation completes
-        setTimeout(() => {
-            loader.remove();
-        }, 400);
-    }
-}
-
-/**
- * Show content loader inside a specific element
- * @param {string|HTMLElement} target - CSS selector or DOM element to show loader in
- * @param {string} message - Optional loading message
- */
-function showContentLoader(target, message = 'Loading...') {
-    const container = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!container) return;
-    
-    const loaderId = 'content-loader-' + Math.random().toString(36).substr(2, 9);
-    const loader = document.createElement('div');
-    loader.id = loaderId;
-    loader.className = 'content-loader';
-    
-    loader.innerHTML = `
-        <div class="content-loader-overlay">
-            <div class="content-loader-spinner">
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="content-loader-text">${message}</p>
-            </div>
-        </div>
-    `;
-    
-    container.style.position = 'relative';
-    container.appendChild(loader);
-    
-    return loaderId;
-}
-
-/**
- * Hide content loader from a specific element
- * @param {string|HTMLElement} target - CSS selector, DOM element, or loader ID
- */
-function hideContentLoader(target) {
-    let loader;
-    
-    if (typeof target === 'string') {
-        // Try as loader ID first
-        loader = document.getElementById(target);
-        
-        // If not found, try as container selector
-        if (!loader) {
-            const container = document.querySelector(target);
-            if (container) {
-                loader = container.querySelector('.content-loader');
-            }
-        }
-    } else if (target instanceof HTMLElement) {
-        loader = target.querySelector('.content-loader');
-    }
-    
-    if (loader) {
-        loader.classList.add('hiding');
-        setTimeout(() => loader.remove(), 300);
-    }
-}
-
-/**
- * Fetch data with automatic loading indicator
- * @param {string} url - API endpoint URL
- * @param {object} options - Fetch options
- * @param {string|HTMLElement} loaderTarget - Where to show loader (optional)
- * @param {string} loaderMessage - Loading message (optional)
- * @returns {Promise} Fetch promise
- */
-async function fetchWithLoader(url, options = {}, loaderTarget = null, loaderMessage = 'Loading...') {
-    let loaderId = null;
-    
-    try {
-        // Show loader if target specified
-        if (loaderTarget) {
-            loaderId = showContentLoader(loaderTarget, loaderMessage);
-        }
-        
-        // Perform fetch
-        const response = await fetch(url, options);
-        
-        // Hide loader
-        if (loaderId) {
-            hideContentLoader(loaderId);
-        }
-        
-        return response;
-    } catch (error) {
-        // Hide loader on error
-        if (loaderId) {
-            hideContentLoader(loaderId);
-        }
-        throw error;
-    }
-}
-
-/**
- * Show mini inline spinner (for buttons, small areas)
- * @param {string|HTMLElement} target - Element to show spinner in
- * @param {string} size - Size: 'sm', 'md', 'lg' (default: 'sm')
- */
-function showMiniLoader(target, size = 'sm') {
-    const element = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!element) return;
-    
-    const originalContent = element.innerHTML;
-    element.setAttribute('data-original-content', originalContent);
-    element.disabled = true;
-    
-    const sizeClass = size === 'lg' ? 'spinner-border' : size === 'md' ? 'spinner-border spinner-border-sm' : 'spinner-border spinner-border-sm';
-    
-    element.innerHTML = `
-        <span class="${sizeClass}" role="status" aria-hidden="true"></span>
-        <span class="ms-2">Loading...</span>
-    `;
-}
-
-/**
- * Hide mini inline spinner and restore original content
- * @param {string|HTMLElement} target - Element to restore
- */
-function hideMiniLoader(target) {
-    const element = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!element) return;
-    
-    const originalContent = element.getAttribute('data-original-content');
-    if (originalContent) {
-        element.innerHTML = originalContent;
-        element.removeAttribute('data-original-content');
-    }
-    element.disabled = false;
-}
-
-// Export functions to global scope for easy access
-window.showContentLoader = showContentLoader;
-window.hideContentLoader = hideContentLoader;
-window.fetchWithLoader = fetchWithLoader;
-window.showMiniLoader = showMiniLoader;
-window.hideMiniLoader = hideMiniLoader;
-
-/**
- * Inject loader styles
+ * Inject loader styles first (before showing loader)
  */
 (function injectLoaderStyles() {
     const style = document.createElement('style');
@@ -689,6 +452,381 @@ window.hideMiniLoader = hideMiniLoader;
     `;
     document.head.appendChild(style);
 })();
+
+// Show loading animation immediately (wait for body to exist)
+function initializePageLoader() {
+    showPageLoader();
+    const pageLoadStartTime = Date.now();
+    
+    // Hide loader when page is fully loaded
+    window.addEventListener('load', () => {
+        if (shouldUseExtendedLoading()) {
+            // Calculate how long the page has been loading
+            const elapsedTime = Date.now() - pageLoadStartTime;
+            const minimumLoadTime = 5000; // 5 seconds
+            
+            // If less than 5 seconds have passed, wait for the remaining time
+            if (elapsedTime < minimumLoadTime) {
+                const remainingTime = minimumLoadTime - elapsedTime;
+                setTimeout(() => {
+                    hidePageLoader();
+                }, remainingTime);
+            } else {
+                // If already 5+ seconds, hide immediately
+                hidePageLoader();
+            }
+        } else {
+            // For other pages, hide loader immediately
+            hidePageLoader();
+        }
+    });
+}
+
+// Initialize loader when DOM is ready or document is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initializePageLoader();
+    });
+} else {
+    // DOM is already loaded (script runs after body)
+    initializePageLoader();
+}
+
+//updated
+//window.SERVER_URL = 'http://127.0.0.1:8000/api';
+window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
+
+// Check if current page should have extended loading
+function shouldUseExtendedLoading() {
+    const currentPage = window.location.pathname;
+    const pageName = currentPage.split('/').pop() || 'index.php';
+    
+    // List of pages that should show extended loading
+    const extendedLoadingPages = [
+        'shop-catalog-electronics.php',
+        'shop-product.php',
+        'index.php',
+        '' // root URL case
+    ];
+    
+    return extendedLoadingPages.includes(pageName) || currentPage === '/' || currentPage.endsWith('/');
+}
+
+// Initialize WhatsApp and other features when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize WhatsApp popup
+    initWhatsAppWidget();
+});
+
+
+
+/**
+ * Create and show page loader
+ */
+function showPageLoader() {
+    // Create loader HTML
+    const loader = document.createElement('div');
+    loader.id = 'page-loader';
+    loader.className = 'page-loader';
+    
+    loader.innerHTML = `
+        <div class="loader-content">
+            <div class="loader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+        </div>
+    `;
+    
+    // Ensure body exists before appending
+    if (document.body) {
+        document.body.appendChild(loader);
+    }
+}
+
+/**
+ * Hide page loader with smooth fade out
+ */
+function hidePageLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('loaded');
+        
+        // Remove loader after animation completes
+        setTimeout(() => {
+            loader.remove();
+        }, 400);
+    }
+}
+
+/**
+ * Show content loader inside a specific element
+ * @param {string|HTMLElement} target - CSS selector or DOM element to show loader in
+ * @param {string} message - Optional loading message
+ */
+function showContentLoader(target, message = 'Loading...') {
+    const container = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!container) return;
+    
+    const loaderId = 'content-loader-' + Math.random().toString(36).substr(2, 9);
+    const loader = document.createElement('div');
+    loader.id = loaderId;
+    loader.className = 'content-loader';
+    
+    loader.innerHTML = `
+        <div class="content-loader-overlay">
+            <div class="content-loader-spinner">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="content-loader-text">${message}</p>
+            </div>
+        </div>
+    `;
+    
+    container.style.position = 'relative';
+    container.appendChild(loader);
+    
+    return loaderId;
+}
+
+/**
+ * Hide content loader from a specific element
+ * @param {string|HTMLElement} target - CSS selector, DOM element, or loader ID
+ */
+function hideContentLoader(target) {
+    let loader;
+    
+    if (typeof target === 'string') {
+        // Try as loader ID first
+        loader = document.getElementById(target);
+        
+        // If not found, try as container selector
+        if (!loader) {
+            const container = document.querySelector(target);
+            if (container) {
+                loader = container.querySelector('.content-loader');
+            }
+        }
+    } else if (target instanceof HTMLElement) {
+        loader = target.querySelector('.content-loader');
+    }
+    
+    if (loader) {
+        loader.classList.add('hiding');
+        setTimeout(() => loader.remove(), 300);
+    }
+}
+
+/**
+ * Fetch data with automatic loading indicator
+ * @param {string} url - API endpoint URL
+ * @param {object} options - Fetch options
+ * @param {string|HTMLElement} loaderTarget - Where to show loader (optional)
+ * @param {string} loaderMessage - Loading message (optional)
+ * @returns {Promise} Fetch promise
+ */
+async function fetchWithLoader(url, options = {}, loaderTarget = null, loaderMessage = 'Loading...') {
+    let loaderId = null;
+    
+    try {
+        // Show loader if target specified
+        if (loaderTarget) {
+            loaderId = showContentLoader(loaderTarget, loaderMessage);
+        }
+        
+        // Perform fetch
+        const response = await fetch(url, options);
+        
+        // Hide loader
+        if (loaderId) {
+            hideContentLoader(loaderId);
+        }
+        
+        return response;
+    } catch (error) {
+        // Hide loader on error
+        if (loaderId) {
+            hideContentLoader(loaderId);
+        }
+        throw error;
+    }
+}
+
+/**
+ * Show mini inline spinner (for buttons, small areas)
+ * @param {string|HTMLElement} target - Element to show spinner in
+ * @param {string} size - Size: 'sm', 'md', 'lg' (default: 'sm')
+ */
+function showMiniLoader(target, size = 'sm') {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!element) return;
+    
+    const originalContent = element.innerHTML;
+    element.setAttribute('data-original-content', originalContent);
+    element.disabled = true;
+    
+    const sizeClass = size === 'lg' ? 'spinner-border' : size === 'md' ? 'spinner-border spinner-border-sm' : 'spinner-border spinner-border-sm';
+    
+    element.innerHTML = `
+        <span class="${sizeClass}" role="status" aria-hidden="true"></span>
+        <span class="ms-2">Loading...</span>
+    `;
+}
+
+/**
+ * Hide mini inline spinner and restore original content
+ * @param {string|HTMLElement} target - Element to restore
+ */
+function hideMiniLoader(target) {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!element) return;
+    
+    const originalContent = element.getAttribute('data-original-content');
+    if (originalContent) {
+        element.innerHTML = originalContent;
+        element.removeAttribute('data-original-content');
+    }
+    element.disabled = false;
+}
+
+// Export functions to global scope for easy access
+window.showContentLoader = showContentLoader;
+window.hideContentLoader = hideContentLoader;
+window.fetchWithLoader = fetchWithLoader;
+window.showMiniLoader = showMiniLoader;
+window.hideMiniLoader = hideMiniLoader;
+
+/**
+ * Cache Management Utilities
+ * Functions to manage service worker caches
+ */
+
+/**
+ * Get all cache names and their sizes
+ * @returns {Promise} - Promise that resolves with cache info
+ */
+async function getCacheInfo() {
+  const cacheNames = await caches.keys()
+  const cacheInfo = {}
+  
+  for (const cacheName of cacheNames) {
+    const cache = await caches.open(cacheName)
+    const keys = await cache.keys()
+    cacheInfo[cacheName] = {
+      count: keys.length,
+      urls: keys.map(req => req.url)
+    }
+  }
+  
+  return cacheInfo
+}
+
+/**
+ * Clear specific cache by name
+ * @param {string} cacheName - Name of cache to clear
+ * @returns {Promise} - Promise that resolves when cache is cleared
+ */
+async function clearCache(cacheName) {
+  const deleted = await caches.delete(cacheName)
+  if (deleted) {
+    console.log(`[Cache Manager] Cleared cache: ${cacheName}`)
+  }
+  return deleted
+}
+
+/**
+ * Clear all caches
+ * @returns {Promise} - Promise that resolves when all caches are cleared
+ */
+async function clearAllCaches() {
+  const cacheNames = await caches.keys()
+  const deletePromises = cacheNames.map(cacheName => {
+    console.log(`[Cache Manager] Clearing cache: ${cacheName}`)
+    return caches.delete(cacheName)
+  })
+  await Promise.all(deletePromises)
+  console.log('[Cache Manager] All caches cleared')
+}
+
+/**
+ * Clear cache by pattern (e.g., 'api-', 'static-')
+ * @param {string} pattern - Pattern to match cache names
+ * @returns {Promise} - Promise that resolves with count of cleared caches
+ */
+async function clearCachesByPattern(pattern) {
+  const cacheNames = await caches.keys()
+  const toDelete = cacheNames.filter(name => name.includes(pattern))
+  const results = await Promise.all(
+    toDelete.map(cacheName => caches.delete(cacheName))
+  )
+  console.log(`[Cache Manager] Cleared ${results.filter(r => r).length} caches matching pattern: ${pattern}`)
+  return results.filter(r => r).length
+}
+
+/**
+ * Pre-warm cache with important assets
+ * @param {string[]} urls - Array of URLs to cache
+ * @returns {Promise} - Promise that resolves when all URLs are cached
+ */
+async function prewarmCache(urls) {
+  const cache = await caches.open('static-assets')
+  const results = await Promise.allSettled(
+    urls.map(url => cache.add(url).catch(err => {
+      console.warn(`[Cache Manager] Failed to cache: ${url}`, err)
+      return null
+    }))
+  )
+  const cached = results.filter(r => r.status === 'fulfilled').length
+  console.log(`[Cache Manager] Prewarmed ${cached}/${urls.length} assets`)
+  return cached
+}
+
+/**
+ * Get cache size estimation
+ * @returns {Promise} - Promise that resolves with size info in bytes
+ */
+async function estimateCacheSize() {
+  if ('estimate' in navigator.storage) {
+    const estimate = await navigator.storage.estimate()
+    return {
+      usage: estimate.usage,
+      quota: estimate.quota,
+      percentage: ((estimate.usage / estimate.quota) * 100).toFixed(2)
+    }
+  }
+  return null
+}
+
+/**
+ * Display cache status in console
+ * Useful for debugging and monitoring cache state
+ */
+async function logCacheStatus() {
+  const cacheInfo = await getCacheInfo()
+  const storageInfo = await estimateCacheSize()
+  
+  console.group('[Cache Manager] Storage Status')
+  console.log('Cache Stores:', Object.keys(cacheInfo))
+  
+  Object.entries(cacheInfo).forEach(([cacheName, info]) => {
+    console.log(`  ${cacheName}: ${info.count} items`)
+  })
+  
+  if (storageInfo) {
+    console.log(`Storage Usage: ${(storageInfo.usage / 1024 / 1024).toFixed(2)} MB / ${(storageInfo.quota / 1024 / 1024).toFixed(2)} MB (${storageInfo.percentage}%)`)
+  }
+  console.groupEnd()
+}
+
+// Export cache functions to global scope
+window.getCacheInfo = getCacheInfo
+window.clearCache = clearCache
+window.clearAllCaches = clearAllCaches
+window.clearCachesByPattern = clearCachesByPattern
+window.prewarmCache = prewarmCache
+window.estimateCacheSize = estimateCacheSize
+window.logCacheStatus = logCacheStatus
 
 /**
  * WhatsApp Widget Configuration
