@@ -20,26 +20,31 @@
   <link rel="icon" type="image/png" href="assets/app-icons/icon-32x32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="assets/app-icons/icon-180x180.png">
 
-  <!-- Theme switcher (color modes) -->
-  <script src="assets/js/theme-switcher.js"></script>
-
   <!-- Preloaded local web font (Inter) -->
   <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Font icons -->
   <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
 
-  <!-- Vendor styles -->
-  <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
-  <link rel="stylesheet" href="assets/vendor/drift-zoom/dist/drift-basic.min.css">
-  <link rel="stylesheet" href="assets/vendor/simplebar/dist/simplebar.min.css">
-  <link rel="stylesheet" href="assets/vendor/choices.js/public/assets/styles/choices.min.css">
-
-  <!-- Bootstrap + Theme styles -->
-  <link rel="preload" href="assets/css/theme.min.css" as="style">
-  <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
+  <!-- Bootstrap + Theme styles (Critical) -->
   <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
+
+  <!-- Non-critical CSS (Deferred) -->
+  <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/vendor/drift-zoom/dist/drift-basic.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/vendor/simplebar/dist/simplebar.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/vendor/choices.js/public/assets/styles/choices.min.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
+    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/vendor/drift-zoom/dist/drift-basic.min.css">
+    <link rel="stylesheet" href="assets/vendor/simplebar/dist/simplebar.min.css">
+    <link rel="stylesheet" href="assets/vendor/choices.js/public/assets/styles/choices.min.css">
+  </noscript>
+
+  <!-- Theme switcher (color modes) - Deferred -->
+  <script defer src="assets/js/theme-switcher.js"></script>
 </head>
 
 
