@@ -1,4 +1,4 @@
-<script defer src="src/js/custom/header.js?v=3"></script>
+<script defer src="src/js/custom/header.js"></script>
 <!-- Navigation bar (Page header) -->
 <header class="navbar navbar-expand-lg navbar-dark bg-dark d-block z-fixed p-0" data-sticky-navbar='{"offset": 500}'>
   <div class="container d-block py-1 py-lg-3" data-bs-theme="dark">

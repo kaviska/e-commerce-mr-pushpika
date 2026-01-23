@@ -1,4 +1,4 @@
- <script defer src="src/js/custom/trending-product.js?v=3"></script>
+ <script defer src="src/js/custom/trending-product.js"></script>
  <section class="container  pt-5 mt-2 mt-sm-3 mt-lg-4">
 
      <!-- Heading -->

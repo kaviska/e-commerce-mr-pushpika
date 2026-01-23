@@ -20,22 +20,22 @@
     <link rel="apple-touch-icon" href="assets/app-icons/icon-180x180.png">
 
     <!-- Theme switcher (color modes) -->
-    <script src="assets/js/theme-switcher.js?v=3"></script>
+    <script src="assets/js/theme-switcher.js"></script>
 
     <!-- Preloaded local web font (Inter) -->
     <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Font icons -->
     <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css?v=3">
+    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
 
     <!-- Bootstrap + Theme styles -->
-    <link rel="preload" href="assets/css/theme.min.css?v=3" as="style">
-    <link rel="preload" href="assets/css/theme.rtl.min.css?v=3" as="style">
-    <link rel="stylesheet" href="assets/css/theme.min.css?v=3" id="theme-styles">
+    <link rel="preload" href="assets/css/theme.min.css" as="style">
+    <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
+    <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
 
     <!-- Custom script -->
-    <script defer src="src/js/custom/main.js?v=3"></script>
+    <script defer src="src/js/custom/main.js"></script>
     
     <!-- Custom styles for FAQ -->
     <style>
@@ -327,10 +327,10 @@
     </div>
 
     <!-- Vendor scripts -->
-    <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js?v=3"></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Main theme script -->
-    <script src="assets/js/theme.min.js?v=3"></script>
+    <script src="assets/js/theme.min.js"></script>
 
   </body>
 </html>

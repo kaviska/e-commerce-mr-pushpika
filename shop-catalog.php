@@ -24,23 +24,23 @@
   <link rel="apple-touch-icon" href="assets/app-icons/icon-180x180.png">
 
   <!-- Theme switcher (color modes) -->
-  <script src="assets/js/theme-switcher.js?v=3"></script>
+  <script src="assets/js/theme-switcher.js"></script>
 
   <!-- Preloaded local web font (Inter) -->
   <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Font icons -->
   <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css?v=3">
+  <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
 
   <!-- Vendor styles -->
-  <link rel="stylesheet" href="assets/vendor/choices.js/public/assets/styles/choices.min.css?v=3">
-  <link rel="stylesheet" href="assets/vendor/nouislider/dist/nouislider.min.css?v=3">
+  <link rel="stylesheet" href="assets/vendor/choices.js/public/assets/styles/choices.min.css">
+  <link rel="stylesheet" href="assets/vendor/nouislider/dist/nouislider.min.css">
 
   <!-- Bootstrap + Theme styles -->
-  <link rel="preload" href="assets/css/theme.min.css?v=3" as="style">
-  <link rel="preload" href="assets/css/theme.rtl.min.css?v=3" as="style">
-  <link rel="stylesheet" href="assets/css/theme.min.css?v=3" id="theme-styles">
+  <link rel="preload" href="assets/css/theme.min.css" as="style">
+  <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
+  <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
 
 </head>
 
@@ -290,11 +290,11 @@
 
 
   <!-- Vendor scripts -->
-  <script src="assets/vendor/choices.js/public/assets/scripts/choices.min.js?v=3"></script>
-  <script src="assets/vendor/nouislider/dist/nouislider.min.js?v=3"></script>
+  <script src="assets/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script src="assets/vendor/nouislider/dist/nouislider.min.js"></script>
 
   <!-- Bootstrap + Theme scripts -->
-  <script src="assets/js/theme.min.js?v=3"></script>
+  <script src="assets/js/theme.min.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<script defer src="src/js/custom/shop-banner.js?v=3"></script>
+<script defer src="src/js/custom/shop-banner.js"></script>
 <section class="accordion container pb-4 pb-md-5 mb-xl-3">
         <div class="accordion-item border-0">
           <div class="accordion-header d-md-none" id="offersHeading">
