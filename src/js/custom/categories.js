@@ -53,7 +53,7 @@ function createCategoryCard(category) {
         <div class="hover-effect-scale">
             <a class="d-block bg-body-tertiary rounded p-4 mb-4" href="shop-catalog.php?category=${category.slug}">
                 <div class="ratio" style="--cz-aspect-ratio: calc(184 / 258 * 100%)">
-                    <img src="${window.SERVER_URL.replace('/api', '')}/${category.image}" 
+                    <img loading="lazy" src="${window.SERVER_URL.replace('/api', '')}/${category.image}" 
                          class="hover-effect-target" 
                          alt="${category.name}"
                          onerror="this.src='assets/img/shop/electronics/categories/placeholder.png'">

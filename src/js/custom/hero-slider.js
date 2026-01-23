@@ -34,7 +34,7 @@ function renderHeroSliders(sliders) {
     textContainer.innerHTML = '';
     imageContainer.innerHTML = '';
 
-    sliders.forEach(slider => {
+    sliders.forEach((slider, index) => {
         // Create text slide
         const textSlide = document.createElement('div');
         textSlide.className = 'swiper-slide text-center text-xl-start pt-5 py-xl-5';
@@ -54,9 +54,11 @@ function renderHeroSliders(sliders) {
         
         const imageUrl = slider.image ? `${baseUrl}/storage/${slider.image}` : 'assets/img/placeholder.png';
         
+        const isFirstSlide = index === 0;
+
         imageSlide.innerHTML = `
             <div class="ratio rtl-flip" style="max-width: 495px; --cz-aspect-ratio: calc(537 / 495 * 100%)">
-                <img src="${imageUrl}" alt="${slider.heading || 'Hero Slider'}">
+                <img src="${imageUrl}" alt="${slider.heading || 'Hero Slider'}" ${isFirstSlide ? '' : 'loading="lazy"'}>
             </div>
         `;
         imageContainer.appendChild(imageSlide);

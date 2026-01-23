@@ -129,7 +129,7 @@ function renderSpecialOffers(products) {
                 </div>
                 <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="${productLink}">
                   <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
-                    <img src="${imageUrl}" alt="${product.name}">
+                    <img loading="lazy" src="${imageUrl}" alt="${product.name}">
                   </div>
                 </a>
               </div>

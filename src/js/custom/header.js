@@ -365,7 +365,7 @@ const renderMegaMenu = (container, products) => {
                          <div class="fs-sm text-muted mb-3">Limited stock available</div>
                          
                          <div class="my-3 d-flex justify-content-center position-relative" style="height: 180px;">
-                            <img src="${image}" class="img-fluid transition-scale" style="max-height: 100%; object-fit: contain; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" alt="${featuredProduct.name}">
+                            <img loading="lazy" src="${image}" class="img-fluid transition-scale" style="max-height: 100%; object-fit: contain; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" alt="${featuredProduct.name}">
                          </div>
                          
                          <div class="mb-4">

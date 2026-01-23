@@ -72,7 +72,7 @@ function renderShopBanners(banners) {
                     </div>
                     <a class="position-relative z-1 d-block w-100" href="${banner2.link || '#'}">
                         <div class="ratio" style="--cz-aspect-ratio: calc(159 / 525 * 100%)">
-                            <img src="${imageUrl}" width="525" alt="${banner2.title || 'Banner'}">
+                            <img loading="lazy" src="${imageUrl}" width="525" alt="${banner2.title || 'Banner'}">
                         </div>
                     </a>
                 </div>

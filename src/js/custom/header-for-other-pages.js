@@ -121,7 +121,7 @@ const renderSearchResults = (products, container, query) => {
         html += `
             <a href="shop-product.php?slug=${product.slug}" class="list-group-item list-group-item-action d-flex align-items-center p-2 border-0 border-bottom-dashed">
                 <div class="flex-shrink-0 position-relative rounded-2 overflow-hidden bg-body-secondary" style="width: 56px; height: 56px;">
-                     <img src="${imageUrl}" class="w-100 h-100 object-fit-contain" alt="${product.name}">
+                     <img loading="lazy" src="${imageUrl}" class="w-100 h-100 object-fit-contain" alt="${product.name}">
                 </div>
                 <div class="flex-grow-1 min-w-0 ps-3">
                     <div class="d-flex justify-content-between align-items-center mb-1">
@@ -205,12 +205,12 @@ const renderForOtherPagesCategory = (categories) => {
         li.innerHTML = `
             <div class="position-relative rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover click" data-bs-auto-close="outside" aria-expanded="false">
                 <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex">
-                    <img src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
+                    <img loading="lazy" src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
                     <span class="text-truncate">${category.name}</span>
                     <i class="ci-chevron-right fs-base ms-auto me-n1"></i>
                 </a>
                 <div class="dropdown-item fw-medium text-wrap stretched-link d-lg-none">
-                     <img src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
+                     <img  loading="lazy" src="${iconUrl}" class="opacity-60 pe-1 me-2" width="24" height="24" style="object-fit: contain;" alt="${category.name}">
                     ${category.name}
                     <i class="ci-chevron-down fs-base ms-auto me-n1"></i>
                 </div>
@@ -373,7 +373,7 @@ const renderMegaMenu = (container, products) => {
                          <div class="fs-sm text-muted mb-3">Limited stock available</div>
                          
                          <div class="my-3 d-flex justify-content-center position-relative" style="height: 180px;">
-                            <img src="${image}" class="img-fluid transition-scale" style="max-height: 100%; object-fit: contain; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" alt="${featuredProduct.name}">
+                            <img loading="lazy" src="${image}" class="img-fluid transition-scale" style="max-height: 100%; object-fit: contain; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" alt="${featuredProduct.name}">
                          </div>
                          
                          <div class="mb-4">
