@@ -156,7 +156,7 @@ function renderGallery(product) {
     const thumbSlides = images.map(img => `
         <div class="swiper-slide swiper-thumb">
             <div class="ratio ratio-1x1" style="max-width: 94px">
-                <img loading="lazy" src="${img}" class="swiper-thumb-img" alt="Thumbnail">
+                <img loading="lazy" decoding="async" src="${img}" class="swiper-thumb-img" alt="Thumbnail">
             </div>
         </div>
     `).join('');

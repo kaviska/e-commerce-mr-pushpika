@@ -399,7 +399,7 @@ function renderProducts(products, container) {
                     </div>` : ''}
                     <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product.php?slug=${product.slug}">
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
-                        <img loading="lazy" src="${imageUrl}" alt="${product.name}" style="object-fit: contain;">
+                        <img loading="lazy" decoding="async" src="${imageUrl}" alt="${product.name}" style="object-fit: contain;">
                       </div>
                     </a>
                   </div>

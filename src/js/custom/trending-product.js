@@ -126,7 +126,7 @@ function renderTrendingProducts(products) {
                 <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="${productLink}">
                   ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 mt-2 ms-2 mt-lg-3 ms-lg-3 z-3">-${Math.round((discount / originalPrice) * 100)}%</span>` : ''}
                   <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
-                    <img loading="lazy" src="${imageUrl}" alt="${product.name}">
+                    <img loading="lazy" decoding="async" src="${imageUrl}" alt="${product.name}">
                   </div>
                 </a>
               </div>

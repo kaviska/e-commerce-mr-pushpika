@@ -48,10 +48,10 @@ function renderBrands(brands) {
         col.innerHTML = `
             <a class="btn btn-outline-secondary w-100 rounded-4 p-3" href="shop-catalog.php?brand=${brand.slug || brand.id}">
                 ${brandImage ? 
-                    `<img loading="lazy" src="${brandImage}" alt="${brand.name}" class="img-fluid" style="max-height: 60px; object-fit: contain;" onerror="this.src='${defaultImage}';">` 
+                    `<img loading="lazy" decoding="async" src="${brandImage}" alt="${brand.name}" class="img-fluid" style="max-height: 60px; object-fit: contain;" onerror="this.src='${defaultImage}';">` 
                     : 
-                    `<img loading="lazy" src="${defaultImage}" class="d-none-dark" alt="${brand.name}">
-                     <img loading="lazy" src="${defaultImageDark}" class="d-none d-block-dark" alt="${brand.name}">`
+                    `<img loading="lazy" decoding="async" src="${defaultImage}" class="d-none-dark" alt="${brand.name}">
+                     <img loading="lazy" decoding="async" src="${defaultImageDark}" class="d-none d-block-dark" alt="${brand.name}">`
                 }
             </a>
         `;

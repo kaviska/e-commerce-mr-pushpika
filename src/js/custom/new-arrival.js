@@ -30,7 +30,7 @@ const renderNewArrivalBanner = (banner) => {
     container.innerHTML = `
         <div class="d-flex flex-column align-items-center justify-content-end h-100 text-center overflow-hidden rounded-5 px-4 px-lg-3 pt-4 pb-5" style="background: #1d2c41 url(assets/img/home/electronics/banner/background.jpg) center/cover no-repeat">
             <div class="ratio animate-up-down position-relative z-2 me-lg-4" style="max-width: 320px; margin-bottom: -19%; --cz-aspect-ratio: calc(690 / 640 * 100%)">
-                <img loading="lazy" src="${imageUrl}" alt="${banner.title || 'Banner'}">
+                <img loading="lazy" decoding="async" src="${imageUrl}" alt="${banner.title || 'Banner'}">
             </div>
             <h3 class="display-2 mb-2">${banner.title || ''}</h3>
             <p class="text-body fw-medium mb-4">${banner.description || ''}</p>
@@ -115,7 +115,7 @@ const renderNewArrivals = (products) => {
             const productHtml = `
                 <div class="position-relative animate-underline d-flex align-items-center ps-xl-3">
                   <div class="ratio ratio-1x1 flex-shrink-0" style="width: 110px">
-                    <img loading="lazy" src="${imageUrl}" width="110" alt="${product.name}" style="object-fit: contain;">
+                    <img loading="lazy" decoding="async" src="${imageUrl}" width="110" alt="${product.name}" style="object-fit: contain;">
                   </div>
                   <div class="w-100 min-w-0 ps-2 ps-sm-3">
                     <div class="d-flex align-items-center gap-2 mb-2">
