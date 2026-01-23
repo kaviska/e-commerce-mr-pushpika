@@ -26,23 +26,6 @@
     <!-- Font icons -->
     <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- Critical inline styles to prevent CLS and font-swap shifts -->
-    <style>
-      @font-face {
-        font-display: swap;
-        font-family: Inter;
-        font-style: normal;
-        font-weight: 300 800;
-        src: url(assets/fonts/inter-variable-latin.woff2) format("woff2");
-      }
-      /* Prevent layout shift before CSS loads */
-      body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif; }
-      .offcanvas { visibility: hidden; }
-      /* Reserve space for dynamic sections to prevent CLS */
-      #new-arrival-container { min-height: 450px; }
-      #trending-product-container { min-height: 400px; }
-    </style>
-
     <!-- Bootstrap + Theme styles (Critical) -->
     <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
 
