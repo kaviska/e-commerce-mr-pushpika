@@ -4,7 +4,7 @@
   "description": "Premium Online Shopping Site in Sri Lanka",
   "lang" : "en",
   "dir": "ltr",
-  "start_url": "/index.html",
+  "start_url": "/index.php",
   "scope": "/",
   "icons": [
     {

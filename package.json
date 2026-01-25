@@ -6,7 +6,7 @@
   "homepage": "https://cartzilla-html.createx.studio",
   "author": "https://createx.studio/",
   "license": "ISC",
-  "main": "index.html",
+  "main": "index.php",
   "scripts": {
     "dev": "npm-run-all --silent -p styles scripts icon-font vendor && npm run watch --silent",
     "build": "npm-run-all --silent -p styles scripts icon-font vendor && npm run validate --silent && npm run dist --silent",

@@ -21,7 +21,7 @@ async function createFolder() {
     const newVersion = args[0];
 
     await updateFileVersion({
-        file: path.join(folder, 'index.html'),
+        file: path.join(folder, 'index.php'),
         search: /download\/(.*)\/glightbox/g,
         replace: newVersion
     });
