@@ -32,16 +32,16 @@
                      <!-- Price range -->
                      <div class="w-100 border rounded p-3 p-xl-4 mb-3 mb-xl-4">
                          <h4 class="h6 mb-2" id="slider-label">Price</h4>
-                         <div class="range-slider" data-range-slider='{"startMin": 340, "startMax": 1250, "min": 0, "max": 1600, "step": 1, "tooltipPrefix": "$"}' aria-labelledby="slider-label">
+                         <div class="range-slider" data-range-slider='{"startMin": 340, "startMax": 1250, "min": 0, "max": 1600, "step": 1, "tooltipPrefix": "LKR "}' aria-labelledby="slider-label">
                              <div class="range-slider-ui"></div>
                              <div class="d-flex align-items-center">
                                  <div class="position-relative w-50">
-                                     <i class="ci-dollar-sign position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                     <span class="position-absolute top-50 start-0 translate-middle-y ms-3 fs-xs fw-medium">LKR</span>
                                      <input type="number" class="form-control form-icon-start" min="0" data-range-slider-min>
                                  </div>
                                  <i class="ci-minus text-body-emphasis mx-2"></i>
                                  <div class="position-relative w-50">
-                                     <i class="ci-dollar-sign position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                     <span class="position-absolute top-50 start-0 translate-middle-y ms-3 fs-xs fw-medium">LKR</span>
                                      <input type="number" class="form-control form-icon-start" min="0" data-range-slider-max>
                                  </div>
                              </div>
