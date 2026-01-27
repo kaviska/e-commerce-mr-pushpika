@@ -523,7 +523,7 @@ function updateSelectedFilters() {
             const min = parseInt(priceMinInput.value) || 0;
             const max = parseInt(priceMaxInput.value) || 0;
             
-            const display = `$${min} - $${max}`;
+            const display = `${formatCurrency(min)} - ${formatCurrency(max)}`;
             tags.push(createTag(display, () => {
                 // Reset to empty
                 userChangedPrice = false; // Reset the flag
