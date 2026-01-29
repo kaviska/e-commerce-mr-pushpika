@@ -383,7 +383,15 @@ async function loadReviews(productId) {
         const result = await response.json();
 
         if (result.status === 'success') {
-            if (result.data.length === 0) {
+            const reviewCount = result.data.length;
+            
+            // Update review count in nav
+            const reviewCountNav = document.getElementById('review-count-nav');
+            if (reviewCountNav) {
+                reviewCountNav.innerText = `${reviewCount} review${reviewCount !== 1 ? 's' : ''}`;
+            }
+            
+            if (reviewCount === 0) {
                 list.innerHTML = '<p class="text-body-secondary py-3">No reviews yet. Be the first to review!</p>';
                 return;
             }

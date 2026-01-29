@@ -305,7 +305,7 @@
             <i class="ci-star-filled text-warning"></i>
             <i class="ci-star-half text-warning"></i>
           </div>
-          <span class="text-body-tertiary fs-xs">68 reviews</span>
+          <span class="text-body-tertiary fs-xs" id="review-count-nav">0 reviews</span>
         </a>
       </div>
     </section>
