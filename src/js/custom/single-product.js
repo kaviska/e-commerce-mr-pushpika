@@ -376,9 +376,6 @@ async function loadReviews(productId) {
     const list = document.getElementById('reviews-list');
     if (!list) return;
 
-    // Show example reviews while loading
-    displayExampleReviews(list);
-
     try {
         const response = await fetch(`${window.SERVER_URL}/products/${productId}/reviews`, {
             headers: { 'Accept': 'application/json' }
@@ -386,24 +383,10 @@ async function loadReviews(productId) {
         const result = await response.json();
 
         if (result.status === 'success') {
-            const reviewCount = result.data.length;
-            
-            // Calculate average rating
-            const averageRating = reviewCount > 0 
-                ? result.data.reduce((sum, review) => sum + parseInt(review.rating), 0) / reviewCount 
-                : 0;
-            
-            // Update review count in nav
-            const reviewCountNav = document.getElementById('review-count-nav');
-            if (reviewCountNav) {
-                reviewCountNav.innerText = `${reviewCount} review${reviewCount !== 1 ? 's' : ''}`;
-            }
-            
-            // Update star display with average rating
-            updateStarDisplay(averageRating);
-            
-            if (reviewCount === 0) {
+            if (result.data.length === 0) {
                 list.innerHTML = '<p class="text-body-secondary py-3">No reviews yet. Be the first to review!</p>';
+                // Update review stats to show no reviews
+                updateReviewStats(0, 0);
                 return;
             }
 
@@ -422,8 +405,9 @@ async function loadReviews(productId) {
                 </div>
             `).join('');
 
-            // Update Review Stats Links (Nav) - Optional
-            // document.querySelectorAll('a[href="#reviews"]').forEach(el => el.innerText = `Reviews (${result.data.length})`);
+            // Calculate average rating and update stats
+            const averageRating = result.data.reduce((sum, review) => sum + parseFloat(review.rating), 0) / result.data.length;
+            updateReviewStats(averageRating, result.data.length);
 
         } else {
             list.innerHTML = '<p class="text-danger">Failed to load reviews.</p>';
@@ -434,91 +418,42 @@ async function loadReviews(productId) {
     }
 }
 
+function updateReviewStats(averageRating, reviewCount) {
+    // Update the review stats in the header section
+    const statsLink = document.querySelector('a[href="#reviews"]');
+    if (statsLink) {
+        statsLink.innerHTML = `
+            <div class="d-flex gap-1 fs-sm">
+                ${renderStars(averageRating)}
+            </div>
+            <span class="text-body-tertiary fs-xs">${reviewCount} review${reviewCount !== 1 ? 's' : ''}</span>
+        `;
+    }
+    
+    // Also update the review count span if it exists
+    const reviewCountSpan = document.getElementById('review-count');
+    if (reviewCountSpan) {
+        reviewCountSpan.innerText = `${reviewCount} review${reviewCount !== 1 ? 's' : ''}`;
+    }
+}
+
 function renderStars(rating) {
     let stars = '';
+    const roundedRating = Math.round(rating * 2) / 2; // Support half stars (4.5, etc.)
+    
     for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
+        if (i <= Math.floor(roundedRating)) {
+            // Full star
             stars += '<i class="ci-star-filled text-warning"></i>';
+        } else if (i === Math.ceil(roundedRating) && roundedRating % 1 !== 0) {
+            // Half star
+            stars += '<i class="ci-star-half text-warning"></i>';
         } else {
-            stars += '<i class="ci-star text-body-tertiary opacity-75"></i>'; // Empty star styling
+            // Empty star
+            stars += '<i class="ci-star text-body-tertiary opacity-75"></i>';
         }
     }
     return stars;
-}
-
-function updateStarDisplay(averageRating) {
-    const ratingLink = document.getElementById('review-stars-nav');
-    if (!ratingLink) return;
-
-    let stars = '';
-    const fullStars = Math.floor(averageRating);
-    const hasHalfStar = averageRating % 1 >= 0.5;
-
-    // Add full stars
-    for (let i = 0; i < fullStars; i++) {
-        stars += '<i class="ci-star-filled text-warning"></i>';
-    }
-
-    // Add half star if applicable
-    if (hasHalfStar && fullStars < 5) {
-        stars += '<i class="ci-star-half text-warning"></i>';
-        // Note: We don't increment fullStars here, we track it separately below
-    }
-
-    // Add empty stars
-    const emptyStarCount = hasHalfStar && fullStars < 5 ? 5 - fullStars - 1 : 5 - fullStars;
-    for (let i = 0; i < emptyStarCount; i++) {
-        stars += '<i class="ci-star text-body-tertiary opacity-75"></i>';
-    }
-
-    ratingLink.innerHTML = stars;
-}
-
-function displayExampleReviews(list) {
-    const exampleReviews = [
-        {
-            id: 2,
-            rating: 4,
-            comment: "Will buy again!",
-            created_at: "2026-01-17T16:22:32.000000Z",
-            user: {
-                name: "Kaviska"
-            }
-        },
-        {
-            id: 1,
-            rating: 5,
-            comment: "Excellent product, very satisfied with the quality and delivery!",
-            created_at: "2026-01-16T10:15:00.000000Z",
-            user: {
-                name: "John Doe"
-            }
-        },
-        {
-            id: 3,
-            rating: 3,
-            comment: "Good product but could be better. Decent value for money.",
-            created_at: "2026-01-15T14:30:45.000000Z",
-            user: {
-                name: "Sarah Smith"
-            }
-        }
-    ];
-
-    list.innerHTML = exampleReviews.map(review => `
-        <div class="border-bottom py-3 mb-3">
-            <div class="d-flex align-items-center mb-3">
-                <div class="text-nowrap me-3">
-                    <span class="h6 mb-0">${review.user ? review.user.name : 'Anonymous'}</span>
-                </div>
-                <span class="text-body-secondary fs-sm ms-auto">${new Date(review.created_at).toLocaleDateString()}</span>
-            </div>
-            <div class="d-flex gap-1 fs-sm pb-2 mb-1">
-                ${renderStars(review.rating)}
-            </div>
-            <p class="fs-sm">${review.comment || ''}</p>
-        </div>
-    `).join('');
 }
 
 async function handleReviewSubmit(e) {
