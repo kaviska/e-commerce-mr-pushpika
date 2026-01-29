@@ -376,6 +376,9 @@ async function loadReviews(productId) {
     const list = document.getElementById('reviews-list');
     if (!list) return;
 
+    // Show example reviews while loading
+    displayExampleReviews(list);
+
     try {
         const response = await fetch(`${window.SERVER_URL}/products/${productId}/reviews`, {
             headers: { 'Accept': 'application/json' }
@@ -433,6 +436,53 @@ function renderStars(rating) {
         }
     }
     return stars;
+}
+
+function displayExampleReviews(list) {
+    const exampleReviews = [
+        {
+            id: 2,
+            rating: 4,
+            comment: "Will buy again!",
+            created_at: "2026-01-17T16:22:32.000000Z",
+            user: {
+                name: "Kaviska"
+            }
+        },
+        {
+            id: 1,
+            rating: 5,
+            comment: "Excellent product, very satisfied with the quality and delivery!",
+            created_at: "2026-01-16T10:15:00.000000Z",
+            user: {
+                name: "John Doe"
+            }
+        },
+        {
+            id: 3,
+            rating: 3,
+            comment: "Good product but could be better. Decent value for money.",
+            created_at: "2026-01-15T14:30:45.000000Z",
+            user: {
+                name: "Sarah Smith"
+            }
+        }
+    ];
+
+    list.innerHTML = exampleReviews.map(review => `
+        <div class="border-bottom py-3 mb-3">
+            <div class="d-flex align-items-center mb-3">
+                <div class="text-nowrap me-3">
+                    <span class="h6 mb-0">${review.user ? review.user.name : 'Anonymous'}</span>
+                </div>
+                <span class="text-body-secondary fs-sm ms-auto">${new Date(review.created_at).toLocaleDateString()}</span>
+            </div>
+            <div class="d-flex gap-1 fs-sm pb-2 mb-1">
+                ${renderStars(review.rating)}
+            </div>
+            <p class="fs-sm">${review.comment || ''}</p>
+        </div>
+    `).join('');
 }
 
 async function handleReviewSubmit(e) {
