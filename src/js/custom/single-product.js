@@ -385,8 +385,8 @@ async function loadReviews(productId) {
         if (result.status === 'success') {
             if (result.data.length === 0) {
                 list.innerHTML = '<p class="text-body-secondary py-3">No reviews yet. Be the first to review!</p>';
-                // Update review stats to show no reviews
-                updateReviewStats(0, 0);
+                // Update header star rating to show 0
+                updateReviewStars([], 0);
                 return;
             }
 
@@ -405,9 +405,8 @@ async function loadReviews(productId) {
                 </div>
             `).join('');
 
-            // Calculate average rating and update stats
-            const averageRating = result.data.reduce((sum, review) => sum + parseFloat(review.rating), 0) / result.data.length;
-            updateReviewStats(averageRating, result.data.length);
+            // Update the header star rating with dynamic data
+            updateReviewStars(result.data, result.data.length);
 
         } else {
             list.innerHTML = '<p class="text-danger">Failed to load reviews.</p>';
@@ -418,39 +417,57 @@ async function loadReviews(productId) {
     }
 }
 
-function updateReviewStats(averageRating, reviewCount) {
-    // Update the review stats in the header section
-    const statsLink = document.querySelector('a[href="#reviews"]');
-    if (statsLink) {
-        statsLink.innerHTML = `
-            <div class="d-flex gap-1 fs-sm">
-                ${renderStars(averageRating)}
-            </div>
-            <span class="text-body-tertiary fs-xs">${reviewCount} review${reviewCount !== 1 ? 's' : ''}</span>
-        `;
+function updateReviewStars(reviews, reviewCount) {
+    // Find the review stars link in header
+    const reviewLink = document.getElementById('review-stars-link');
+    if (!reviewLink) return;
+
+    // Calculate average rating
+    let averageRating = 0;
+    if (reviews.length > 0) {
+        const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0);
+        averageRating = (totalRating / reviews.length).toFixed(1);
+    }
+
+    // Generate star HTML
+    const starsHTML = generateStarsHTML(averageRating);
+
+    // Update the review link content
+    reviewLink.innerHTML = `
+        <div class="d-flex gap-1 fs-sm">
+            ${starsHTML}
+        </div>
+        <span class="text-body-tertiary fs-xs">${reviewCount} ${reviewCount === 1 ? 'review' : 'reviews'}</span>
+    `;
+}
+
+function generateStarsHTML(rating) {
+    const ratingNum = parseFloat(rating);
+    let starsHTML = '';
+    
+    for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(ratingNum)) {
+            // Full star
+            starsHTML += '<i class="ci-star-filled text-warning"></i>';
+        } else if (i === Math.ceil(ratingNum) && ratingNum % 1 !== 0) {
+            // Half star
+            starsHTML += '<i class="ci-star-half text-warning"></i>';
+        } else {
+            // Empty star
+            starsHTML += '<i class="ci-star text-body-tertiary opacity-75"></i>';
+        }
     }
     
-    // Also update the review count span if it exists
-    const reviewCountSpan = document.getElementById('review-count');
-    if (reviewCountSpan) {
-        reviewCountSpan.innerText = `${reviewCount} review${reviewCount !== 1 ? 's' : ''}`;
-    }
+    return starsHTML;
 }
 
 function renderStars(rating) {
     let stars = '';
-    const roundedRating = Math.round(rating * 2) / 2; // Support half stars (4.5, etc.)
-    
     for (let i = 1; i <= 5; i++) {
-        if (i <= Math.floor(roundedRating)) {
-            // Full star
+        if (i <= rating) {
             stars += '<i class="ci-star-filled text-warning"></i>';
-        } else if (i === Math.ceil(roundedRating) && roundedRating % 1 !== 0) {
-            // Half star
-            stars += '<i class="ci-star-half text-warning"></i>';
         } else {
-            // Empty star
-            stars += '<i class="ci-star text-body-tertiary opacity-75"></i>';
+            stars += '<i class="ci-star text-body-tertiary opacity-75"></i>'; // Empty star styling
         }
     }
     return stars;

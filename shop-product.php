@@ -297,15 +297,15 @@
             <a class="nav-link" href="#reviews">Reviews</a>
           </li>
         </ul>
-        <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none ms-auto mb-1" href="#reviews">
+        <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none ms-auto mb-1" href="#reviews" id="review-stars-link">
           <div class="d-flex gap-1 fs-sm">
-            <i class="ci-star-filled text-warning"></i>
-            <i class="ci-star-filled text-warning"></i>
-            <i class="ci-star-filled text-warning"></i>
-            <i class="ci-star-filled text-warning"></i>
+            <i class="ci-star text-body-tertiary opacity-75"></i>
+            <i class="ci-star text-body-tertiary opacity-75"></i>
+            <i class="ci-star text-body-tertiary opacity-75"></i>
+            <i class="ci-star text-body-tertiary opacity-75"></i>
             <i class="ci-star text-body-tertiary opacity-75"></i>
           </div>
-          <span class="text-body-tertiary fs-xs" id="review-count">Loading...</span>
+          <span class="text-body-tertiary fs-xs">0 reviews</span>
         </a>
       </div>
     </section>
