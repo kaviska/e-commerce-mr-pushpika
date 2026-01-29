@@ -447,7 +447,7 @@ function renderStars(rating) {
 }
 
 function updateStarDisplay(averageRating) {
-    const ratingLink = document.querySelector('a[href="#reviews"] .d-flex.gap-1.fs-sm');
+    const ratingLink = document.getElementById('review-stars-nav');
     if (!ratingLink) return;
 
     let stars = '';
@@ -462,11 +462,12 @@ function updateStarDisplay(averageRating) {
     // Add half star if applicable
     if (hasHalfStar && fullStars < 5) {
         stars += '<i class="ci-star-half text-warning"></i>';
-        fullStars += 1; // Count as one for empty stars calculation
+        // Note: We don't increment fullStars here, we track it separately below
     }
 
     // Add empty stars
-    for (let i = fullStars; i < 5; i++) {
+    const emptyStarCount = hasHalfStar && fullStars < 5 ? 5 - fullStars - 1 : 5 - fullStars;
+    for (let i = 0; i < emptyStarCount; i++) {
         stars += '<i class="ci-star text-body-tertiary opacity-75"></i>';
     }
 
