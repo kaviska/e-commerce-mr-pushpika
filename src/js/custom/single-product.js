@@ -388,11 +388,19 @@ async function loadReviews(productId) {
         if (result.status === 'success') {
             const reviewCount = result.data.length;
             
+            // Calculate average rating
+            const averageRating = reviewCount > 0 
+                ? result.data.reduce((sum, review) => sum + parseInt(review.rating), 0) / reviewCount 
+                : 0;
+            
             // Update review count in nav
             const reviewCountNav = document.getElementById('review-count-nav');
             if (reviewCountNav) {
                 reviewCountNav.innerText = `${reviewCount} review${reviewCount !== 1 ? 's' : ''}`;
             }
+            
+            // Update star display with average rating
+            updateStarDisplay(averageRating);
             
             if (reviewCount === 0) {
                 list.innerHTML = '<p class="text-body-secondary py-3">No reviews yet. Be the first to review!</p>';
@@ -436,6 +444,33 @@ function renderStars(rating) {
         }
     }
     return stars;
+}
+
+function updateStarDisplay(averageRating) {
+    const ratingLink = document.querySelector('a[href="#reviews"] .d-flex.gap-1.fs-sm');
+    if (!ratingLink) return;
+
+    let stars = '';
+    const fullStars = Math.floor(averageRating);
+    const hasHalfStar = averageRating % 1 >= 0.5;
+
+    // Add full stars
+    for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="ci-star-filled text-warning"></i>';
+    }
+
+    // Add half star if applicable
+    if (hasHalfStar && fullStars < 5) {
+        stars += '<i class="ci-star-half text-warning"></i>';
+        fullStars += 1; // Count as one for empty stars calculation
+    }
+
+    // Add empty stars
+    for (let i = fullStars; i < 5; i++) {
+        stars += '<i class="ci-star text-body-tertiary opacity-75"></i>';
+    }
+
+    ratingLink.innerHTML = stars;
 }
 
 function displayExampleReviews(list) {
