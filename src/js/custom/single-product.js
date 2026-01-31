@@ -198,6 +198,16 @@ function renderOptions(product) {
         }
     });
 
+    // Check if this is a product with no real variations (only variation_id 1)
+    const hasNoVariations = isProductWithoutVariations();
+    
+    if (hasNoVariations) {
+        // Auto-select the default "no variation" option
+        autoSelectDefaultVariations();
+        container.innerHTML = ''; // Don't show variation selector
+        return;
+    }
+
     let html = '';
 
     for (const [varName, optionsMap] of Object.entries(variationsMap)) {
@@ -614,4 +624,44 @@ function getMissingOptions() {
     });
 
     return missing;
+}
+
+function isProductWithoutVariations() {
+    // Check if all variation options have id 1 (meaning no real variation)
+    if (productStocks.length === 0) return true;
+
+    for (const stock of productStocks) {
+        if (!stock.variation_stocks || stock.variation_stocks.length === 0) {
+            continue;
+        }
+
+        for (const vs of stock.variation_stocks) {
+            const varId = vs.variation_option?.variation?.id;
+            const optId = vs.variation_option?.id;
+            
+            // If any variation is NOT id 1, then product has real variations
+            if (varId !== 1 && optId !== 1) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function autoSelectDefaultVariations() {
+    // Auto-select all the default "no variation" options (id 1)
+    selectedVariations = {};
+
+    productStocks.forEach(stock => {
+        if (stock.variation_stocks) {
+            stock.variation_stocks.forEach(vs => {
+                if (vs.variation_option && vs.variation_option.variation) {
+                    const varName = vs.variation_option.variation.name;
+                    const optName = vs.variation_option.name;
+                    selectedVariations[varName] = optName;
+                }
+            });
+        }
+    });
 }
