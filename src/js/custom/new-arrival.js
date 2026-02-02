@@ -118,12 +118,12 @@ const renderNewArrivals = (products) => {
                     <img loading="lazy" decoding="async" width="110" height="110" src="${imageUrl}" alt="${product.name}" style="object-fit: contain;">
                   </div>
                   <div class="w-100 min-w-0 ps-2 ps-sm-3">
-                    <div class="d-flex align-items-center gap-2 mb-2">
+                    <!-- <div class="d-flex align-items-center gap-2 mb-2">
                       <div class="d-flex gap-1 fs-xs">
                         ${starsHtml}
                       </div>
                       <span class="text-body-tertiary fs-xs">${product.reviews_count || 0}</span>
-                    </div>
+                    </div> -->
                     <h4 class="mb-2">
                       <a class="stretched-link d-block fs-sm fw-medium text-truncate" href="shop-product.php?slug=${product.slug}">
                         <span class="animate-target">${product.name}</span>

@@ -71,10 +71,10 @@ function renderProductDetails(product) {
         descEl.innerHTML = product.description || 'No description available.';
     }
 
-    // 6. Reviews
-    if (product.id) {
-        loadReviews(product.id);
-    }
+    // 6. Reviews (HIDDEN)
+    // if (product.id) {
+    //     loadReviews(product.id);
+    // }
 
     // 7. Show initial selection note
     updateAddToCartButton();

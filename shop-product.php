@@ -53,6 +53,8 @@
 <body>
 
   <!-- Review form modal -->
+  <!-- Review form modal (HIDDEN) -->
+  <!--
   <div class="modal fade" id="reviewForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="reviewFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <form class="modal-content needs-validation" novalidate id="add-review-form">
@@ -149,6 +151,7 @@
       </form>
     </div>
   </div>
+  -->
 
 
   <!-- Shopping cart offcanvas -->
@@ -293,11 +296,11 @@
           <li class="nav-item me-sm-2">
             <a class="nav-link" href="#product-description">Product details</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#reviews">Reviews</a>
-          </li>
+          </li> -->
         </ul>
-        <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none ms-auto mb-1" href="#reviews" id="review-stars-link">
+        <!-- <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none ms-auto mb-1" href="#reviews" id="review-stars-link">
           <div class="d-flex gap-1 fs-sm">
             <i class="ci-star text-body-tertiary opacity-75"></i>
             <i class="ci-star text-body-tertiary opacity-75"></i>
@@ -306,7 +309,7 @@
             <i class="ci-star text-body-tertiary opacity-75"></i>
           </div>
           <span class="text-body-tertiary fs-xs">0 reviews</span>
-        </a>
+        </a> -->
       </div>
     </section>
 
@@ -514,6 +517,8 @@
             Loading description...
           </div>
           <!-- Reviews Section -->
+          <!-- Reviews Section (HIDDEN) -->
+          <!--
           <div id="reviews" class="pt-5 mb-4 mt-2 mt-md-3 mt-lg-4" style="scroll-margin-top: 80px">
             <div class="d-flex align-items-center mb-3">
               <h2 class="h3 mb-0">Reviews</h2>
@@ -523,10 +528,10 @@
               </button>
             </div>
             <div id="reviews-list">
-              <!-- Dynamic Reviews will load here -->
               <p class="text-body-secondary">Loading reviews...</p>
             </div>
           </div>
+          -->
         </div>
 
 

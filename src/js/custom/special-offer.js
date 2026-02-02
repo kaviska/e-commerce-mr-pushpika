@@ -134,12 +134,12 @@ function renderSpecialOffers(products) {
                 </a>
               </div>
               <div class="w-100 min-w-0 px-1 pb-2 px-sm-3 pb-sm-3">
-                <div class="d-flex align-items-center gap-2 mb-2">
+                <!-- <div class="d-flex align-items-center gap-2 mb-2">
                   <div class="d-flex gap-1 fs-xs">
                    
                   </div>
                   <span class="text-body-tertiary fs-xs">(${product.reviews_count || 0})</span>
-                </div>
+                </div> -->
                 <h3 class="pb-1 mb-2">
                   <a class="d-block fs-sm fw-medium text-truncate" href="${productLink}">
                     <span class="animate-target">${product.name}</span>
