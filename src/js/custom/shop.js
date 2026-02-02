@@ -225,6 +225,9 @@ async function loadProducts() {
         params.append('has_web_discount', '1');
     }
 
+    // Add status=active to filter only active products
+    params.append('status', 'active');
+
     // Show loading
     grid.style.opacity = '0.5';
 
@@ -242,7 +245,7 @@ async function loadProducts() {
             // Store all products for pagination
             allProducts = products;
             currentPage = 1;
-            
+
             // Render products with pagination
             renderProductsWithPagination();
 
@@ -522,7 +525,7 @@ function updateSelectedFilters() {
         if (priceMinInput.value !== '' && priceMaxInput.value !== '') {
             const min = parseInt(priceMinInput.value) || 0;
             const max = parseInt(priceMaxInput.value) || 0;
-            
+
             const display = `${formatCurrency(min)} - ${formatCurrency(max)}`;
             tags.push(createTag(display, () => {
                 // Reset to empty
@@ -558,15 +561,15 @@ function renderProductsWithPagination() {
     // Calculate pagination
     const totalProducts = allProducts.length;
     const totalPages = Math.ceil(totalProducts / productsPerPage);
-    
+
     // Get products for current page
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     const productsToShow = allProducts.slice(startIndex, endIndex);
-    
+
     // Render products
     renderProducts(productsToShow, grid);
-    
+
     // Render pagination
     renderPagination(totalPages);
 }
@@ -574,11 +577,11 @@ function renderProductsWithPagination() {
 function renderPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     if (!paginationContainer) return;
-    
+
     paginationContainer.innerHTML = '';
-    
+
     if (totalPages <= 1) return;
-    
+
     // Previous button
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
@@ -594,23 +597,23 @@ function renderPagination(totalPages) {
         });
     }
     paginationContainer.appendChild(prevLi);
-    
+
     // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageLi = document.createElement('li');
         pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
         pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        
+
         if (i !== currentPage) {
             pageLi.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                 goToPage(i);
             });
         }
-        
+
         paginationContainer.appendChild(pageLi);
     }
-    
+
     // Next button
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -631,7 +634,7 @@ function renderPagination(totalPages) {
 function goToPage(page) {
     currentPage = page;
     renderProductsWithPagination();
-    
+
     // Scroll to top of product grid
     const grid = document.getElementById('product-grid');
     if (grid) {

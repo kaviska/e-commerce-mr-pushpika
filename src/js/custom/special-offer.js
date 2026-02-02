@@ -9,8 +9,8 @@ async function fetchSpecialOffers() {
       console.error('SERVER_URL is not defined in special-offer.js');
       return;
     }
-    console.log('Fetching special offers from:', `${window.SERVER_URL}/products?with=all&limit=1000&has_web_discount=1`);
-    const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&has_web_discount=1`, {
+    console.log('Fetching special offers from:', `${window.SERVER_URL}/products?with=all&limit=1000&has_web_discount=1&status=active`);
+    const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&has_web_discount=1&status=active`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

@@ -29,7 +29,7 @@ async function fetchProductDetails(slug) {
     }
 
     try {
-        const response = await fetch(`${window.SERVER_URL}/products?slug=${slug}&with=all`, {
+        const response = await fetch(`${window.SERVER_URL}/products?slug=${slug}&with=all&status=active`, {
             headers: {
                 'Accept': 'application/json'
             }
@@ -200,7 +200,7 @@ function renderOptions(product) {
 
     // Check if this is a product with no real variations (only variation_id 1)
     const hasNoVariations = isProductWithoutVariations();
-    
+
     if (hasNoVariations) {
         // Auto-select the default "no variation" option
         autoSelectDefaultVariations();
@@ -310,7 +310,7 @@ function updateAddToCartButton() {
             btn.innerHTML = `<i class="ci-message-circle fs-lg animate-target ms-n1 me-2"></i> Buy on WhatsApp`;
             btn.classList.remove('btn-secondary', 'btn-primary');
             btn.classList.add('btn-success');
-            
+
             // Hide note when stock is selected and available
             if (noteDiv) noteDiv.classList.add('d-none');
         } else {
@@ -318,7 +318,7 @@ function updateAddToCartButton() {
             btn.innerText = 'Out of Stock';
             btn.classList.remove('btn-primary', 'btn-success');
             btn.classList.add('btn-secondary');
-            
+
             // Show out of stock message
             if (noteDiv && noteText) {
                 noteText.innerText = 'This product variation is currently out of stock.';
@@ -332,7 +332,7 @@ function updateAddToCartButton() {
         btn.innerHTML = `<i class="ci-message-circle fs-lg animate-target ms-n1 me-2"></i> Buy on WhatsApp`;
         btn.classList.remove('btn-success');
         btn.classList.add('btn-primary');
-        
+
         // Show selection note
         if (noteDiv && noteText) {
             const missingOptions = getMissingOptions();
@@ -454,7 +454,7 @@ function updateReviewStars(reviews, reviewCount) {
 function generateStarsHTML(rating) {
     const ratingNum = parseFloat(rating);
     let starsHTML = '';
-    
+
     for (let i = 1; i <= 5; i++) {
         if (i <= Math.floor(ratingNum)) {
             // Full star
@@ -467,7 +467,7 @@ function generateStarsHTML(rating) {
             starsHTML += '<i class="ci-star text-body-tertiary opacity-75"></i>';
         }
     }
-    
+
     return starsHTML;
 }
 
@@ -638,7 +638,7 @@ function isProductWithoutVariations() {
         for (const vs of stock.variation_stocks) {
             const varId = vs.variation_option?.variation?.id;
             const optId = vs.variation_option?.id;
-            
+
             // If any variation is NOT id 1, then product has real variations
             if (varId !== 1 && optId !== 1) {
                 return false;

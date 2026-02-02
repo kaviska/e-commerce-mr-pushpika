@@ -11,23 +11,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 const highlightActiveNavLink = () => {
     const currentPath = window.location.pathname;
     const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'index.php';
-    
+
     // Get all navigation links
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    
+
     navLinks.forEach(link => {
         // Remove active class from all links
         link.classList.remove('active');
-        
+
         // Get the href attribute
         const href = link.getAttribute('href');
-        
+
         if (href) {
             // Extract filename from href
             const linkPage = href.substring(href.lastIndexOf('/') + 1).split('?')[0];
-            
+
             // Check if current page matches
-            if (currentPage === linkPage || 
+            if (currentPage === linkPage ||
                 (currentPage === '' && linkPage === 'index.php') ||
                 (currentPage === 'index.php' && linkPage === 'index.php')) {
                 link.classList.add('active');
@@ -89,7 +89,7 @@ const performSearch = async (query, container) => {
     `;
 
     try {
-        const response = await fetch(`${window.SERVER_URL}/products?search=${encodeURIComponent(query)}&limit=5`);
+        const response = await fetch(`${window.SERVER_URL}/products?search=${encodeURIComponent(query)}&limit=5&status=active`);
         const data = await response.json();
         const products = data.data || [];
 
@@ -227,13 +227,13 @@ const renderForOtherPagesCategory = (categories) => {
         // Event handling with responsive behavior
         const trigger = li.querySelector('[data-bs-toggle="dropdown"]');
         const dropdownMenu = li.querySelector('.dropdown-menu');
-        
+
         if (trigger && dropdownMenu) {
             // Desktop: hover to show dropdown
             li.addEventListener('mouseenter', () => {
                 if (window.innerWidth >= 992) { // lg breakpoint
                     loadProductByCategory(category.id, dropdownMenu);
-                    
+
                     // Use Bootstrap's dropdown if available
                     if (window.bootstrap && window.bootstrap.Dropdown) {
                         const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(trigger);
@@ -241,7 +241,7 @@ const renderForOtherPagesCategory = (categories) => {
                     }
                 }
             });
-            
+
             li.addEventListener('mouseleave', () => {
                 if (window.innerWidth >= 992) { // lg breakpoint
                     // Use Bootstrap's dropdown if available
@@ -253,7 +253,7 @@ const renderForOtherPagesCategory = (categories) => {
                     }
                 }
             });
-            
+
             // Mobile: click handled by Bootstrap's data-bs-trigger
             trigger.addEventListener('show.bs.dropdown', () => {
                 if (window.innerWidth < 992) { // Mobile only
@@ -264,7 +264,7 @@ const renderForOtherPagesCategory = (categories) => {
 
         container.appendChild(li);
     });
-    
+
     // After rendering categories, ensure menus are hidden
     handleCategoryMenuState();
 };
@@ -277,7 +277,7 @@ const loadProductByCategory = async (categoryId, menuContainer) => {
     }
 
     try {
-        const response = await fetch(`${SERVER_URL}/products?category_id=${categoryId}&with=all&limit=10`);
+        const response = await fetch(`${SERVER_URL}/products?category_id=${categoryId}&with=all&limit=10&status=active`);
         const data = await response.json();
 
         if (data.status === 'success') {

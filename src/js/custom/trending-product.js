@@ -1,97 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('trending-product.js loaded');
-    fetchTrendingProducts();
+  console.log('trending-product.js loaded');
+  fetchTrendingProducts();
 });
 
 async function fetchTrendingProducts() {
-    try {
-        if (!window.SERVER_URL) {
-            console.error('SERVER_URL is not defined in trending-product.js');
-            return;
-        }
-        console.log('Fetching trending products from:', `${window.SERVER_URL}/products?with=all&limit=1000&featured=true`);
-        const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&featured=true`);
-        // The Request succeeded (status 200), now parse the body
-        const data = await response.json();
-
-        console.log('API Response Data:', data); // Log the actual data
-
-        if (data.status === 'success' && data.data && data.data.length > 0) {
-            console.log('Trending products fetched:', data.data.length);
-            renderTrendingProducts(data.data);
-        } else {
-            console.log('No trending products found or API returned error');
-        }
-    } catch (error) {
-        console.error('Error fetching trending products:', error);
+  try {
+    if (!window.SERVER_URL) {
+      console.error('SERVER_URL is not defined in trending-product.js');
+      return;
     }
+    console.log('Fetching trending products from:', `${window.SERVER_URL}/products?with=all&limit=1000&featured=true&status=active`);
+    const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&featured=true&status=active`);
+    // The Request succeeded (status 200), now parse the body
+    const data = await response.json();
+
+    console.log('API Response Data:', data); // Log the actual data
+
+    if (data.status === 'success' && data.data && data.data.length > 0) {
+      console.log('Trending products fetched:', data.data.length);
+      renderTrendingProducts(data.data);
+    } else {
+      console.log('No trending products found or API returned error');
+    }
+  } catch (error) {
+    console.error('Error fetching trending products:', error);
+  }
 }
 
 function renderTrendingProducts(products) {
-    const container = document.getElementById('trending-product-container');
-    if (!container) return;
+  const container = document.getElementById('trending-product-container');
+  if (!container) return;
 
-    // Take first 8 products
-    const itemsToRender = products.slice(0, 8);
+  // Take first 8 products
+  const itemsToRender = products.slice(0, 8);
 
-    itemsToRender.forEach(product => {
-        const col = document.createElement('div');
-        col.className = 'col';
+  itemsToRender.forEach(product => {
+    const col = document.createElement('div');
+    col.className = 'col';
 
-        const productLink = `shop-product.php?slug=${product.slug}`;
-        const imageUrl = product.primary_image ? `${window.SERVER_URL.replace('/api', '')}/${product.primary_image}` : 'assets/img/placeholder.png';
+    const productLink = `shop-product.php?slug=${product.slug}`;
+    const imageUrl = product.primary_image ? `${window.SERVER_URL.replace('/api', '')}/${product.primary_image}` : 'assets/img/placeholder.png';
 
-        let price = 0;
-        let discount = 0;
-        let originalPrice = 0;
+    let price = 0;
+    let discount = 0;
+    let originalPrice = 0;
 
-        if (product.stocks && product.stocks.length > 0) {
-            const stock = product.stocks[0];
-            price = parseFloat(stock.web_price || 0);
-            discount = parseFloat(stock.web_discount || 0);
-            // web_price is the discounted price, web_discount is the discount amount
-            originalPrice = discount > 0 ? price + discount : price;
-        }
+    if (product.stocks && product.stocks.length > 0) {
+      const stock = product.stocks[0];
+      price = parseFloat(stock.web_price || 0);
+      discount = parseFloat(stock.web_discount || 0);
+      // web_price is the discounted price, web_discount is the discount amount
+      originalPrice = discount > 0 ? price + discount : price;
+    }
 
-        // Stars generation
-        let starsHtml = '';
-        const rating = Math.round(product.reviews_avg_rating || 0);
-        for (let i = 0; i < 5; i++) {
-            if (i < rating) {
-                starsHtml += '<i class="ci-star-filled text-warning"></i>';
-            } else {
-                starsHtml += '<i class="ci-star text-body-tertiary opacity-75"></i>';
-            }
-        }
+    // Stars generation
+    let starsHtml = '';
+    const rating = Math.round(product.reviews_avg_rating || 0);
+    for (let i = 0; i < 5; i++) {
+      if (i < rating) {
+        starsHtml += '<i class="ci-star-filled text-warning"></i>';
+      } else {
+        starsHtml += '<i class="ci-star text-body-tertiary opacity-75"></i>';
+      }
+    }
 
-        // Generate details for hover (Brand, Category, Variations)
-        let detailsHtml = '';
+    // Generate details for hover (Brand, Category, Variations)
+    let detailsHtml = '';
 
-        // Category
-        if (product.category) {
-            detailsHtml += createDetailItem('Category', product.category.name);
-        }
+    // Category
+    if (product.category) {
+      detailsHtml += createDetailItem('Category', product.category.name);
+    }
 
-        // Brand
-        if (product.brand) {
-            detailsHtml += createDetailItem('Brand', product.brand.name);
-        }
+    // Brand
+    if (product.brand) {
+      detailsHtml += createDetailItem('Brand', product.brand.name);
+    }
 
-        // Variations (from first stock)
-        if (product.stocks && product.stocks.length > 0) {
-            const firstStock = product.stocks[0];
-            if (firstStock.variation_stocks) {
-                firstStock.variation_stocks.forEach(vStock => {
-                    if (vStock.variation_option && vStock.variation_option.variation) {
-                        const label = vStock.variation_option.variation.name;
-                        const value = vStock.variation_option.name;
-                        detailsHtml += createDetailItem(label, value);
-                    }
-                });
-            }
-        }
+    // Variations (from first stock)
+    if (product.stocks && product.stocks.length > 0) {
+      const firstStock = product.stocks[0];
+      if (firstStock.variation_stocks) {
+        firstStock.variation_stocks.forEach(vStock => {
+          if (vStock.variation_option && vStock.variation_option.variation) {
+            const label = vStock.variation_option.variation.name;
+            const value = vStock.variation_option.name;
+            detailsHtml += createDetailItem(label, value);
+          }
+        });
+      }
+    }
 
-        col.innerHTML = `
+    col.innerHTML = `
             <div class="product-card animate-underline hover-effect-opacity bg-body rounded">
               <div class="position-relative">
                 <div class="position-absolute top-0 end-0 z-2 hover-effect-target opacity-0 mt-3 me-3">
@@ -157,12 +157,12 @@ function renderTrendingProducts(products) {
               </div>
             </div>
         `;
-        container.appendChild(col);
-    });
+    container.appendChild(col);
+  });
 }
 
 function createDetailItem(label, value) {
-    return `
+  return `
     <li class="d-flex align-items-center">
       <span class="fs-xs">${label}:</span>
       <span class="d-block flex-grow-1 border-bottom border-dashed px-1 mt-2 mx-2"></span>

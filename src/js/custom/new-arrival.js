@@ -26,7 +26,7 @@ const renderNewArrivalBanner = (banner) => {
 
     const baseUrl = window.SERVER_URL.replace('/api', '');
     const imageUrl = banner.image ? `${baseUrl}/${banner.image}` : 'assets/img/home/electronics/banner/laptop.png';
-    
+
     container.innerHTML = `
         <div class="d-flex flex-column align-items-center justify-content-end h-100 text-center overflow-hidden rounded-5 px-4 px-lg-3 pt-4 pb-5" style="background: #1d2c41 url(assets/img/home/electronics/banner/background.jpg) center/cover no-repeat">
             <div class="ratio animate-up-down position-relative z-2 me-lg-4" style="max-width: 320px; margin-bottom: -19%; --cz-aspect-ratio: calc(690 / 640 * 100%)">
@@ -50,8 +50,8 @@ const fetchNewArrivals = async () => {
             console.error('SERVER_URL is not defined');
             return;
         }
-        console.log('Fetching new arrivals from:', `${window.SERVER_URL}/products?with=all&limit=1000&latest_product=true`);
-        const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&latest_product=true`);
+        console.log('Fetching new arrivals from:', `${window.SERVER_URL}/products?with=all&limit=1000&latest_product=true&status=active`);
+        const response = await fetch(`${window.SERVER_URL}/products?with=all&limit=1000&latest_product=true&status=active`);
         const data = await response.json();
 
         if (data.status === 'success') {
