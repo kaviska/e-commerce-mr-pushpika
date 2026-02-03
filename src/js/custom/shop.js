@@ -128,7 +128,6 @@ function renderCategories(categories) {
                 <input class="form-check-input filter-category-input" type="checkbox" id="cat-${cat.id}" value="${cat.id}">
                 <label class="form-check-label d-flex align-items-center justify-content-between w-100 ps-2 cursor-pointer" for="cat-${cat.id}">
                     <span class="animate-target text-truncate me-3">${cat.name}</span>
-                    <span class="text-body-secondary fs-xs ms-auto">${count}</span>
                 </label>
             </div>
         </li>
