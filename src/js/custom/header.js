@@ -167,7 +167,7 @@ const fetchCategories = async () => {
             console.error('SERVER_URL is not defined in header.js');
             return;
         }
-        const response = await fetch(`${window.SERVER_URL}/categories`);
+        const response = await fetch(`${window.SERVER_URL}/categories?status=active`);
         const data = await response.json();
 
         if (data.status === 'success') {

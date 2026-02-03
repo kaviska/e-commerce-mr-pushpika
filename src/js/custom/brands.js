@@ -9,7 +9,7 @@ async function fetchBrands() {
             return;
         }
 
-        const response = await fetch(`${window.SERVER_URL}/brands`, {
+        const response = await fetch(`${window.SERVER_URL}/brands?status=active`, {
             headers: {
                 'Accept': 'application/json'
             }

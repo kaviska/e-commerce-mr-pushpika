@@ -92,12 +92,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadFilters() {
     try {
         // Fetch Categories
-        const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true`);
+        const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true&status=active`);
         const catData = await catRes.json();
         renderCategories(catData.data || []);
 
         // Fetch Brands
-        const brandRes = await fetch(`${window.SERVER_URL}/brands`);
+        const brandRes = await fetch(`${window.SERVER_URL}/brands?status=active`);
         const brandData = await brandRes.json();
         renderBrands(brandData.data || []);
 

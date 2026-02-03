@@ -1,7 +1,7 @@
 // Fetch and display categories with products
 async function loadCategories() {
     try {
-        const response = await fetch(`${window.SERVER_URL}/categories?category_with_products`);
+        const response = await fetch(`${window.SERVER_URL}/categories?category_with_products=true&status=active`);
         const result = await response.json();
 
         if (result.status === 'success' && result.data) {
