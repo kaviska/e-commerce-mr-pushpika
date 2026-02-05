@@ -12,13 +12,8 @@ async function fetchHeroSliders() {
         const response = await fetch(`${window.SERVER_URL}/hero-sliders?status=active`);
         const data = await response.json();
 
-        let sliders = [];
-        if (data.data) {
-            sliders = Array.isArray(data.data) ? data.data : Object.values(data.data);
-        }
-
-        if (data.status === 'success' && sliders.length > 0) {
-            renderHeroSliders(sliders);
+        if (data.status === 'success' && data.data && data.data.length > 0) {
+            renderHeroSliders(data.data);
         } else {
             console.error('No hero sliders found');
         }
