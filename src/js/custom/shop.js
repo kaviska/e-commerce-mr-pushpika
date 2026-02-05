@@ -97,7 +97,7 @@ async function loadFilters() {
         renderCategories(catData.data || []);
 
         // Fetch Brands
-        const brandRes = await fetch(`${window.SERVER_URL}/brands`);
+        const brandRes = await fetch(`${window.SERVER_URL}/brands?status=active`);
         const brandData = await brandRes.json();
         renderBrands(brandData.data || []);
 
