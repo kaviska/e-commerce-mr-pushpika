@@ -242,7 +242,7 @@ async function loadProducts() {
             // Store all products for pagination
             allProducts = products;
             currentPage = 1;
-            
+
             // Render products with pagination
             renderProductsWithPagination();
 
@@ -284,6 +284,9 @@ function renderProducts(products, container) {
     container.style.minHeight = '';
 
     products.forEach(product => {
+        // --- Active Stocks Filter ---
+        const activeStocks = (product.stocks || []).filter(s => s.status === 'active');
+
         // --- Price Calculation ---
         let priceDisplay = '';
         let minPrice = Infinity;
@@ -294,9 +297,9 @@ function renderProducts(products, container) {
         let hasDiscount = false;
         let maxDiscountPercent = 0;
 
-        if (product.stocks && product.stocks.length > 0) {
+        if (activeStocks.length > 0) {
             hasStock = true;
-            product.stocks.forEach(stock => {
+            activeStocks.forEach(stock => {
                 const price = parseFloat(stock.web_price) || 0;
                 const discount = parseFloat(stock.web_discount) || 0;
                 const finalPrice = Math.max(0, price - discount);
@@ -346,8 +349,8 @@ function renderProducts(products, container) {
         let variationsHtml = '';
         const variationsMap = new Map();
 
-        if (product.stocks) {
-            product.stocks.forEach(stock => {
+        if (activeStocks.length > 0) {
+            activeStocks.forEach(stock => {
                 if (stock.variation_stocks && Array.isArray(stock.variation_stocks)) {
                     stock.variation_stocks.forEach(vs => {
                         if (vs.variation_option && vs.variation_option.variation) {
@@ -522,7 +525,7 @@ function updateSelectedFilters() {
         if (priceMinInput.value !== '' && priceMaxInput.value !== '') {
             const min = parseInt(priceMinInput.value) || 0;
             const max = parseInt(priceMaxInput.value) || 0;
-            
+
             const display = `${formatCurrency(min)} - ${formatCurrency(max)}`;
             tags.push(createTag(display, () => {
                 // Reset to empty
@@ -558,15 +561,15 @@ function renderProductsWithPagination() {
     // Calculate pagination
     const totalProducts = allProducts.length;
     const totalPages = Math.ceil(totalProducts / productsPerPage);
-    
+
     // Get products for current page
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     const productsToShow = allProducts.slice(startIndex, endIndex);
-    
+
     // Render products
     renderProducts(productsToShow, grid);
-    
+
     // Render pagination
     renderPagination(totalPages);
 }
@@ -574,11 +577,11 @@ function renderProductsWithPagination() {
 function renderPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     if (!paginationContainer) return;
-    
+
     paginationContainer.innerHTML = '';
-    
+
     if (totalPages <= 1) return;
-    
+
     // Previous button
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
@@ -594,23 +597,23 @@ function renderPagination(totalPages) {
         });
     }
     paginationContainer.appendChild(prevLi);
-    
+
     // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageLi = document.createElement('li');
         pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
         pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        
+
         if (i !== currentPage) {
             pageLi.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                 goToPage(i);
             });
         }
-        
+
         paginationContainer.appendChild(pageLi);
     }
-    
+
     // Next button
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -631,7 +634,7 @@ function renderPagination(totalPages) {
 function goToPage(page) {
     currentPage = page;
     renderProductsWithPagination();
-    
+
     // Scroll to top of product grid
     const grid = document.getElementById('product-grid');
     if (grid) {
