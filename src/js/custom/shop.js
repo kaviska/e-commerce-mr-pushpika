@@ -92,12 +92,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadFilters() {
     try {
         // Fetch Categories
-        const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true&status=active`);
+        const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true`);
         const catData = await catRes.json();
         renderCategories(catData.data || []);
 
         // Fetch Brands
-        const brandRes = await fetch(`${window.SERVER_URL}/brands?status=active`);
+        const brandRes = await fetch(`${window.SERVER_URL}/brands`);
         const brandData = await brandRes.json();
         renderBrands(brandData.data || []);
 
@@ -128,6 +128,7 @@ function renderCategories(categories) {
                 <input class="form-check-input filter-category-input" type="checkbox" id="cat-${cat.id}" value="${cat.id}">
                 <label class="form-check-label d-flex align-items-center justify-content-between w-100 ps-2 cursor-pointer" for="cat-${cat.id}">
                     <span class="animate-target text-truncate me-3">${cat.name}</span>
+                    <span class="text-body-secondary fs-xs ms-auto">${count}</span>
                 </label>
             </div>
         </li>
@@ -224,9 +225,6 @@ async function loadProducts() {
         params.append('has_web_discount', '1');
     }
 
-    // Add status=active to filter only active products
-    params.append('status', 'active');
-
     // Show loading
     grid.style.opacity = '0.5';
 
@@ -244,7 +242,7 @@ async function loadProducts() {
             // Store all products for pagination
             allProducts = products;
             currentPage = 1;
-
+            
             // Render products with pagination
             renderProductsWithPagination();
 
@@ -406,12 +404,12 @@ function renderProducts(products, container) {
                     </a>
                   </div>
                   <div class="w-100 min-w-0 px-1 pb-2 px-sm-3 pb-sm-3">
-                    <!-- <div class="d-flex align-items-center gap-2 mb-2">
+                    <div class="d-flex align-items-center gap-2 mb-2">
                       <div class="d-flex gap-1 fs-xs">
                         ${renderStars(rating)}
                       </div>
                       <span class="text-body-tertiary fs-xs">(${reviewCount})</span>
-                    </div> -->
+                    </div>
                     <h3 class="pb-1 mb-2">
                       <a class="d-block fs-sm fw-medium text-truncate" href="shop-product.php?slug=${product.slug}">
                         <span class="animate-target">${product.name}</span>
@@ -524,7 +522,7 @@ function updateSelectedFilters() {
         if (priceMinInput.value !== '' && priceMaxInput.value !== '') {
             const min = parseInt(priceMinInput.value) || 0;
             const max = parseInt(priceMaxInput.value) || 0;
-
+            
             const display = `${formatCurrency(min)} - ${formatCurrency(max)}`;
             tags.push(createTag(display, () => {
                 // Reset to empty
@@ -560,15 +558,15 @@ function renderProductsWithPagination() {
     // Calculate pagination
     const totalProducts = allProducts.length;
     const totalPages = Math.ceil(totalProducts / productsPerPage);
-
+    
     // Get products for current page
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     const productsToShow = allProducts.slice(startIndex, endIndex);
-
+    
     // Render products
     renderProducts(productsToShow, grid);
-
+    
     // Render pagination
     renderPagination(totalPages);
 }
@@ -576,11 +574,11 @@ function renderProductsWithPagination() {
 function renderPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     if (!paginationContainer) return;
-
+    
     paginationContainer.innerHTML = '';
-
+    
     if (totalPages <= 1) return;
-
+    
     // Previous button
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
@@ -596,23 +594,23 @@ function renderPagination(totalPages) {
         });
     }
     paginationContainer.appendChild(prevLi);
-
+    
     // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageLi = document.createElement('li');
         pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
         pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-
+        
         if (i !== currentPage) {
             pageLi.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                 goToPage(i);
             });
         }
-
+        
         paginationContainer.appendChild(pageLi);
     }
-
+    
     // Next button
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -633,7 +631,7 @@ function renderPagination(totalPages) {
 function goToPage(page) {
     currentPage = page;
     renderProductsWithPagination();
-
+    
     // Scroll to top of product grid
     const grid = document.getElementById('product-grid');
     if (grid) {

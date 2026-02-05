@@ -9,7 +9,7 @@ async function fetchHeroSliders() {
             return;
         }
 
-        const response = await fetch(`${window.SERVER_URL}/hero-sliders`);
+        const response = await fetch(`${window.SERVER_URL}/hero-sliders?status=active`);
         const data = await response.json();
 
         if (data.status === 'success' && data.data && data.data.length > 0) {
