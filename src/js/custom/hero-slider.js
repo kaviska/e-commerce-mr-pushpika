@@ -12,8 +12,13 @@ async function fetchHeroSliders() {
         const response = await fetch(`${window.SERVER_URL}/hero-sliders?status=active`);
         const data = await response.json();
 
-        if (data.status === 'success' && data.data && data.data.length > 0) {
-            renderHeroSliders(data.data);
+        let sliders = [];
+        if (data.data) {
+            sliders = Array.isArray(data.data) ? data.data : Object.values(data.data);
+        }
+
+        if (data.status === 'success' && sliders.length > 0) {
+            renderHeroSliders(sliders);
         } else {
             console.error('No hero sliders found');
         }
@@ -25,7 +30,7 @@ async function fetchHeroSliders() {
 function renderHeroSliders(sliders) {
     const textContainer = document.getElementById('hero-text-slides');
     const imageContainer = document.getElementById('hero-image-slides');
-    
+
     if (!textContainer || !imageContainer) return;
 
     const baseUrl = window.SERVER_URL.replace('/api', '');
@@ -51,9 +56,9 @@ function renderHeroSliders(sliders) {
         // Create image slide
         const imageSlide = document.createElement('div');
         imageSlide.className = 'swiper-slide d-flex justify-content-end';
-        
+
         const imageUrl = slider.image ? `${baseUrl}/storage/${slider.image}` : 'assets/img/placeholder.png';
-        
+
         const isFirstSlide = index === 0;
 
         imageSlide.innerHTML = `
@@ -74,11 +79,11 @@ function reinitializeSwiper() {
         // Find existing Swiper instances and update them
         const textSwiper = document.querySelector('.swiper[data-swiper]');
         const imageSwiper = document.getElementById('sliderImages');
-        
+
         if (textSwiper && textSwiper.swiper) {
             textSwiper.swiper.update();
         }
-        
+
         if (imageSwiper && imageSwiper.swiper) {
             imageSwiper.swiper.update();
         }
