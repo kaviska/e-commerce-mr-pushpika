@@ -580,7 +580,7 @@ function buyOnWhatsApp() {
     const phoneNumber = '94770000000'; // REPLACE WITH ACTUAL NUMBER
 
     const message = `Halo, I want to buy this product:
-Name: ${currentProduct.name}
+Product Name: ${currentProduct.name}
 Variation: ${getStockDescription(stock)}
 Quantity: ${quantity}
 Link: ${window.location.href}`;
