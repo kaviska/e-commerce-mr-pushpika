@@ -29,9 +29,13 @@ async function fetchSpecialOffers() {
       renderSpecialOffers(data.data);
     } else {
       console.log('No special offers found or API returned error');
+      const section = document.getElementById('special-offer-section');
+      if (section) section.style.display = 'none';
     }
   } catch (error) {
     console.error('Error fetching special offers:', error);
+    const section = document.getElementById('special-offer-section');
+    if (section) section.style.display = 'none';
   }
 }
 
