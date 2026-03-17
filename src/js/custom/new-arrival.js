@@ -65,12 +65,40 @@ const fetchNewArrivals = async () => {
     }
 };
 
+const isActiveStatus = (status) => {
+    return status === 'active' || status === true || status === 'true' || status === 1 || status === '1';
+};
+
+const getValidStock = (product) => {
+    if (!product || !Array.isArray(product.stocks)) return null;
+
+    return product.stocks.find(stock => {
+        const isActive = isActiveStatus(stock?.status);
+        const quantity = Number(stock?.quantity || 0);
+        return isActive && quantity > 0;
+    }) || null;
+};
+
+const isEligibleNewArrivalProduct = (product) => {
+    if (!product) return false;
+
+    const productActive = isActiveStatus(product.status);
+    const brandActive = product.brand && isActiveStatus(product.brand.status);
+    const categoryActive = product.category && isActiveStatus(product.category.status);
+    const hasValidStock = !!getValidStock(product);
+
+    return productActive && brandActive && categoryActive && hasValidStock;
+};
+
 const renderNewArrivals = (products) => {
     const container = document.getElementById('new-arrival-container');
     if (!container || !products || products.length === 0) return;
 
+    const inStockProducts = products.filter(product => isEligibleNewArrivalProduct(product));
+    if (inStockProducts.length === 0) return;
+
     // Use only the first 8 products for the layout (4 per column)
-    const productsToDisplay = products.slice(0, 8);
+    const productsToDisplay = inStockProducts.slice(0, 8);
 
     // Split into two columns
     const half = Math.ceil(productsToDisplay.length / 2);
@@ -83,18 +111,20 @@ const renderNewArrivals = (products) => {
 
         items.forEach(product => {
             const baseUrl = window.SERVER_URL.replace('/api', '');
-            const imagePath = product.primary_image.startsWith('/') ? product.primary_image : '/' + product.primary_image;
+            const imagePath = product.primary_image
+                ? (product.primary_image.startsWith('/') ? product.primary_image : '/' + product.primary_image)
+                : null;
             const imageUrl = product.primary_image ? `${baseUrl}${imagePath}` : 'assets/img/placeholder.png';
+            const validStock = getValidStock(product);
 
             let price = 'Check Price';
             let originalPrice = '';
 
-            if (product.stocks && product.stocks.length > 0) {
-                const stock = product.stocks[0];
-                price = `Rs. ${stock.web_price}`;
-                const discount = parseFloat(stock.web_discount);
+            if (validStock) {
+                price = `Rs. ${validStock.web_price}`;
+                const discount = parseFloat(validStock.web_discount);
                 if (discount > 0) {
-                    const oldPrice = parseFloat(stock.web_price) + discount;
+                    const oldPrice = parseFloat(validStock.web_price) + discount;
                     originalPrice = `Rs. ${oldPrice}`;
                 }
             }

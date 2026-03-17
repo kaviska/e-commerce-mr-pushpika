@@ -3,6 +3,30 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchSpecialOffers();
 });
 
+function isSpecialOfferActiveStatus(status) {
+  return status === 'active' || status === true || status === 'true' || status === 1 || status === '1';
+}
+
+function getSpecialOfferValidStock(product) {
+  if (!product || !Array.isArray(product.stocks)) return null;
+
+  return product.stocks.find(stock => {
+    const quantity = Number(stock?.quantity || 0);
+    return isSpecialOfferActiveStatus(stock?.status) && quantity > 0;
+  }) || null;
+}
+
+function isEligibleSpecialOfferProduct(product) {
+  if (!product) return false;
+
+  const productActive = isSpecialOfferActiveStatus(product.status);
+  const brandActive = product.brand && isSpecialOfferActiveStatus(product.brand.status);
+  const categoryActive = product.category && isSpecialOfferActiveStatus(product.category.status);
+  const hasValidStock = !!getSpecialOfferValidStock(product);
+
+  return productActive && brandActive && categoryActive && hasValidStock;
+}
+
 async function fetchSpecialOffers() {
   try {
     if (!window.SERVER_URL) {
@@ -43,8 +67,16 @@ function renderSpecialOffers(products) {
   const container = document.getElementById('special-offer-wrapper');
   if (!container) return;
 
+  const section = document.getElementById('special-offer-section');
+  const eligibleProducts = products.filter(product => isEligibleSpecialOfferProduct(product));
+
+  if (eligibleProducts.length === 0) {
+    if (section) section.style.display = 'none';
+    return;
+  }
+
   // slice to limit if needed, e.g. 10
-  const itemsToRender = products.slice(0, 10);
+  const itemsToRender = eligibleProducts.slice(0, 10);
 
   itemsToRender.forEach(product => {
     const slide = document.createElement('div');
@@ -52,18 +84,18 @@ function renderSpecialOffers(products) {
 
     const productLink = `shop-product.php?slug=${product.slug}`;
     const imageUrl = product.primary_image ? `${window.SERVER_URL.replace('/api', '')}/${product.primary_image}` : 'assets/img/placeholder.png';
+    const validStock = getSpecialOfferValidStock(product);
 
     let price = 0;
     let discount = 0;
     let originalPrice = 0;
     let stockQuantity = 0;
 
-    if (product.stocks && product.stocks.length > 0) {
-      const stock = product.stocks[0];
-      price = parseFloat(stock.web_price || 0);
-      discount = parseFloat(stock.web_discount || 0);
+    if (validStock) {
+      price = parseFloat(validStock.web_price || 0);
+      discount = parseFloat(validStock.web_discount || 0);
       originalPrice = discount > 0 ? price + discount : price;
-      stockQuantity = parseInt(stock.quantity || 0);
+      stockQuantity = parseInt(validStock.quantity || 0);
     }
 
     // Calculate progress bar percentage (arbitrary logic or based on initial stock if available)
@@ -85,18 +117,15 @@ function renderSpecialOffers(products) {
       detailsHtml += createDetailItem('Brand', product.brand.name);
     }
 
-    // Variations (from first stock)
-    if (product.stocks && product.stocks.length > 0) {
-      const firstStock = product.stocks[0];
-      if (firstStock.variation_stocks) {
-        firstStock.variation_stocks.forEach(vStock => {
+    // Variations (from valid active stock)
+    if (validStock && validStock.variation_stocks) {
+      validStock.variation_stocks.forEach(vStock => {
           if (vStock.variation_option && vStock.variation_option.variation) {
             const label = vStock.variation_option.variation.name;
             const value = vStock.variation_option.name;
             detailsHtml += createDetailItem(label, value);
           }
         });
-      }
     }
 
     slide.innerHTML = `

@@ -11,6 +11,24 @@ let currentPage = 1;
 const productsPerPage = 12;
 let userChangedPrice = false; // Track if user has interacted with price slider
 
+function isActiveStatus(value) {
+    if (value === undefined || value === null) return false;
+    const normalized = String(value).trim().toLowerCase();
+    return normalized === 'active' || normalized === '1' || normalized === 'true';
+}
+
+function getActiveStocks(product) {
+    const stocks = Array.isArray(product?.stocks) ? product.stocks : [];
+    return stocks.filter(stock => isActiveStatus(stock?.status));
+}
+
+function isDisplayableProduct(product) {
+    return isActiveStatus(product?.status)
+        && isActiveStatus(product?.category?.status)
+        && isActiveStatus(product?.brand?.status)
+        && getActiveStocks(product).length > 0;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     await loadFilters();
     loadProducts();
@@ -94,10 +112,14 @@ async function loadFilters() {
         // Fetch Categories
         const catRes = await fetch(`${window.SERVER_URL}/categories?category_with_product_count=true`);
         const catData = await catRes.json();
-        renderCategories(catData.data || []);
+        const activeCategories = (catData.data || []).filter(cat => {
+            const status = cat?.status;
+            return status === 'active' || status === true || status === 'true' || status === 1 || status === '1';
+        });
+        renderCategories(activeCategories);
 
         // Fetch Brands
-        const brandRes = await fetch(`${window.SERVER_URL}/brands?status=active`);
+        const brandRes = await fetch(`${window.SERVER_URL}/brands`);
         const brandData = await brandRes.json();
         renderBrands(brandData.data || []);
 
@@ -110,10 +132,17 @@ function renderCategories(categories) {
     const container = document.getElementById('filter-categories');
     if (!container) return;
 
+    // Get category from URL parameter (used by footer links like ?category=slug)
+    const urlCategory = getURLParameter('category');
+    const normalizedUrlCategory = urlCategory ? decodeURIComponent(String(urlCategory)).trim().toLowerCase() : '';
+
     let html = '';
     categories.forEach(cat => {
         // Assuming API returns id, name, products_count (or product_count)
         const count = cat.products_count !== undefined ? cat.products_count : (cat.product_count || 0);
+        const categoryId = String(cat.id);
+        const categorySlug = cat.slug ? String(cat.slug).trim().toLowerCase() : '';
+        const isChecked = normalizedUrlCategory && (normalizedUrlCategory === categorySlug || normalizedUrlCategory === categoryId) ? 'checked' : '';
 
         // Using checkbox style but finding a way to make it look like the nav links if desired,
         // or just simple checkboxes as per typical filter logic.
@@ -125,7 +154,7 @@ function renderCategories(categories) {
         html += `
         <li class="nav d-block pt-2 mt-1">
             <div class="form-check d-flex align-items-center justify-content-between w-100">
-                <input class="form-check-input filter-category-input" type="checkbox" id="cat-${cat.id}" value="${cat.id}">
+                <input class="form-check-input filter-category-input" type="checkbox" id="cat-${cat.id}" value="${cat.id}" ${isChecked}>
                 <label class="form-check-label d-flex align-items-center justify-content-between w-100 ps-2 cursor-pointer" for="cat-${cat.id}">
                     <span class="animate-target text-truncate me-3">${cat.name}</span>
                     <span class="text-body-secondary fs-xs ms-auto">${count}</span>
@@ -239,16 +268,18 @@ async function loadProducts() {
         const products = result.data || result;
 
         if (Array.isArray(products)) {
-            // Store all products for pagination
-            allProducts = products;
-            currentPage = 1;
+            const displayableProducts = products.filter(isDisplayableProduct);
 
+            // Store all products for pagination
+            allProducts = displayableProducts;
+            currentPage = 1;
+            
             // Render products with pagination
             renderProductsWithPagination();
 
             // Update counts and selected filters UI
             const countEl = document.getElementById('product-count');
-            if (countEl) countEl.textContent = products.length;
+            if (countEl) countEl.textContent = displayableProducts.length;
 
             updateSelectedFilters();
         } else {
@@ -284,9 +315,6 @@ function renderProducts(products, container) {
     container.style.minHeight = '';
 
     products.forEach(product => {
-        // --- Active Stocks Filter ---
-        const activeStocks = (product.stocks || []).filter(s => s.status === 'active');
-
         // --- Price Calculation ---
         let priceDisplay = '';
         let minPrice = Infinity;
@@ -296,6 +324,7 @@ function renderProducts(products, container) {
         let hasStock = false;
         let hasDiscount = false;
         let maxDiscountPercent = 0;
+        const activeStocks = getActiveStocks(product);
 
         if (activeStocks.length > 0) {
             hasStock = true;
@@ -525,7 +554,7 @@ function updateSelectedFilters() {
         if (priceMinInput.value !== '' && priceMaxInput.value !== '') {
             const min = parseInt(priceMinInput.value) || 0;
             const max = parseInt(priceMaxInput.value) || 0;
-
+            
             const display = `${formatCurrency(min)} - ${formatCurrency(max)}`;
             tags.push(createTag(display, () => {
                 // Reset to empty
@@ -561,15 +590,15 @@ function renderProductsWithPagination() {
     // Calculate pagination
     const totalProducts = allProducts.length;
     const totalPages = Math.ceil(totalProducts / productsPerPage);
-
+    
     // Get products for current page
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     const productsToShow = allProducts.slice(startIndex, endIndex);
-
+    
     // Render products
     renderProducts(productsToShow, grid);
-
+    
     // Render pagination
     renderPagination(totalPages);
 }
@@ -577,11 +606,11 @@ function renderProductsWithPagination() {
 function renderPagination(totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     if (!paginationContainer) return;
-
+    
     paginationContainer.innerHTML = '';
-
+    
     if (totalPages <= 1) return;
-
+    
     // Previous button
     const prevLi = document.createElement('li');
     prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
@@ -597,23 +626,23 @@ function renderPagination(totalPages) {
         });
     }
     paginationContainer.appendChild(prevLi);
-
+    
     // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageLi = document.createElement('li');
         pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
         pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-
+        
         if (i !== currentPage) {
             pageLi.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                 goToPage(i);
             });
         }
-
+        
         paginationContainer.appendChild(pageLi);
     }
-
+    
     // Next button
     const nextLi = document.createElement('li');
     nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -634,7 +663,7 @@ function renderPagination(totalPages) {
 function goToPage(page) {
     currentPage = page;
     renderProductsWithPagination();
-
+    
     // Scroll to top of product grid
     const grid = document.getElementById('product-grid');
     if (grid) {

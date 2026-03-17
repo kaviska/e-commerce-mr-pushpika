@@ -126,7 +126,7 @@
           // Load footer categories dynamically
           async function loadFooterCategories() {
             try {
-              const response = await fetch(`${window.SERVER_URL}/categories`);
+              const response = await fetch(`${window.SERVER_URL}/categories?status=active`);
               const result = await response.json();
 
               if (result.status === 'success' && result.data) {

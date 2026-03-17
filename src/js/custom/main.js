@@ -1,3 +1,11 @@
+//updated
+//window.SERVER_URL = 'http://127.0.0.1:8000/api';
+window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
+
+
+
+
+
 // ==========================================
 // ASSET VERSION MANAGEMENT SYSTEM
 // ==========================================
@@ -492,9 +500,7 @@ if (document.readyState === 'loading') {
     initializePageLoader();
 }
 
-//updated
-//window.SERVER_URL = 'http://127.0.0.1:8000/api';
-window.SERVER_URL = 'https://ecombackend.gigantoo.com/api';
+
 
 // Check if current page should have extended loading
 function shouldUseExtendedLoading() {
